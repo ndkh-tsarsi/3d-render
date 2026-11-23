@@ -99,7 +99,7 @@ jobs:
           from pipeline import discover_blends, slugify
 
           files = {}
-          for source in discover_blends(["Dinosaur Animated Pack - Dec 2018/Blends"], None):
+          for source in discover_blends(["raw/Dinosaur Animated Pack - Dec 2018/Blends"], None):
               folder = Path("dist") / slugify(source.stem)
               if not (folder / "manifest.json").is_file():
                   raise SystemExit(f"Missing preserved dinosaur: {source.stem}")
@@ -132,7 +132,7 @@ jobs:
         if: inputs.scope != 'aquatic'
         run: >-
           python3 pipeline.py render
-          --input "Dinosaur Animated Pack - Dec 2018/Blends"
+          --input "raw/Dinosaur Animated Pack - Dec 2018/Blends"
           --blender-version "$BLENDER_VERSION"
           --engine cycles
           --style standard
@@ -144,7 +144,7 @@ jobs:
       - name: Render all aquatic models with cartoon faces
         run: >-
           python3 pipeline.py render
-          --input "Animated Fish Pack by @Quaternius/Blends"
+          --input "raw/Animated Fish Pack by @Quaternius/Blends"
           --blender-version "$BLENDER_VERSION"
           --engine cycles
           --style cartoon
@@ -168,7 +168,10 @@ jobs:
           from pipeline import discover_blends, slugify
 
           output = Path("dist")
-          sources = discover_blends(["."], None)
+          sources = discover_blends([
+              "raw/Animated Fish Pack by @Quaternius/Blends",
+              "raw/Dinosaur Animated Pack - Dec 2018/Blends",
+          ], None)
           catalog = json.loads((output / "catalog.json").read_text())
           expected = {slugify(source.stem) for source in sources}
           actual = {asset["id"] for asset in catalog["assets"]}
@@ -179,7 +182,7 @@ jobs:
                   f"sources={len(sources)}, rendered={len(catalog['assets'])}"
               )
 
-          aquatic_sources = discover_blends(["Animated Fish Pack by @Quaternius/Blends"], None)
+          aquatic_sources = discover_blends(["raw/Animated Fish Pack by @Quaternius/Blends"], None)
           for source in aquatic_sources:
               manifest = json.loads((output / slugify(source.stem) / "manifest.json").read_text())
               if manifest.get("style") != "cartoon" or not manifest.get("generatedFace"):

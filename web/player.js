@@ -1,4 +1,5 @@
-import { Aquarium } from "./aquarium.js?v=aquarium-1";
+import { Aquarium } from "./aquarium.js?v=free-swim-1";
+import { FishingRig } from "./fishing.js?v=free-swim-1";
 
 const assetSelect = document.querySelector("#asset");
 const animationSelect = document.querySelector("#animation");
@@ -18,6 +19,8 @@ const aquariumPause = document.querySelector("#aquarium-pause");
 const aquariumReset = document.querySelector("#aquarium-reset");
 const swimSpeed = document.querySelector("#swim-speed");
 const speedValue = document.querySelector("#speed-value");
+const rodSelect = document.querySelector("#fishing-rod");
+const fishingStatus = document.querySelector("#fishing-status");
 
 let catalog;
 let manifest;
@@ -34,8 +37,12 @@ let singleLoadPromise;
 let aquariumLoadPromise;
 let aquariumReady = false;
 let aquariumPlaying = true;
+const fishingRig = new FishingRig();
 
 const aquarium = new Aquarium(document.querySelector("#aquarium-stage"), {
+  drawOverlay(context, scene) {
+    fishingRig.draw(context, scene);
+  },
   onStatus(message) {
     aquariumStatus.textContent = message;
   },
@@ -50,13 +57,27 @@ const aquarium = new Aquarium(document.querySelector("#aquarium-stage"), {
 
 async function ensureAquarium() {
   if (!aquariumLoadPromise) {
-    aquariumLoadPromise = aquarium.load(catalog).catch((error) => {
+    aquariumLoadPromise = Promise.all([aquarium.load(catalog), chooseFishingRod()]).catch((error) => {
       aquariumLoadPromise = null;
       throw error;
     });
   }
   await aquariumLoadPromise;
   aquarium.setActive(currentView === "aquarium");
+}
+
+async function chooseFishingRod() {
+  fishingStatus.textContent = "Loading the fisherman…";
+  try {
+    if (!await fishingRig.load(catalog, rodSelect.value)) return;
+    fishingStatus.textContent = rodSelect.value
+      ? `Red Hat Boy · ${rodSelect.selectedOptions[0].textContent} · Cute Fish Pack`
+      : "Red Hat Boy · Watching the fish";
+    aquarium.draw();
+  } catch (error) {
+    console.error(error);
+    fishingStatus.textContent = `Could not load the fisherman: ${error.message}. Choose a rod to retry.`;
+  }
 }
 
 function startSingleAnimation() {
@@ -272,6 +293,7 @@ swimSpeed.addEventListener("input", () => {
   speedValue.value = `${Number(swimSpeed.value)}×`;
 });
 aquariumReset.addEventListener("click", () => aquarium.reset());
+rodSelect.addEventListener("change", chooseFishingRod);
 
 function showError(error) {
   console.error(error);
@@ -285,6 +307,11 @@ try {
   assetSelect.replaceChildren(
     ...catalog.assets.map((asset, index) => new Option(asset.name, String(index)))
   );
+  const rods = catalog.assets.filter((asset) => /^fishingrod-lvl[1-5]$/.test(asset.id));
+  rodSelect.replaceChildren(new Option("Off", ""),
+    ...rods.map((asset) => new Option(`Level ${asset.id.slice(-1)}`, asset.id)));
+  rodSelect.value = rods[0]?.id ?? "";
+  rodSelect.disabled = false;
   await setView(currentView);
 } catch (error) {
   showError(error);

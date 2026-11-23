@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Aquarium · HTML5 Sprite Preview</title>
-    <link rel="stylesheet" href="style.css?v=aquarium-1" />
+    <link rel="stylesheet" href="style.css?v=free-swim-1" />
   </head>
   <body>
     <main>
@@ -22,6 +22,7 @@
           <span class="tank-count" id="aquarium-count">Preparing the aquarium…</span>
           <div class="tank-actions">
             <label class="speed-control" for="swim-speed">Swim speed <input id="swim-speed" type="range" min="0.5" max="2" step="0.25" value="1" /><output id="speed-value" for="swim-speed">1×</output></label>
+            <label class="rod-control" for="fishing-rod">Fishing rod <select id="fishing-rod" disabled><option value="">Off</option></select></label>
             <button id="aquarium-reset" type="button" disabled>New paths</button>
             <button id="aquarium-pause" type="button" disabled>Pause</button>
           </div>
@@ -31,7 +32,7 @@
           <div class="seabed" aria-hidden="true"></div>
           <div class="kelp kelp-left" aria-hidden="true"><i></i><i></i><i></i></div>
           <div class="kelp kelp-right" aria-hidden="true"><i></i><i></i><i></i></div>
-          <canvas id="aquarium-stage" width="1120" height="600" role="img" aria-label="Seven cartoon sea creatures swimming back and forth together"></canvas>
+          <canvas id="aquarium-stage" width="1120" height="600" role="img" aria-label="Seven sea creatures swimming freely with an animated boy fishing from a pier"></canvas>
           <div id="aquarium-status" class="aquarium-loading" role="status">Loading the swimmers…</div>
         </div>
         <ul class="fish-legend" aria-label="Swimmers in the aquarium">
@@ -43,7 +44,8 @@
           <li><span style="--fish-color:#087ab4"></span>Shark</li>
           <li><span style="--fish-color:#4147e3"></span>Whale</li>
         </ul>
-        <p class="tank-note">Each swimmer uses its own animation. They turn naturally at the edges and swim at different speeds.</p>
+        <p class="tank-note">Free swimming: gentle climbs, dives and random turns. No fixed lanes.</p>
+        <p id="fishing-status" class="tank-note" role="status"></p>
       </section>
       <section id="sprite-panel" aria-label="Single character preview" hidden>
       <section class="controls" aria-label="Preview controls">
@@ -63,7 +65,7 @@
       </section>
       <footer class="site-footer"><span>Local renders · 1024 × 1024 fish sprites · Retina ready</span><a href="https://github.com/ndkh-tsarsi/3d-render">Project on GitHub</a></footer>
     </main>
-    <script type="module" src="player.js?v=aquarium-1"></script>
+    <script type="module" src="player.js?v=free-swim-1"></script>
   </body>
 </html>
 

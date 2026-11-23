@@ -41,7 +41,7 @@ jobs:
 
       - name: Apply latest preview and validate assets
         run: |
-          cp web/index.html web/player.js web/aquarium.js web/style.css dist/
+          cp web/index.html web/player.js web/aquarium.js web/fishing.js web/style.css dist/
           python3 pipeline.py validate --output dist
 
       - name: Upload downloadable local assets

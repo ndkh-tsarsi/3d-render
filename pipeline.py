@@ -248,6 +248,15 @@ def install_blender(version: str) -> Path:
     return installed
 
 
+def default_render_inputs() -> list[str]:
+    """Keep optional raw packs out of the original character render by default."""
+    curated = (
+        "raw/Animated Fish Pack by @Quaternius/Blends",
+        "raw/Dinosaur Animated Pack - Dec 2018/Blends",
+    )
+    return [path for path in curated if (ROOT / path).is_dir()] or ["."]
+
+
 def discover_blends(inputs: Iterable[str], only: str | None) -> list[Path]:
     files: list[Path] = []
     for raw in inputs:
@@ -325,7 +334,7 @@ def write_catalog(output: Path) -> dict:
     catalog = {"format": "html5-sprite-catalog-v1", "assets": assets}
     (output / "catalog.json").write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     web = ROOT / "web"
-    for name in ("index.html", "player.js", "aquarium.js", "style.css"):
+    for name in ("index.html", "player.js", "aquarium.js", "fishing.js", "style.css"):
         shutil.copy2(web / name, output / name)
     return catalog
 
@@ -382,7 +391,7 @@ def validate_output(output: Path) -> None:
 
 def render(args: argparse.Namespace) -> None:
     blender = install_blender(args.blender_version)
-    blends = discover_blends(args.input or ["."], args.only)
+    blends = discover_blends(args.input or default_render_inputs(), args.only)
     output = Path(args.output).expanduser()
     if not output.is_absolute():
         output = (ROOT / output).resolve()
@@ -460,7 +469,7 @@ def build_parser() -> argparse.ArgumentParser:
     setup_parser.add_argument("--blender-version", default=DEFAULT_BLENDER_VERSION)
 
     render_parser = subparsers.add_parser("render", help="Render, pack, and validate sprite assets")
-    render_parser.add_argument("--input", action="append", help=".blend file or folder; repeatable")
+    render_parser.add_argument("--input", action="append", help=".blend file or folder; repeatable; defaults to the original fish and dinosaur packs under raw/")
     render_parser.add_argument("--output", default="dist")
     render_parser.add_argument("--only", help="Only models whose file name contains this text")
     render_parser.add_argument("--actions", help="Comma-separated canonical actions such as idle,walk,run")

@@ -8,8 +8,9 @@ const SPECIES = [
   { id: "whale", width: 240, speed: 20 },
 ];
 
-const START_X = [0.16, 0.72, 0.36, 0.84, 0.25, 0.66, 0.43];
 const ATLAS_EDGE = 1024;
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+const randomBetween = (min, max) => min + Math.random() * (max - min);
 
 function versioned(path, version) {
   return version ? `${path}?v=${encodeURIComponent(version)}` : path;
@@ -118,11 +119,12 @@ function contentBounds(model) {
 }
 
 export class Aquarium {
-  constructor(canvas, { onStatus = () => {}, onReady = () => {} } = {}) {
+  constructor(canvas, { onStatus = () => {}, onReady = () => {}, drawOverlay = () => {} } = {}) {
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
     this.onStatus = onStatus;
     this.onReady = onReady;
+    this.drawOverlay = drawOverlay;
     this.models = [];
     this.active = false;
     this.playing = true;
@@ -215,11 +217,36 @@ export class Aquarium {
 
   reset() {
     this.clock = 0;
+    const placed = [];
     for (const model of this.models) {
-      const variant = this.resetCount % 2;
-      model.position = variant ? 1 - START_X[model.index] : START_X[model.index];
-      model.direction = (model.index + variant) % 2 ? 1 : -1;
-      model.frameIndex = Math.floor(model.frames.length * ((model.index * 0.173) % 1));
+      const bounds = this.swimmingBounds(model);
+      let best;
+      let bestDistance = -1;
+      // Spread the initial group without assigning a depth or lane to a species.
+      for (let attempt = 0; attempt < 24; attempt += 1) {
+        const point = {
+          x: randomBetween(bounds.left, bounds.right),
+          y: randomBetween(bounds.top, bounds.bottom),
+        };
+        const distance = placed.reduce((nearest, other) => Math.min(nearest,
+          Math.hypot((point.x - other.x) / 180, (point.y - other.y) / 90)), Infinity);
+        if (distance > bestDistance) {
+          best = point;
+          bestDistance = distance;
+        }
+      }
+      model.x = best.x / Math.max(1, this.width);
+      model.y = best.y / Math.max(1, this.height);
+      placed.push(best);
+      model.direction = Math.random() < 0.5 ? -1 : 1;
+      model.turnScale = 1;
+      model.pitch = 0;
+      model.speedFactor = randomBetween(0.8, 1.2);
+      const cruise = model.speed * this.sizeScale() * model.speedFactor;
+      model.vx = model.direction * cruise * randomBetween(0.65, 0.95);
+      model.vy = cruise * randomBetween(-0.45, 0.45);
+      this.chooseTarget(model);
+      model.frameIndex = Math.floor(Math.random() * model.frames.length);
       model.elapsed = 0;
     }
     this.resetCount += 1;
@@ -266,6 +293,7 @@ export class Aquarium {
     this.context.setTransform(width / this.width, 0, 0, height / this.height, 0, 0);
     this.context.imageSmoothingEnabled = true;
     this.context.imageSmoothingQuality = "high";
+    for (const model of this.models) this.constrainPosition(model);
     this.draw();
   }
 
@@ -305,17 +333,8 @@ export class Aquarium {
     if (this.active && this.playing && !document.hidden) {
       const scaled = delta * this.speed;
       this.clock += scaled / 1000;
-      const scale = this.sizeScale();
+      this.advanceSwimmers(scaled / 1000);
       for (const model of this.models) {
-        const travel = Math.max(1, this.width - this.bodyWidth(model) - 32);
-        model.position += model.direction * model.speed * scale * (scaled / 1000) / travel;
-        if (model.position > 1) {
-          model.position = 2 - model.position;
-          model.direction = -1;
-        } else if (model.position < 0) {
-          model.position = -model.position;
-          model.direction = 1;
-        }
         model.elapsed += scaled;
         while (model.elapsed >= model.durations[model.frameIndex]) {
           model.elapsed -= model.durations[model.frameIndex];
@@ -337,28 +356,135 @@ export class Aquarium {
     return Math.min(model.width * this.sizeScale(), this.width * 0.58);
   }
 
+  swimmingBounds(model) {
+    const width = this.bodyWidth(model);
+    const height = width * model.bounds.height / model.bounds.width;
+    // Leave room for a small pitch and the animated fins at every tank edge.
+    const horizontal = Math.min(this.width / 2, width * 0.58 + 14);
+    const vertical = Math.min(this.height / 2, height / 2 + width * 0.18 + 14);
+    return {
+      left: horizontal, right: Math.max(horizontal, this.width - horizontal),
+      top: vertical, bottom: Math.max(vertical, this.height - vertical),
+    };
+  }
+
+  chooseTarget(model) {
+    const bounds = this.swimmingBounds(model);
+    let targetX;
+    let targetY;
+    // A distant waypoint gives a long, gentle glide rather than tiny jitters.
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      targetX = randomBetween(bounds.left, bounds.right);
+      targetY = randomBetween(bounds.top, bounds.bottom);
+      if (Math.hypot(targetX - model.x * this.width,
+        targetY - model.y * this.height) > Math.min(160, this.width * 0.3)) break;
+    }
+    model.targetX = targetX / Math.max(1, this.width);
+    model.targetY = targetY / Math.max(1, this.height);
+    model.wanderTime = randomBetween(4, 9);
+    model.speedFactor = randomBetween(0.8, 1.2);
+  }
+
+  constrainPosition(model) {
+    if (!Number.isFinite(model.x) || !Number.isFinite(model.y)) return;
+    const bounds = this.swimmingBounds(model);
+    model.x = clamp(model.x * this.width, bounds.left, bounds.right) / Math.max(1, this.width);
+    model.y = clamp(model.y * this.height, bounds.top, bounds.bottom) / Math.max(1, this.height);
+    model.targetX = clamp(model.targetX * this.width, bounds.left, bounds.right) / Math.max(1, this.width);
+    model.targetY = clamp(model.targetY * this.height, bounds.top, bounds.bottom) / Math.max(1, this.height);
+  }
+
+  advanceSwimmers(seconds) {
+    if (!seconds || !this.width || !this.height) return;
+    const positions = this.models.map((model) => ({
+      x: model.x * this.width, y: model.y * this.height,
+      width: this.bodyWidth(model),
+      height: this.bodyWidth(model) * model.bounds.height / model.bounds.width,
+    }));
+    const smooth = 1 - Math.exp(-seconds * 1.35);
+    for (const model of this.models) {
+      const point = positions[model.index];
+      const bounds = this.swimmingBounds(model);
+      model.wanderTime -= seconds;
+      let dx = model.targetX * this.width - point.x;
+      let dy = model.targetY * this.height - point.y;
+      if (model.wanderTime <= 0 || Math.hypot(dx, dy) < 34) {
+        this.chooseTarget(model);
+        dx = model.targetX * this.width - point.x;
+        dy = model.targetY * this.height - point.y;
+      }
+      const cruise = model.speed * this.sizeScale() * model.speedFactor;
+      const distance = Math.max(1, Math.hypot(dx, dy));
+      let desiredX = dx / distance * cruise;
+      let desiredY = dy / distance * cruise * 0.8;
+      // Profile sprites remain readable while climbing and diving on an angle.
+      desiredX = (Math.abs(desiredX) < cruise * 0.4)
+        ? (dx < 0 ? -1 : 1) * cruise * 0.4 : desiredX;
+      desiredY = clamp(desiredY, -cruise * 0.65, cruise * 0.65);
+
+      // Give nearby fish a little room, while allowing the group to cross paths.
+      for (const other of this.models) {
+        if (other === model) continue;
+        const neighbor = positions[other.index];
+        const awayX = point.x - neighbor.x;
+        const awayY = point.y - neighbor.y;
+        const radiusX = (point.width + neighbor.width) * 0.45 + 16;
+        const radiusY = (point.height + neighbor.height) * 0.5 + 18;
+        const proximity = Math.hypot(awayX / radiusX, awayY / radiusY);
+        if (proximity < 1.25) {
+          const strength = (1.25 - proximity) * cruise * 0.65;
+          const length = Math.max(1, Math.hypot(awayX, awayY));
+          desiredX += awayX / length * strength;
+          desiredY += awayY / length * strength;
+        }
+      }
+
+      const wallZone = Math.min(70, Math.max(25, point.width * 0.45));
+      if (point.x < bounds.left + wallZone) desiredX += cruise * (1 - (point.x - bounds.left) / wallZone) * 2;
+      if (point.x > bounds.right - wallZone) desiredX -= cruise * (1 - (bounds.right - point.x) / wallZone) * 2;
+      if (point.y < bounds.top + wallZone) desiredY += cruise * (1 - (point.y - bounds.top) / wallZone);
+      if (point.y > bounds.bottom - wallZone) desiredY -= cruise * (1 - (bounds.bottom - point.y) / wallZone);
+      model.vx += (desiredX - model.vx) * smooth;
+      model.vy += (clamp(desiredY, -cruise * 0.75, cruise * 0.75) - model.vy) * smooth;
+      const nextX = point.x + model.vx * seconds;
+      const nextY = point.y + model.vy * seconds;
+      if (nextX < bounds.left || nextX > bounds.right) {
+        model.vx = (nextX < bounds.left ? 1 : -1) * Math.max(cruise * 0.35, Math.abs(model.vx) * 0.5);
+        this.chooseTarget(model);
+      }
+      if (nextY < bounds.top || nextY > bounds.bottom) {
+        model.vy = (nextY < bounds.top ? 1 : -1) * Math.max(cruise * 0.2, Math.abs(model.vy) * 0.5);
+        this.chooseTarget(model);
+      }
+      model.x = clamp(nextX, bounds.left, bounds.right) / this.width;
+      model.y = clamp(nextY, bounds.top, bounds.bottom) / this.height;
+
+      const facing = Math.abs(model.vx) > cruise * 0.12
+        ? (model.vx > 0 ? 1 : -1) : model.direction;
+      if (facing !== model.direction) {
+        model.turnScale = Math.max(0.2, model.turnScale - seconds * 3.5);
+        if (model.turnScale <= 0.2) model.direction = facing;
+      } else model.turnScale = Math.min(1, model.turnScale + seconds * 2.5);
+      const pitch = clamp(Math.atan2(model.vy, Math.max(cruise * 0.4, Math.abs(model.vx))), -0.3, 0.3) * model.direction;
+      model.pitch += (pitch - model.pitch) * (1 - Math.exp(-seconds * 4));
+    }
+  }
+
   draw() {
     if (!this.width || !this.height || this.destroyed) return;
     const context = this.context;
     context.clearRect(0, 0, this.width, this.height);
-    const scale = this.sizeScale();
     for (const model of this.models) {
       const frame = model.frames[model.frameIndex];
       const atlas = model.images.get(frame.page);
       const rect = frame.frame;
       const bodyWidth = this.bodyWidth(model);
       const size = bodyWidth / model.bounds.width;
-      const bodyHeight = size * model.bounds.height;
-      const margin = bodyWidth / 2 + 16;
-      const x = margin + Math.max(0, this.width - margin * 2) * model.position;
-      const lane = 0.13 + model.index * 0.12;
-      const bob = Math.sin(this.clock * (0.55 + model.index * 0.07) + model.index * 1.8) * 6 * scale;
-      const padding = bodyHeight / 2 + 12;
-      const y = Math.max(padding, Math.min(this.height - padding, this.height * lane + bob));
       context.save();
-      context.translate(x, y);
+      context.translate(model.x * this.width, model.y * this.height);
+      context.rotate(model.pitch);
       // Authored +X profiles face left; a positive travel direction faces right.
-      if (model.direction > 0) context.scale(-1, 1);
+      context.scale((model.direction > 0 ? -1 : 1) * model.turnScale, 1);
       context.drawImage(atlas.image,
         rect.x * atlas.scaleX, rect.y * atlas.scaleY,
         rect.w * atlas.scaleX, rect.h * atlas.scaleY,
@@ -366,6 +492,7 @@ export class Aquarium {
         size, size * model.manifest.frameSize.h / model.manifest.frameSize.w);
       context.restore();
     }
+    this.drawOverlay(context, { width: this.width, height: this.height, clock: this.clock });
   }
 
   release(models) {

@@ -1,6 +1,6 @@
 # Automated 3D → HTML5 sprite pipeline
 
-This project turns the animated `.blend` characters in this folder into transparent 2D sprite frames, browser-safe PNG atlases, JSON metadata, and an HTML5 preview player.
+This project turns the animated `.blend` characters under `raw/` into transparent 2D sprite frames, browser-safe PNG atlases, JSON metadata, and an HTML5 preview player.
 
 It is dependency-free apart from Python 3. Blender is detected automatically. If Blender is missing, `setup` downloads the official Blender 5.3.0 package, verifies its SHA-256 checksum, and installs a complete project-local copy under `.tools/`—no administrator access required.
 
@@ -9,15 +9,15 @@ It is dependency-free apart from Python 3. Blender is detected automatically. If
 Render the seven aquatic characters locally in the approved cartoon style, with eyes and mouths, at Retina-friendly resolution:
 
 ```bash
-python3 pipeline.py render --input "Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --max-atlas-size 2048 --output dist
+python3 pipeline.py render --input "raw/Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --max-atlas-size 2048 --output dist
 ```
 
-This replaces only the aquatic asset folders in an existing `dist/`; dinosaurs stay unchanged. `python3 pipeline.py render` or `render_all.command` remains available for a default full render.
+This replaces only the aquatic asset folders in an existing `dist/`; dinosaurs stay unchanged. `python3 pipeline.py render` or `render_all.command` defaults to the original seven aquatic and six dinosaur characters under `raw/`. Additional packs and props require an explicit `--input`; this prevents similarly named models in new packs from overwriting existing sprites. If neither original pack is present, default discovery falls back to the current project folder.
 
 The render command automatically:
 
 1. Finds or installs Blender.
-2. Discovers every `.blend` file below this folder.
+2. Discovers `.blend` files in the curated original packs or the explicit `--input` paths.
 3. Preserves and enhances the authored color intent while upgrading old Blender 2.79 materials to modern Principled materials.
 4. Smart-fills genuinely blank gray materials with a deterministic semantic palette.
 5. Detects the armature and all animation actions.
@@ -33,7 +33,16 @@ Source `.blend`, `.fbx`, `.obj`, and license files are never modified. Generated
 
 View the rendered models and animations online at [the GitHub Pages preview](https://ndkh-tsarsi.github.io/3d-render/).
 
-The preview opens in **Aquarium** mode with all seven aquatic characters swimming together. Use **Pause**, **Swim speed**, and **New paths** to compare their colors and animation, or switch to **Single character** to inspect any fish or dinosaur. Both views support Retina displays and use the existing local renders; opening the aquarium does not run Blender.
+The preview opens in **Aquarium** mode with all seven aquatic characters swimming freely, climbing, diving, and choosing new directions. **New paths** randomizes the group; **Pause** freezes fish, the boy's Idle animation, and the fishing line. Choose **Fishing rod → Level 1–5** to give Red Hat Boy a rod from the Cute Fish Pack, or choose **Off**. The rod follows his hand in every animation frame. **Single character** also lets you inspect each fish, dinosaur, rod, and the boy. Both views support Retina displays and use existing local assets; opening the aquarium does not run Blender.
+
+The original source packs live under `raw/`. To regenerate just the added fishing props and package the supplied boy's sprites:
+
+```bash
+python3 tools/render_fishing_rods.py --output dist --size 1024
+python3 tools/package_boy.py --output dist
+```
+
+Rod renders use thin outlines to keep their shafts visible. The boy's ten supplied Idle PNGs are packed without changing the original pixels, with hand and feet anchors measured for compositing.
 
 For a local preview:
 
@@ -52,7 +61,7 @@ python3 pipeline.py setup
 # Fast smoke test for one character and two actions
 python3 pipeline.py render --only Trex --actions idle,run --max-frames 8 --output dist-smoke
 
-# Render every model at 512 px and 15 fps
+# Render the original fish and dinosaur characters at 512 px and 15 fps
 python3 pipeline.py render --size 512 --fps 15 --max-atlas-size 4096
 
 # Give every model a new generated palette
@@ -62,13 +71,13 @@ python3 pipeline.py render --recolor
 python3 pipeline.py render --only Fish1 --actions swim --style cartoon --add-face --size 256 --fps 12 --output dist-cartoon
 
 # Apply the approved cartoon style and facial features to all seven aquatic models locally
-python3 pipeline.py render --input "Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --output dist
+python3 pipeline.py render --input "raw/Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --output dist
 
 # Use Eevee on a machine with an available GPU (faster)
 python3 pipeline.py render --engine eevee
 
 # Render only a specific file or directory (repeat --input as needed)
-python3 pipeline.py render --input "Dinosaur Animated Pack - Dec 2018/Blends/Trex.blend"
+python3 pipeline.py render --input "raw/Dinosaur Animated Pack - Dec 2018/Blends/Trex.blend"
 
 # Validate an existing output without rendering
 python3 pipeline.py validate --output dist
