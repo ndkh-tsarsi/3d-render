@@ -70,7 +70,7 @@ Set `BLENDER_BIN=/path/to/blender` if you want to force a particular Blender exe
 
 ## GitHub Actions
 
-The [Render HTML5 assets workflow](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/render-assets.yml) runs automatically on every push to `main`. You can also start it from **Actions → Render HTML5 assets → Run workflow**.
+The [Render HTML5 assets workflow](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/render-assets.yml) runs automatically when models, the pipeline, or render tools change on `main`. You can also start it from **Actions → Render HTML5 assets → Run workflow**.
 
 It installs the required Linux libraries, downloads and verifies Blender 5.3.0 (cached between runs), renders every model and animation with CPU Cycles, and validates the output. A model coverage check prevents incomplete renders from being uploaded. After validation, a separate deployment job publishes the same assets to [GitHub Pages](https://ndkh-tsarsi.github.io/3d-render/).
 
@@ -85,6 +85,8 @@ python3 -m http.server 8000 --bind 127.0.0.1
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000) to play the animations. Generated assets are uploaded by the workflow and stay out of Git history. No repository secrets are required.
 
 For a fork, enable **Settings → Pages → Build and deployment → Source: GitHub Actions** before running the workflow. Pages must be available for the repository's visibility and account plan.
+
+To publish without rebuilding the models, run [Deploy preview without rendering](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/deploy-preview.yml). It downloads the latest successful render artifact, applies the current preview player, validates it, and deploys Pages. Changes under `web/` also trigger this fast deployment. Render artifacts must still be within their 30-day retention period.
 
 ## Output contract
 

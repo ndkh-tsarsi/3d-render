@@ -3,6 +3,11 @@ name: Render HTML5 assets
 on:
   push:
     branches: [main]
+    paths:
+      - "**/*.blend"
+      - "pipeline.py"
+      - "tools/**"
+      - ".github/workflows/render-assets.yml"
   workflow_dispatch:
 
 permissions:
@@ -132,6 +137,9 @@ jobs:
     needs: render
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write
