@@ -56,6 +56,9 @@ python3 pipeline.py render --size 512 --fps 15 --max-atlas-size 4096
 # Give every model a new generated palette
 python3 pipeline.py render --recolor
 
+# Render a single cartoon fish sample with cel shading, outlines, eyes, and a mouth
+python3 pipeline.py render --only Fish1 --actions swim --style cartoon --add-face --size 256 --fps 12 --output dist-cartoon
+
 # Use Eevee on a machine with an available GPU (faster)
 python3 pipeline.py render --engine eevee
 

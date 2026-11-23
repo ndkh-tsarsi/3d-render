@@ -16,6 +16,8 @@ from pathlib import Path
 import bpy
 import numpy as np
 from mathutils import Vector
+from mathutils.bvhtree import BVHTree
+from mathutils.kdtree import KDTree
 
 
 LOOPING_ACTIONS = {"idle", "walk", "run", "swim"}
@@ -41,8 +43,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-atlas-size", type=int, default=2048)
     parser.add_argument("--view", choices=("left", "right"), default="right")
     parser.add_argument("--engine", choices=("cycles", "eevee"), default="cycles")
+    parser.add_argument("--style", choices=("standard", "cartoon"), default="standard")
     parser.add_argument("--actions")
     parser.add_argument("--recolor", action="store_true")
+    parser.add_argument("--add-face", action="store_true")
     parser.add_argument("--keep-existing", action="store_true")
     return parser.parse_args(user_args)
 
@@ -103,7 +107,9 @@ def sample_frames(
     return frames
 
 
-def ensure_materials(meshes: list[bpy.types.Object], asset_id: str, recolor: bool) -> None:
+def ensure_materials(
+    meshes: list[bpy.types.Object], asset_id: str, recolor: bool, style: str, view: str
+) -> None:
     materials: list[bpy.types.Material] = []
     for obj in meshes:
         if not obj.data.materials:
@@ -129,11 +135,19 @@ def ensure_materials(meshes: list[bpy.types.Object], asset_id: str, recolor: boo
         else:
             color = enhance_authored_color(original, material.name)
 
+        if style == "cartoon":
+            hue, saturation, value = colorsys.rgb_to_hsv(*color)
+            if saturation > 0.055:
+                color = colorsys.hsv_to_rgb(hue, min(0.88, max(0.52, saturation * 1.1)), min(0.86, max(0.62, value)))
+
         material.diffuse_color = (*color, 1.0)
         material.use_nodes = True
         nodes = material.node_tree.nodes
         nodes.clear()
         output = nodes.new("ShaderNodeOutputMaterial")
+        if style == "cartoon":
+            build_cartoon_shader(material, output, color, view)
+            continue
         shader = nodes.new("ShaderNodeBsdfPrincipled")
         shader.inputs["Base Color"].default_value = (*color, 1.0)
         shader.inputs["Metallic"].default_value = 0.0
@@ -151,6 +165,45 @@ def ensure_materials(meshes: list[bpy.types.Object], asset_id: str, recolor: boo
             polygon.use_smooth = False
     mode = "new deterministic palette" if recolor else "enhanced authored colors with smart gray fallback"
     log(f"Prepared {len(materials)} material(s): {mode}")
+
+
+def build_cartoon_shader(
+    material: bpy.types.Material,
+    output: bpy.types.Node,
+    color: tuple[float, float, float],
+    view: str,
+) -> None:
+    """Three hard shade bands from animated normals, compatible with CPU Cycles."""
+    nodes = material.node_tree.nodes
+    links = material.node_tree.links
+    geometry = nodes.new("ShaderNodeNewGeometry")
+    light = nodes.new("ShaderNodeVectorMath")
+    light.operation = "DOT_PRODUCT"
+    direction = 1.0 if view == "right" else -1.0
+    light.inputs[1].default_value = Vector((1.4 * direction, -0.8, 1.8)).normalized()
+    links.new(geometry.outputs["Normal"], light.inputs[0])
+
+    bands = nodes.new("ShaderNodeValToRGB")
+    bands.color_ramp.interpolation = "CONSTANT"
+    shadow = bands.color_ramp.elements[0]
+    shadow.position = 0.0
+    shadow.color = (0.45, 0.50, 0.59, 1.0)
+    midtone = bands.color_ramp.elements[1]
+    midtone.position = 0.08
+    midtone.color = (0.73, 0.77, 0.83, 1.0)
+    highlight = bands.color_ramp.elements.new(0.52)
+    highlight.color = (1.0, 1.0, 1.0, 1.0)
+    links.new(light.outputs["Value"], bands.inputs["Fac"])
+
+    tint = nodes.new("ShaderNodeMixRGB")
+    tint.blend_type = "MULTIPLY"
+    tint.inputs[0].default_value = 1.0
+    tint.inputs[1].default_value = (*color, 1.0)
+    links.new(bands.outputs["Color"], tint.inputs[2])
+    shader = nodes.new("ShaderNodeEmission")
+    shader.inputs["Strength"].default_value = 1.0
+    links.new(tint.outputs["Color"], shader.inputs["Color"])
+    links.new(shader.outputs["Emission"], output.inputs["Surface"])
 
 
 def enhance_authored_color(color: tuple[float, float, float], name: str) -> tuple[float, float, float]:
@@ -193,6 +246,133 @@ def semantic_color(asset_id: str, material_name: str, index: int) -> tuple[float
         saturation = 0.68
         value = 0.42
     return colorsys.hsv_to_rgb(hue, saturation, value)
+
+
+def add_fish_face(
+    meshes: list[bpy.types.Object], armature: bpy.types.Object | None
+) -> tuple[list[bpy.types.Object], dict]:
+    """Add bilateral facial details without editing the source mesh or rest rig."""
+    if armature is None:
+        raise RuntimeError("--add-face requires a fish armature with a Face or Head bone")
+    head_bone = next(
+        (bone for bone in armature.data.bones if bone.name.casefold() in {"face", "head"}), None
+    )
+    if head_bone is None:
+        raise RuntimeError("--add-face could not find a Face or Head bone in the fish rig")
+
+    body = max(meshes, key=lambda obj: len(obj.data.vertices))
+    vertices = [body.matrix_world @ vertex.co for vertex in body.data.vertices]
+    body.data.calc_loop_triangles()
+    surface = BVHTree.FromPolygons(vertices, [tuple(face.vertices) for face in body.data.loop_triangles], all_triangles=True)
+    nearest = KDTree(len(vertices))
+    for index, position in enumerate(vertices):
+        nearest.insert(position, index)
+    nearest.balance()
+    minimum = Vector(tuple(min(point[axis] for point in vertices) for axis in range(3)))
+    maximum = Vector(tuple(max(point[axis] for point in vertices) for axis in range(3)))
+    length = maximum.y - minimum.y
+    head = armature.matrix_world @ head_bone.head_local
+    nose = armature.matrix_world @ head_bone.tail_local
+    forward = 1.0 if nose.y > head.y else -1.0
+    head_length = max(abs(nose.y - head.y), length * 0.08)
+    head_vertices = [point for point in vertices if (point.y - head.y) * forward >= 0.0]
+    head_low = min(point.z for point in head_vertices)
+    head_high = max(point.z for point in head_vertices)
+    head_height = head_high - head_low
+    eye_radius = min(length * 0.027, head_length * 0.23, head_height * 0.21)
+    eye_y = head.y + forward * head_length * 0.35
+    eye_z = head_low + head_height * 0.70
+
+    def flat_material(name: str, color: tuple[float, float, float]) -> bpy.types.Material:
+        material = bpy.data.materials.new(name)
+        material.diffuse_color = (*color, 1.0)
+        material.use_nodes = True
+        nodes = material.node_tree.nodes
+        nodes.clear()
+        output = nodes.new("ShaderNodeOutputMaterial")
+        emission = nodes.new("ShaderNodeEmission")
+        emission.inputs["Color"].default_value = (*color, 1.0)
+        material.node_tree.links.new(emission.outputs["Emission"], output.inputs["Surface"])
+        return material
+
+    dark = flat_material("Face Ink", (0.009, 0.015, 0.025))
+    white = flat_material("Eye White", (0.95, 0.97, 1.0))
+    glint = flat_material("Eye Highlight", (1.0, 1.0, 1.0))
+    features: list[bpy.types.Object] = []
+
+    def bind_skin(obj: bpy.types.Object) -> None:
+        # Source head vertices blend Root and Face. Copy nearby weights so the
+        # generated details follow the same deformation rather than drifting.
+        groups: dict[str, bpy.types.VertexGroup] = {}
+        for vertex in obj.data.vertices:
+            point = obj.matrix_world @ vertex.co
+            _, source_index, _ = nearest.find(point)
+            for assignment in body.data.vertices[source_index].groups:
+                name = body.vertex_groups[assignment.group].name
+                if name not in armature.data.bones:
+                    continue
+                if name not in groups:
+                    groups[name] = obj.vertex_groups.new(name=name)
+                groups[name].add([vertex.index], assignment.weight, "REPLACE")
+        modifier = obj.modifiers.new("Follow Fish Head Skin", "ARMATURE")
+        modifier.object = armature
+        obj["generated_face_feature"] = True
+        features.append(obj)
+
+    def surface_x(side: float, y: float, z: float) -> float:
+        origin = Vector((side * (max(abs(minimum.x), abs(maximum.x)) + length), y, z))
+        position, _, _, _ = surface.ray_cast(origin, Vector((-side, 0.0, 0.0)), length * 3.0)
+        if position is None:
+            raise RuntimeError(f"Could not attach a facial feature to the fish at y={y:.3f}, z={z:.3f}")
+        return position.x
+
+    def eye_part(name: str, center: Vector, scale: Vector, material: bpy.types.Material) -> None:
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=24, ring_count=12, radius=1.0)
+        obj = bpy.context.object
+        obj.name = name
+        for vertex in obj.data.vertices:
+            vertex.co = center + Vector(tuple(vertex.co[axis] * scale[axis] for axis in range(3)))
+        for polygon in obj.data.polygons:
+            polygon.use_smooth = True
+        obj.data.materials.append(material)
+        bind_skin(obj)
+
+    for side, label in ((1.0, "Right"), (-1.0, "Left")):
+        samples = [(eye_y, eye_z), (eye_y - eye_radius, eye_z), (eye_y + eye_radius, eye_z), (eye_y, eye_z - eye_radius), (eye_y, eye_z + eye_radius)]
+        eye_x = side * (max(side * surface_x(side, y, z) for y, z in samples) + eye_radius * 0.10)
+        center = Vector((eye_x, eye_y, eye_z))
+        eye_part(f"{label} Eye Ink", center, Vector((eye_radius * 0.27, eye_radius, eye_radius)), dark)
+        eye_part(f"{label} Eye White", center + Vector((side * eye_radius * 0.14, 0.0, 0.0)), Vector((eye_radius * 0.29, eye_radius * 0.87, eye_radius * 0.87)), white)
+        pupil_center = center + Vector((side * eye_radius * 0.45, forward * eye_radius * 0.20, eye_radius * 0.03))
+        eye_part(f"{label} Pupil", pupil_center, Vector((eye_radius * 0.13, eye_radius * 0.45, eye_radius * 0.45)), dark)
+        eye_part(f"{label} Eye Highlight", pupil_center + Vector((side * eye_radius * 0.13, forward * eye_radius * 0.11, eye_radius * 0.17)), Vector((eye_radius * 0.055, eye_radius * 0.14, eye_radius * 0.14)), glint)
+
+        mouth_data = bpy.data.curves.new(f"{label} Curved Smile", type="CURVE")
+        mouth_data.dimensions = "3D"
+        mouth_data.resolution_u = 12
+        mouth_data.bevel_depth = length * 0.0036
+        mouth_data.bevel_resolution = 3
+        spline = mouth_data.splines.new("BEZIER")
+        spline.bezier_points.add(3)
+        for point, amount, dip in zip(spline.bezier_points, (1.04, 0.91, 0.75, 0.61), (0.0, 0.095, 0.11, 0.01)):
+            y = head.y + forward * head_length * amount
+            z = head_low + head_height * (0.46 - dip)
+            x = surface_x(side, y, z) + side * length * 0.0045
+            point.co = (x, y, z)
+            point.handle_left_type = "AUTO"
+            point.handle_right_type = "AUTO"
+        mouth = bpy.data.objects.new(f"{label} Smile", mouth_data)
+        bpy.context.scene.collection.objects.link(mouth)
+        mouth.data.materials.append(dark)
+        for obj in bpy.context.selected_objects:
+            obj.select_set(False)
+        mouth.select_set(True)
+        bpy.context.view_layer.objects.active = mouth
+        bpy.ops.object.convert(target="MESH")
+        bind_skin(bpy.context.object)
+
+    log(f"Added eyes, pupils, highlights, and curved mouth on both profiles; bound to {head_bone.name} skin weights")
+    return features, {"headBone": head_bone.name, "attachment": "nearest-source-skin-weights", "profiles": ["+X", "-X"]}
 
 
 def assign_action(armature: bpy.types.Object | None, action: bpy.types.Action | None) -> None:
@@ -255,6 +435,7 @@ def configure_scene(
     size: int,
     view: str,
     engine: str,
+    style: str,
 ) -> tuple[bpy.types.Object, dict]:
     for obj in list(scene.objects):
         if obj.type in {"CAMERA", "LIGHT"}:
@@ -330,9 +511,29 @@ def configure_scene(
     scene.render.use_file_extension = True
     scene.render.use_overwrite = True
     scene.render.use_placeholder = False
-    scene.view_settings.view_transform = "AgX"
+    scene.view_settings.view_transform = "Standard" if style == "cartoon" else "AgX"
     scene.view_settings.exposure = 0.0
     scene.view_settings.gamma = 1.0
+
+    scene.render.use_freestyle = style == "cartoon"
+    if style == "cartoon":
+        scene.render.line_thickness_mode = "ABSOLUTE"
+        scene.render.line_thickness = 1.0
+        settings = bpy.context.view_layer.freestyle_settings
+        lineset = settings.linesets[0] if settings.linesets else settings.linesets.new("Cartoon Ink")
+        for attribute in (
+            "select_crease", "select_edge_mark", "select_external_contour",
+            "select_ridge_valley", "select_suggestive_contour",
+        ):
+            if hasattr(lineset, attribute):
+                setattr(lineset, attribute, False)
+        lineset.select_silhouette = True
+        lineset.select_border = True
+        lineset.select_material_boundary = True
+        lineset.linestyle.color = (0.012, 0.020, 0.032)
+        lineset.linestyle.alpha = 1.0
+        lineset.linestyle.thickness = max(1.5, size / 128.0)
+        log("Enabled cartoon cel bands and silhouette/material ink outlines")
 
     bottom_fraction = 0.5 + (center.z - bounds_min.z) / camera_data.ortho_scale
     pivot = {
@@ -566,10 +767,14 @@ def main() -> None:
     armature = armatures[0] if armatures else None
 
     animations = collect_animations(args, scene)
-    ensure_materials(meshes, asset_id, args.recolor)
+    ensure_materials(meshes, asset_id, args.recolor, args.style, args.view)
+    face_metadata = None
+    if args.add_face:
+        features, face_metadata = add_fish_face(meshes, armature)
+        meshes.extend(features)
     log(f"Scanning stable bounds across {sum(len(item['samples']) for item in animations)} poses")
     bounds_min, bounds_max = union_bounds(scene, armature, meshes, animations)
-    _, pivot = configure_scene(scene, bounds_min, bounds_max, args.size, args.view, args.engine)
+    _, pivot = configure_scene(scene, bounds_min, bounds_max, args.size, args.view, args.engine, args.style)
     records = render_frames(scene, armature, animations, output, args.size, args.fps)
     atlases = pack_atlases(records, output, args.size, args.max_atlas_size)
 
@@ -605,6 +810,9 @@ def main() -> None:
         "format": "html5-sprite-asset-v1",
         "id": asset_id,
         "name": source.stem,
+        "style": args.style,
+        "generatedFace": bool(args.add_face),
+        "face": face_metadata,
         "frameSize": {"w": args.size, "h": args.size},
         "maxAtlasSize": args.max_atlas_size,
         "view": {"type": "profile", "cameraAxis": "+X" if args.view == "right" else "-X"},

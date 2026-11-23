@@ -407,6 +407,8 @@ def render(args: argparse.Namespace) -> None:
             args.view,
             "--engine",
             args.engine,
+            "--style",
+            args.style,
         ]
         if args.actions:
             command.extend(["--actions", args.actions])
@@ -414,6 +416,8 @@ def render(args: argparse.Namespace) -> None:
             command.extend(["--max-frames", str(args.max_frames)])
         if args.recolor:
             command.append("--recolor")
+        if args.add_face:
+            command.append("--add-face")
         if args.keep_existing:
             command.append("--keep-existing")
         result = subprocess.run(command, cwd=ROOT, check=False)
@@ -459,7 +463,9 @@ def build_parser() -> argparse.ArgumentParser:
     render_parser.add_argument("--max-atlas-size", type=int, default=2048)
     render_parser.add_argument("--view", choices=("left", "right"), default="right")
     render_parser.add_argument("--engine", choices=("cycles", "eevee"), default="cycles")
+    render_parser.add_argument("--style", choices=("standard", "cartoon"), default="standard", help="Cartoon adds cel shading and ink outlines; standard keeps the existing look")
     render_parser.add_argument("--recolor", action="store_true", help="Apply a new deterministic palette")
+    render_parser.add_argument("--add-face", action="store_true", help="Add visible eyes and a curved mouth to fish using their head rig")
     render_parser.add_argument("--keep-existing", action="store_true", help="Do not clear an existing asset output folder")
     render_parser.add_argument("--blender-version", default=DEFAULT_BLENDER_VERSION)
 
@@ -478,6 +484,8 @@ def main() -> int:
         if args.command == "setup":
             install_blender(args.blender_version)
         elif args.command == "render":
+            if args.style == "cartoon" and args.engine != "cycles":
+                raise PipelineError("--style cartoon requires --engine cycles for ink outlines")
             if args.size < 64 or args.size > 2048:
                 raise PipelineError("--size must be between 64 and 2048")
             if args.fps <= 0:
