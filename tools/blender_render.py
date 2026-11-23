@@ -136,9 +136,7 @@ def ensure_materials(
             color = enhance_authored_color(original, material.name)
 
         if style == "cartoon":
-            hue, saturation, value = colorsys.rgb_to_hsv(*color)
-            if saturation > 0.055:
-                color = colorsys.hsv_to_rgb(hue, min(0.88, max(0.52, saturation * 1.1)), min(0.86, max(0.62, value)))
+            color = vibrant_cartoon_color(asset_id if not recolor else "", material.name, color)
 
         material.diffuse_color = (*color, 1.0)
         material.use_nodes = True
@@ -165,6 +163,37 @@ def ensure_materials(
             polygon.use_smooth = False
     mode = "new deterministic palette" if recolor else "enhanced authored colors with smart gray fallback"
     log(f"Prepared {len(materials)} material(s): {mode}")
+
+
+def vibrant_cartoon_color(
+    asset_id: str, material_name: str, color: tuple[float, float, float]
+) -> tuple[float, float, float]:
+    """Vivid display palettes, converted to linear for the emission shader."""
+    palettes = {
+        "fish1": {"top": "FF7B28", "bottom": "79E0BD", "fins": "FFD557"},
+        "fish2": {"body": "2563EB", "front": "38BDF8", "fins": "FFE45C"},
+        "fish3": {"body": "FF751F", "stripes": "FFF1D2", "outline": "18212F"},
+        "dolphin": {"top": "20B8D5", "bottom": "D5FAFF"},
+        "shark": {"top": "087AB4", "bottom": "D7F9FF"},
+        "manta-ray": {"top": "1767C2", "bottom": "C9F8FC"},
+        "whale": {"top": "4147E3", "bottom": "FFBB28"},
+    }
+    name = material_name.casefold()
+    display_hex = palettes.get(asset_id, {}).get(name)
+    if display_hex:
+        def linear(channel: int) -> float:
+            value = channel / 255.0
+            return value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
+
+        return tuple(linear(int(display_hex[index:index + 2], 16)) for index in (0, 2, 4))
+    if any(token in name for token in ("black", "outline", "eye", "pupil", "white", "tooth", "teeth")):
+        return color
+    hue, saturation, value = colorsys.rgb_to_hsv(*color)
+    if saturation <= 0.055:
+        return color
+    return colorsys.hsv_to_rgb(
+        hue, min(0.94, max(0.65, saturation * 1.16)), min(0.93, max(0.72, value * 1.06))
+    )
 
 
 def build_cartoon_shader(
@@ -249,7 +278,7 @@ def semantic_color(asset_id: str, material_name: str, index: int) -> tuple[float
 
 
 def add_fish_face(
-    meshes: list[bpy.types.Object], armature: bpy.types.Object | None
+    meshes: list[bpy.types.Object], armature: bpy.types.Object | None, style: str = "standard"
 ) -> tuple[list[bpy.types.Object], dict]:
     """Add bilateral facial details without editing the source mesh or rest rig."""
     if armature is None:
@@ -283,6 +312,7 @@ def add_fish_face(
     eye_y = head.y + forward * head_length * 0.35
     eye_z = head_low + head_height * 0.70
     species = Path(bpy.data.filepath).stem.casefold()
+    expressive_cartoon = style == "cartoon"
     if species == "manta ray":
         # The flat profile would otherwise reduce the eye white to a single
         # pixel under the ink line. A small cartoon eye bulge stays readable.
@@ -345,6 +375,95 @@ def add_fish_face(
         obj.data.materials.append(material)
         bind_skin(obj)
 
+    def curve_feature(name: str, coordinates: list[Vector], radius: float, material: bpy.types.Material) -> None:
+        data = bpy.data.curves.new(name, type="CURVE")
+        data.dimensions = "3D"
+        data.resolution_u = 12
+        data.bevel_depth = radius
+        data.bevel_resolution = 3
+        spline = data.splines.new("BEZIER")
+        spline.bezier_points.add(len(coordinates) - 1)
+        for point, coordinate in zip(spline.bezier_points, coordinates):
+            point.co = coordinate
+            point.handle_left_type = "AUTO"
+            point.handle_right_type = "AUTO"
+        obj = bpy.data.objects.new(name, data)
+        bpy.context.scene.collection.objects.link(obj)
+        data.materials.append(material)
+        for selected in bpy.context.selected_objects:
+            selected.select_set(False)
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.convert(target="MESH")
+        bind_skin(bpy.context.object)
+
+    def shark_grin(side: float, label: str) -> None:
+        # Teeth are shader triangles inside one skin-bound mouth patch. This
+        # keeps the small white teeth legible without an ink line on each one.
+        coordinates: list[Vector] = []
+        for index in range(5):
+            amount = index / 4.0
+            y = head.y + forward * head_length * (0.84 - 0.47 * amount)
+            center_z = head_low + head_height * (0.39 + 0.03 * amount)
+            bottom_z = center_z - head_height * 0.11
+            top_z = center_z + head_height * 0.11
+            side_x = side * (max(side * surface_x(side, y, z) for z in (bottom_z, center_z, top_z)) + length * 0.006)
+            coordinates.extend((Vector((side_x, y, bottom_z)), Vector((side_x, y, top_z))))
+        faces = [(2 * index, 2 * index + 2, 2 * index + 3, 2 * index + 1) for index in range(4)]
+        if side < 0:
+            faces = [tuple(reversed(face)) for face in faces]
+        mesh = bpy.data.meshes.new(f"{label} Shark Grin")
+        mesh.from_pydata(coordinates, [], faces)
+        mesh.update()
+        uv = mesh.uv_layers.new(name="Mouth UV")
+        for loop in mesh.loops:
+            uv.data[loop.index].uv = ((loop.vertex_index // 2) / 4.0, float(loop.vertex_index % 2))
+        material = bpy.data.materials.new(f"{label} Shark Mouth and Teeth")
+        material.use_nodes = True
+        nodes = material.node_tree.nodes
+        links = material.node_tree.links
+        nodes.clear()
+        output = nodes.new("ShaderNodeOutputMaterial")
+        texture = nodes.new("ShaderNodeTexCoord")
+        axes = nodes.new("ShaderNodeSeparateXYZ")
+        links.new(texture.outputs["UV"], axes.inputs[0])
+
+        def math_node(operation: str, first, second=None):
+            node = nodes.new("ShaderNodeMath")
+            node.operation = operation
+            if isinstance(first, (int, float)):
+                node.inputs[0].default_value = first
+            else:
+                links.new(first, node.inputs[0])
+            if second is not None:
+                if isinstance(second, (int, float)):
+                    node.inputs[1].default_value = second
+                else:
+                    links.new(second, node.inputs[1])
+            return node.outputs[0]
+
+        repeated = math_node("FRACT", math_node("MULTIPLY", axes.outputs["X"], 3.0))
+        triangle = math_node("MULTIPLY", math_node("ABSOLUTE", math_node("SUBTRACT", repeated, 0.5)), 2.0)
+        edge = math_node("ADD", math_node("MULTIPLY", triangle, 0.60), 0.35)
+        mask = math_node("GREATER_THAN", axes.outputs["Y"], edge)
+        for operation, coordinate, limit in (
+            ("LESS_THAN", axes.outputs["Y"], 0.94),
+            ("GREATER_THAN", axes.outputs["X"], 0.04),
+            ("LESS_THAN", axes.outputs["X"], 0.96),
+        ):
+            mask = math_node("MULTIPLY", mask, math_node(operation, coordinate, limit))
+        tint = nodes.new("ShaderNodeMixRGB")
+        links.new(mask, tint.inputs[0])
+        tint.inputs[1].default_value = (0.009, 0.015, 0.025, 1.0)
+        tint.inputs[2].default_value = (0.95, 0.97, 1.0, 1.0)
+        shader = nodes.new("ShaderNodeEmission")
+        links.new(tint.outputs["Color"], shader.inputs["Color"])
+        links.new(shader.outputs["Emission"], output.inputs["Surface"])
+        mesh.materials.append(material)
+        obj = bpy.data.objects.new(f"{label} Shark Grin", mesh)
+        bpy.context.scene.collection.objects.link(obj)
+        bind_skin(obj)
+
     for side, label in ((1.0, "Right"), (-1.0, "Left")):
         samples = [(eye_y, eye_z), (eye_y - eye_radius, eye_z), (eye_y + eye_radius, eye_z), (eye_y, eye_z - eye_radius), (eye_y, eye_z + eye_radius)]
         if species == "manta ray":
@@ -352,10 +471,29 @@ def add_fish_face(
         eye_x = side * (max(side * surface_x(side, y, z) for y, z in samples) + eye_radius * 0.10)
         center = Vector((eye_x, eye_y, eye_z))
         eye_part(f"{label} Eye Ink", center, Vector((eye_radius * 0.27, eye_radius, eye_radius)), dark)
-        eye_part(f"{label} Eye White", center + Vector((side * eye_radius * 0.14, 0.0, 0.0)), Vector((eye_radius * 0.29, eye_radius * 0.87, eye_radius * 0.87)), white)
-        pupil_center = center + Vector((side * eye_radius * 0.45, forward * eye_radius * 0.20, eye_radius * 0.03))
-        eye_part(f"{label} Pupil", pupil_center, Vector((eye_radius * 0.13, eye_radius * 0.45, eye_radius * 0.45)), dark)
-        eye_part(f"{label} Eye Highlight", pupil_center + Vector((side * eye_radius * 0.13, forward * eye_radius * 0.11, eye_radius * 0.17)), Vector((eye_radius * 0.055, eye_radius * 0.14, eye_radius * 0.14)), glint)
+        white_radius = 0.90 if expressive_cartoon and species == "fish3" else 0.87
+        eye_part(f"{label} Eye White", center + Vector((side * eye_radius * 0.14, 0.0, 0.0)), Vector((eye_radius * 0.29, eye_radius * white_radius, eye_radius * white_radius)), white)
+        pupil_forward = 0.12 if expressive_cartoon and species == "fish3" else 0.20
+        pupil_center = center + Vector((side * eye_radius * 0.45, forward * eye_radius * pupil_forward, eye_radius * 0.03))
+        pupil_radius = 0.48 if expressive_cartoon and species == "fish3" else 0.45
+        eye_part(f"{label} Pupil", pupil_center, Vector((eye_radius * 0.13, eye_radius * pupil_radius, eye_radius * pupil_radius)), dark)
+        highlight_radius = 0.17 if expressive_cartoon and species == "fish3" else 0.14
+        eye_part(f"{label} Eye Highlight", pupil_center + Vector((side * eye_radius * 0.13, forward * eye_radius * 0.11, eye_radius * 0.17)), Vector((eye_radius * 0.055, eye_radius * highlight_radius, eye_radius * highlight_radius)), glint)
+
+        if expressive_cartoon and species == "shark":
+            brow_x = eye_x + side * eye_radius * 0.67
+            curve_feature(
+                f"{label} Shark Brow",
+                [
+                    Vector((brow_x, eye_y + forward * eye_radius * 0.92, eye_z + eye_radius * 0.35)),
+                    Vector((brow_x, eye_y, eye_z + eye_radius * 0.64)),
+                    Vector((brow_x, eye_y - forward * eye_radius * 0.92, eye_z + eye_radius * 0.99)),
+                ],
+                eye_radius * 0.10,
+                dark,
+            )
+            shark_grin(side, label)
+            continue
 
         mouth_data = bpy.data.curves.new(f"{label} Curved Smile", type="CURVE")
         mouth_data.dimensions = "3D"
@@ -364,7 +502,8 @@ def add_fish_face(
         mouth_data.bevel_resolution = 3
         spline = mouth_data.splines.new("BEZIER")
         spline.bezier_points.add(3)
-        for point, amount, dip in zip(spline.bezier_points, (1.04, 0.91, 0.75, 0.61), (0.0, 0.095, 0.11, 0.01)):
+        smile_dips = (0.0, 0.065, 0.075, 0.01) if expressive_cartoon and species == "fish3" else (0.0, 0.095, 0.11, 0.01)
+        for point, amount, dip in zip(spline.bezier_points, (1.04, 0.91, 0.75, 0.61), smile_dips):
             y = head.y + forward * head_length * amount
             if species == "dolphin":
                 # A dolphin's beak sits far below the crown of its head. Use
@@ -388,7 +527,8 @@ def add_fish_face(
         bind_skin(bpy.context.object)
 
     log(f"Added eyes, pupils, highlights, and curved mouth on both profiles; bound to {head_bone.name} skin weights")
-    return features, {"headBone": head_bone.name, "attachment": "nearest-source-skin-weights", "profiles": ["+X", "-X"]}
+    expression = "mildly-aggressive" if expressive_cartoon and species == "shark" else "gentle" if expressive_cartoon and species == "fish3" else "friendly"
+    return features, {"headBone": head_bone.name, "attachment": "nearest-source-skin-weights", "profiles": ["+X", "-X"], "expression": expression}
 
 
 def assign_action(armature: bpy.types.Object | None, action: bpy.types.Action | None) -> None:
@@ -786,7 +926,7 @@ def main() -> None:
     ensure_materials(meshes, asset_id, args.recolor, args.style, args.view)
     face_metadata = None
     if args.add_face:
-        features, face_metadata = add_fish_face(meshes, armature)
+        features, face_metadata = add_fish_face(meshes, armature, args.style)
         meshes.extend(features)
     log(f"Scanning stable bounds across {sum(len(item['samples']) for item in animations)} poses")
     bounds_min, bounds_max = union_bounds(scene, armature, meshes, animations)

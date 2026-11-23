@@ -6,13 +6,13 @@ It is dependency-free apart from Python 3. Blender is detected automatically. If
 
 ## One-command render
 
-From Terminal:
+Render the seven aquatic characters locally in the approved cartoon style, with eyes and mouths, at Retina-friendly resolution:
 
 ```bash
-python3 pipeline.py render
+python3 pipeline.py render --input "Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --max-atlas-size 2048 --output dist
 ```
 
-Or on macOS, double-click `render_all.command`.
+This replaces only the aquatic asset folders in an existing `dist/`; dinosaurs stay unchanged. `python3 pipeline.py render` or `render_all.command` remains available for a default full render.
 
 The render command automatically:
 
@@ -23,7 +23,7 @@ The render command automatically:
 5. Detects the armature and all animation actions.
 6. Samples the 24 fps source actions at 12 fps.
 7. Scans every sampled pose to make a stable, non-jittering orthographic camera.
-8. Renders transparent `256 × 256` PNG frames with CPU-safe Cycles by default.
+8. Renders transparent PNG frames with CPU-safe Cycles (`1024 × 1024` in the command above; the CLI default is `256 × 256`).
 9. Packs frames into atlas pages no larger than `2048 × 2048`.
 10. Writes manifests, validates every reference and atlas rectangle, and builds the HTML5 preview.
 
@@ -59,8 +59,8 @@ python3 pipeline.py render --recolor
 # Render a single cartoon fish sample with cel shading, outlines, eyes, and a mouth
 python3 pipeline.py render --only Fish1 --actions swim --style cartoon --add-face --size 256 --fps 12 --output dist-cartoon
 
-# Apply the approved cartoon style and facial features to all seven aquatic models
-python3 pipeline.py render --input "Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --output dist
+# Apply the approved cartoon style and facial features to all seven aquatic models locally
+python3 pipeline.py render --input "Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --output dist
 
 # Use Eevee on a machine with an available GPU (faster)
 python3 pipeline.py render --engine eevee
@@ -76,13 +76,18 @@ Set `BLENDER_BIN=/path/to/blender` if you want to force a particular Blender exe
 
 ## GitHub Actions
 
-The [Render HTML5 assets workflow](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/render-assets.yml) runs automatically when models, the pipeline, or render tools change on `main`. You can also start it from **Actions → Render HTML5 assets → Run workflow**.
+Blender rendering is performed locally. Publish the validated local package to the dedicated static-assets branch:
 
-It installs the required Linux libraries, downloads and verifies Blender 5.3.0 (cached between runs), renders with CPU Cycles, and validates the output. Aquatic models use cartoon shading, ink outlines, eyes, and mouths; dinosaurs keep their standard appearance. A model coverage check prevents incomplete renders from being uploaded. After validation, a separate deployment job publishes the same assets to [GitHub Pages](https://ndkh-tsarsi.github.io/3d-render/).
+```bash
+python3 tools/publish_local_assets.py --output dist --require-aquatic-size 1024 --dry-run
+python3 tools/publish_local_assets.py --output dist --require-aquatic-size 1024
+```
 
-Manual runs default to `scope: aquatic`: download the existing full asset package, rerender only the seven aquatic models, and preserve every dinosaur file unchanged. Choose `scope: all` to rebuild both packs. Automatic model/pipeline changes rebuild both packs. Both scopes publish the complete 13-model preview and downloadable package.
+The publisher validates the package, writes the `published-assets` branch, and uses a normal push. It leaves the `main` checkout and index unchanged. The static branch contains the locally generated images, atlas metadata, preview files, and licenses; it does not depend on expiring Actions artifacts.
 
-Open a successful run and download `html5-assets-<run number>` from **Artifacts**, or use the download link in the run summary. The ZIP contains the HTML5 preview, catalog, transparent frames, atlas PNGs, JSON metadata, and source-pack licenses. Downloads are retained for 30 days.
+Run [Deploy preview without rendering](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/deploy-preview.yml) to publish those files to [GitHub Pages](https://ndkh-tsarsi.github.io/3d-render/). It checks out the local asset package, applies the latest player, validates, and deploys. No Blender process runs on Actions. Player changes under `web/` also trigger this deployment. The player sizes its canvas to the displayed dimensions multiplied by the screen's pixel ratio, so Retina screens can use the higher-resolution source images.
+
+Successful deployment runs provide `html5-local-assets-<run number>` under **Artifacts**, retained for 30 days. The ZIP contains the full preview and both model packs. The old remote [Render HTML5 assets workflow](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/render-assets.yml) is manual-only and never starts on pushes.
 
 After extracting the ZIP, serve its folder:
 
@@ -90,11 +95,10 @@ After extracting the ZIP, serve its folder:
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000) to play the animations. Generated assets are uploaded by the workflow and stay out of Git history. No repository secrets are required.
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) to play the animations. Generated assets stay out of `main` history and live on `published-assets`. No repository secrets are required.
 
 For a fork, enable **Settings → Pages → Build and deployment → Source: GitHub Actions** before running the workflow. Pages must be available for the repository's visibility and account plan.
 
-To publish without rebuilding the models, run [Deploy preview without rendering](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/deploy-preview.yml). It downloads the latest successful render artifact, applies the current preview player, validates it, and deploys Pages. Changes under `web/` also trigger this fast deployment. Render artifacts must still be within their 30-day retention period.
 
 ## Output contract
 

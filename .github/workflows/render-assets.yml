@@ -1,13 +1,6 @@
 name: Render HTML5 assets
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "**/*.blend"
-      - "pipeline.py"
-      - "tools/**"
-      - ".github/workflows/render-assets.yml"
   workflow_dispatch:
     inputs:
       scope:

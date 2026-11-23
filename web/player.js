@@ -15,9 +15,44 @@ let elapsed = 0;
 let lastTime = performance.now();
 let playing = true;
 let assetRequestId = 0;
+let pixelRatioQuery;
+
+function syncCanvasResolution() {
+  const bounds = canvas.getBoundingClientRect();
+  if (!bounds.width || !bounds.height) return;
+  const ratio = Math.max(0.1, window.devicePixelRatio || 1);
+  const width = Math.max(1, Math.round(bounds.width * ratio));
+  const height = Math.max(1, Math.round(bounds.height * ratio));
+  // Resizing clears the canvas and its drawing state, so only do it when needed.
+  if (canvas.width !== width || canvas.height !== height) {
+    canvas.width = width;
+    canvas.height = height;
+  }
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+}
+
+function watchPixelRatio() {
+  if (!window.matchMedia) return;
+  pixelRatioQuery?.removeEventListener("change", handlePixelRatioChange);
+  pixelRatioQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`);
+  pixelRatioQuery.addEventListener("change", handlePixelRatioChange, { once: true });
+}
+
+function handlePixelRatioChange() {
+  syncCanvasResolution();
+  watchPixelRatio();
+}
+
+if (typeof ResizeObserver !== "undefined") {
+  new ResizeObserver(syncCanvasResolution).observe(canvas);
+}
+window.addEventListener("resize", syncCanvasResolution);
+watchPixelRatio();
+syncCanvasResolution();
 
 async function fetchJson(path) {
-  const response = await fetch(path);
+  const response = await fetch(path, { cache: "no-cache" });
   if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
   return response.json();
 }
@@ -35,11 +70,14 @@ async function chooseAsset(index) {
   const requestId = ++assetRequestId;
   const asset = catalog.assets[index];
   const base = asset.manifest.slice(0, asset.manifest.lastIndexOf("/") + 1);
+  const versioned = (path) => asset.version
+    ? `${path}?v=${encodeURIComponent(asset.version)}`
+    : path;
   let nextManifest;
   let nextImages;
   try {
-    nextManifest = await fetchJson(asset.manifest);
-    nextImages = await Promise.all(nextManifest.atlases.map((page) => loadImage(base + page.image)));
+    nextManifest = await fetchJson(versioned(asset.manifest));
+    nextImages = await Promise.all(nextManifest.atlases.map((page) => loadImage(versioned(base + page.image))));
   } catch (error) {
     if (requestId !== assetRequestId) return;
     throw error;
@@ -56,8 +94,8 @@ async function chooseAsset(index) {
   animationSelect.value = animationNames.find((name) => name === "idle")
     ?? animationNames.find((name) => name === "swim")
     ?? animationNames[0];
-  canvas.width = manifest.frameSize.w;
-  canvas.height = manifest.frameSize.h;
+  canvas.style.aspectRatio = `${manifest.frameSize.w} / ${manifest.frameSize.h}`;
+  syncCanvasResolution();
   status.textContent = `${manifest.name} · ${manifest.view.cameraAxis} profile`;
   chooseAnimation();
 }

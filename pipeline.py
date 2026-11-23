@@ -301,10 +301,17 @@ def write_catalog(output: Path) -> dict:
         manifests.append((path, data))
     if not manifests:
         raise PipelineError(f"No rendered manifests found in {output}")
+    versions = {}
+    for path, data in manifests:
+        signature = hashlib.sha256(path.read_bytes())
+        for atlas in data["atlases"]:
+            signature.update((path.parent / atlas["image"]).read_bytes())
+        versions[path] = signature.hexdigest()[:16]
     assets = [
         {
             "id": data["id"],
             "name": data["name"],
+            "version": versions[path],
             "manifest": str(path.relative_to(output)).replace(os.sep, "/"),
             "animations": list(data["animations"]),
             "thumbnail": (
