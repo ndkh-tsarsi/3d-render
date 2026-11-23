@@ -1,0 +1,39 @@
+{
+  "frames": {
+    "idle/0009": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 669,
+        "h": 569
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 669,
+        "h": 569
+      },
+      "sourceSize": {
+        "w": 669,
+        "h": 569
+      }
+    }
+  },
+  "animations": {
+    "idle": [
+      "idle/0009"
+    ]
+  },
+  "meta": {
+    "app": "local-sprite-pipeline",
+    "image": "atlas-1.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 669,
+      "h": 569
+    },
+    "scale": "1"
+  }
+}

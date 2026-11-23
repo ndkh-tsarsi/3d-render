@@ -1,0 +1,447 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "red-hat-boy",
+  "name": "Red Hat Boy",
+  "style": "authored",
+  "generatedFace": false,
+  "frameSize": {
+    "w": 669,
+    "h": 569
+  },
+  "maxAtlasSize": 2048,
+  "view": {
+    "type": "profile",
+    "cameraAxis": "right"
+  },
+  "anchorFacing": "right",
+  "pivot": {
+    "x": 413.0,
+    "y": 506,
+    "normalized": [
+      0.617339,
+      0.889279
+    ]
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 2007,
+        "h": 1707
+      }
+    },
+    {
+      "page": 1,
+      "image": "atlas-1.png",
+      "data": "atlas-1.json",
+      "size": {
+        "w": 669,
+        "h": 569
+      }
+    }
+  ],
+  "animations": {
+    "idle": {
+      "sourceAction": "Idle",
+      "sourceRange": [
+        1,
+        10
+      ],
+      "loop": true,
+      "fps": 10,
+      "frames": [
+        {
+          "key": "idle/0000",
+          "image": "frames/idle/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 0,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 457.5,
+              "y": 400.92,
+              "normalized": [
+                0.683857,
+                0.704605
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 249,
+            "y": 42,
+            "w": 283,
+            "h": 464
+          }
+        },
+        {
+          "key": "idle/0001",
+          "image": "frames/idle/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 669,
+            "y": 0,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 1,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 459.0,
+              "y": 401.68,
+              "normalized": [
+                0.686099,
+                0.70594
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 250,
+            "y": 43,
+            "w": 283,
+            "h": 463
+          }
+        },
+        {
+          "key": "idle/0002",
+          "image": "frames/idle/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 1338,
+            "y": 0,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 2,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 460.0,
+              "y": 401.92,
+              "normalized": [
+                0.687593,
+                0.706362
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 251,
+            "y": 45,
+            "w": 283,
+            "h": 461
+          }
+        },
+        {
+          "key": "idle/0003",
+          "image": "frames/idle/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 569,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 3,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 461.5,
+              "y": 401.92,
+              "normalized": [
+                0.689836,
+                0.706362
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 252,
+            "y": 47,
+            "w": 283,
+            "h": 459
+          }
+        },
+        {
+          "key": "idle/0004",
+          "image": "frames/idle/0004.png",
+          "page": 0,
+          "frame": {
+            "x": 669,
+            "y": 569,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 4,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 463.5,
+              "y": 402.92,
+              "normalized": [
+                0.692825,
+                0.70812
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 253,
+            "y": 48,
+            "w": 282,
+            "h": 458
+          }
+        },
+        {
+          "key": "idle/0005",
+          "image": "frames/idle/0005.png",
+          "page": 0,
+          "frame": {
+            "x": 1338,
+            "y": 569,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 5,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 465.5,
+              "y": 402.92,
+              "normalized": [
+                0.695815,
+                0.70812
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 254,
+            "y": 50,
+            "w": 282,
+            "h": 456
+          }
+        },
+        {
+          "key": "idle/0006",
+          "image": "frames/idle/0006.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1138,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 6,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 467.5,
+              "y": 403.16,
+              "normalized": [
+                0.698804,
+                0.708541
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 254,
+            "y": 51,
+            "w": 283,
+            "h": 455
+          }
+        },
+        {
+          "key": "idle/0007",
+          "image": "frames/idle/0007.png",
+          "page": 0,
+          "frame": {
+            "x": 669,
+            "y": 1138,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 7,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 464.5,
+              "y": 402.92,
+              "normalized": [
+                0.69432,
+                0.70812
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 253,
+            "y": 49,
+            "w": 283,
+            "h": 457
+          }
+        },
+        {
+          "key": "idle/0008",
+          "image": "frames/idle/0008.png",
+          "page": 0,
+          "frame": {
+            "x": 1338,
+            "y": 1138,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 8,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 461.5,
+              "y": 401.92,
+              "normalized": [
+                0.689836,
+                0.706362
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 252,
+            "y": 46,
+            "w": 283,
+            "h": 460
+          }
+        },
+        {
+          "key": "idle/0009",
+          "image": "frames/idle/0009.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 669,
+            "h": 569
+          },
+          "sourceFrame": 9,
+          "durationMs": 100.0,
+          "anchors": {
+            "grip": {
+              "x": 459.5,
+              "y": 401.68,
+              "normalized": [
+                0.686846,
+                0.70594
+              ]
+            },
+            "feet": {
+              "x": 413.0,
+              "y": 506,
+              "normalized": [
+                0.617339,
+                0.889279
+              ]
+            }
+          },
+          "bounds": {
+            "x": 251,
+            "y": 44,
+            "w": 283,
+            "h": 462
+          }
+        }
+      ]
+    }
+  },
+  "source": {
+    "type": "provided-png-sprites",
+    "folder": "raw/RedHatBoy",
+    "files": [
+      "png/Idle (1).png",
+      "png/Idle (2).png",
+      "png/Idle (3).png",
+      "png/Idle (4).png",
+      "png/Idle (5).png",
+      "png/Idle (6).png",
+      "png/Idle (7).png",
+      "png/Idle (8).png",
+      "png/Idle (9).png",
+      "png/Idle (10).png"
+    ],
+    "animationReference": "spriter/Spriter.scml",
+    "modification": "none; lossless atlas packaging"
+  }
+}

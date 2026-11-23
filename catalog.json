@@ -57,6 +57,56 @@
       "thumbnail": "fish3/thumbnail.png"
     },
     {
+      "id": "fishingrod-lvl1",
+      "name": "Fishing rod \u00b7 Level 1",
+      "version": "a4048f9d528766b2",
+      "manifest": "fishingrod-lvl1/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "fishingrod-lvl1/thumbnail.png"
+    },
+    {
+      "id": "fishingrod-lvl2",
+      "name": "Fishing rod \u00b7 Level 2",
+      "version": "86e8c047a558a867",
+      "manifest": "fishingrod-lvl2/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "fishingrod-lvl2/thumbnail.png"
+    },
+    {
+      "id": "fishingrod-lvl3",
+      "name": "Fishing rod \u00b7 Level 3",
+      "version": "ea75affec1e0eea5",
+      "manifest": "fishingrod-lvl3/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "fishingrod-lvl3/thumbnail.png"
+    },
+    {
+      "id": "fishingrod-lvl4",
+      "name": "Fishing rod \u00b7 Level 4",
+      "version": "3c3b0ed67e962211",
+      "manifest": "fishingrod-lvl4/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "fishingrod-lvl4/thumbnail.png"
+    },
+    {
+      "id": "fishingrod-lvl5",
+      "name": "Fishing rod \u00b7 Level 5",
+      "version": "d7a1a116db690e6c",
+      "manifest": "fishingrod-lvl5/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "fishingrod-lvl5/thumbnail.png"
+    },
+    {
       "id": "manta-ray",
       "name": "Manta ray",
       "version": "90617b7e487a9170",
@@ -80,6 +130,16 @@
         "walk"
       ],
       "thumbnail": "parasaurolophus/thumbnail.png"
+    },
+    {
+      "id": "red-hat-boy",
+      "name": "Red Hat Boy",
+      "version": "db7ead540ac69822",
+      "manifest": "red-hat-boy/manifest.json",
+      "animations": [
+        "idle"
+      ],
+      "thumbnail": "red-hat-boy/thumbnail.png"
     },
     {
       "id": "shark",
