@@ -14,6 +14,7 @@ let frameIndex = 0;
 let elapsed = 0;
 let lastTime = performance.now();
 let playing = true;
+let assetRequestId = 0;
 
 async function fetchJson(path) {
   const response = await fetch(path);
@@ -31,17 +32,32 @@ function loadImage(path) {
 }
 
 async function chooseAsset(index) {
+  const requestId = ++assetRequestId;
   const asset = catalog.assets[index];
   const base = asset.manifest.slice(0, asset.manifest.lastIndexOf("/") + 1);
-  manifest = await fetchJson(asset.manifest);
-  atlasImages = await Promise.all(manifest.atlases.map((page) => loadImage(base + page.image)));
+  let nextManifest;
+  let nextImages;
+  try {
+    nextManifest = await fetchJson(asset.manifest);
+    nextImages = await Promise.all(nextManifest.atlases.map((page) => loadImage(base + page.image)));
+  } catch (error) {
+    if (requestId !== assetRequestId) return;
+    throw error;
+  }
+  if (requestId !== assetRequestId) return;
+
+  // Keep the current character playable until the replacement is fully loaded.
+  manifest = nextManifest;
+  atlasImages = nextImages;
+  const animationNames = Object.keys(manifest.animations);
   animationSelect.replaceChildren(
-    ...Object.keys(manifest.animations).map((name) => new Option(name, name))
+    ...animationNames.map((name) => new Option(name, name))
   );
+  animationSelect.value = animationNames.find((name) => name === "idle")
+    ?? animationNames.find((name) => name === "swim")
+    ?? animationNames[0];
   canvas.width = manifest.frameSize.w;
   canvas.height = manifest.frameSize.h;
-  frameIndex = 0;
-  elapsed = 0;
   status.textContent = `${manifest.name} · ${manifest.view.cameraAxis} profile`;
   chooseAnimation();
 }
@@ -49,6 +65,9 @@ async function chooseAsset(index) {
 function chooseAnimation() {
   frameIndex = 0;
   elapsed = 0;
+  lastTime = performance.now();
+  playing = true;
+  pauseButton.textContent = "Pause";
   const animation = manifest.animations[animationSelect.value];
   details.textContent = `${animation.frames.length} frames · ${animation.fps} fps · ${animation.loop ? "loop" : "one-shot"}`;
 }
@@ -76,11 +95,15 @@ function animate(now) {
     const frames = animation.frames;
     if (playing && frames.length) {
       elapsed += now - lastTime;
-      while (elapsed >= frames[frameIndex].durationMs) {
+      while (playing && elapsed >= frames[frameIndex].durationMs) {
         elapsed -= frames[frameIndex].durationMs;
         if (frameIndex + 1 < frames.length) frameIndex += 1;
         else if (animation.loop) frameIndex = 0;
-        else playing = false;
+        else {
+          playing = false;
+          elapsed = 0;
+          pauseButton.textContent = "Play";
+        }
       }
     }
     if (frames.length) drawFrame(frames[frameIndex]);
@@ -99,8 +122,6 @@ pauseButton.addEventListener("click", () => {
 });
 assetSelect.addEventListener("change", () => chooseAsset(Number(assetSelect.value)).catch(showError));
 animationSelect.addEventListener("change", () => {
-  playing = true;
-  pauseButton.textContent = "Pause";
   chooseAnimation();
 });
 
