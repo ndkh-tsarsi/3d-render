@@ -1,0 +1,123 @@
+name: Render HTML5 assets
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-assets-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    name: Render all models
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      BLENDER_VERSION: "5.3.0"
+      BLENDER_BIN: ${{ github.workspace }}/.tools/blender/blender
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - name: Check out source models and pipeline
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install Blender runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            libegl1 libgl1 libsm6 libx11-6 libxcursor1 libxfixes3 \
+            libxi6 libxinerama1 libxkbcommon0 libxrandr2 libxrender1 libxxf86vm1
+
+      - name: Cache Blender installation
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .tools/blender
+          key: blender-${{ env.BLENDER_VERSION }}-${{ runner.os }}-${{ runner.arch }}-ubuntu24-v1
+
+      - name: Install and verify Blender
+        run: |
+          python3 pipeline.py setup --blender-version "$BLENDER_VERSION"
+          "$BLENDER_BIN" --version
+
+      - name: Render every model and animation
+        run: >-
+          python3 pipeline.py render
+          --blender-version "$BLENDER_VERSION"
+          --engine cycles
+          --size 256
+          --fps 12
+          --max-atlas-size 2048
+          --output dist
+
+      - name: Validate HTML5 assets
+        run: python3 pipeline.py validate --output dist
+
+      - name: Check model coverage and package licenses
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import shutil
+          from pathlib import Path
+          from pipeline import discover_blends, slugify
+
+          output = Path("dist")
+          sources = discover_blends(["."], None)
+          catalog = json.loads((output / "catalog.json").read_text())
+          expected = {slugify(source.stem) for source in sources}
+          actual = {asset["id"] for asset in catalog["assets"]}
+          if actual != expected or len(catalog["assets"]) != len(sources):
+              raise SystemExit(
+                  f"Model coverage failed: missing={sorted(expected - actual)}, "
+                  f"unexpected={sorted(actual - expected)}, "
+                  f"sources={len(sources)}, rendered={len(catalog['assets'])}"
+              )
+
+          licenses = output / "licenses"
+          licenses.mkdir(exist_ok=True)
+          for source in sources:
+              license_file = source.parent.parent / "License.txt"
+              if license_file.is_file():
+                  shutil.copy2(license_file, licenses / f"{slugify(source.parent.parent.name)}.txt")
+
+          manifests = [json.loads((output / asset["manifest"]).read_text()) for asset in catalog["assets"]]
+          animations = sum(len(item["animations"]) for item in manifests)
+          frames = sum(len(action["frames"]) for item in manifests for action in item["animations"].values())
+          pages = sum(len(item["atlases"]) for item in manifests)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write(
+                  f"## HTML5 assets rendered\n\n"
+                  f"{len(manifests)} models · {animations} animations · {frames} frames · {pages} atlas pages.\n\n"
+                  "Transparent 256 × 256 PNG frames at 12 FPS, atlas pages up to 2048 × 2048.\n\n"
+                  "Download the artifact below, extract it, and run "
+                  "`python3 -m http.server 8000 --bind 127.0.0.1` in that folder. "
+                  "Open <http://127.0.0.1:8000> to preview the animations.\n"
+              )
+          PY
+
+      - name: Upload downloadable HTML5 assets
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: html5-assets-${{ github.run_number }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Link download in run summary
+        env:
+          ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+        run: printf '\n[Download HTML5 asset ZIP](%s)\n' "$ARTIFACT_URL" >> "$GITHUB_STEP_SUMMARY"

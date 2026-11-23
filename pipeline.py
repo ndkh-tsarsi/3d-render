@@ -390,6 +390,8 @@ def render(args: argparse.Namespace) -> None:
             str(blender),
             "--background",
             str(blend),
+            "--python-exit-code",
+            "1",
             "--python",
             str(renderer),
             "--",

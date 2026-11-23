@@ -64,6 +64,22 @@ python3 pipeline.py validate --output dist
 
 Set `BLENDER_BIN=/path/to/blender` if you want to force a particular Blender executable.
 
+## GitHub Actions
+
+The [Render HTML5 assets workflow](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/render-assets.yml) runs automatically on every push to `main`. You can also start it from **Actions → Render HTML5 assets → Run workflow**.
+
+It installs the required Linux libraries, downloads and verifies Blender 5.3.0 (cached between runs), renders every model and animation with CPU Cycles, and validates the output. A model coverage check prevents incomplete renders from being uploaded.
+
+Open a successful run and download `html5-assets-<run number>` from **Artifacts**, or use the download link in the run summary. The ZIP contains the HTML5 preview, catalog, transparent frames, atlas PNGs, JSON metadata, and source-pack licenses. Downloads are retained for 30 days.
+
+After extracting the ZIP, serve its folder:
+
+```bash
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) to play the animations. Generated assets are uploaded by the workflow and stay out of Git history. No repository secrets are required.
+
 ## Output contract
 
 Each character folder contains:
