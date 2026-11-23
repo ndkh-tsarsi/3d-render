@@ -33,6 +33,8 @@ Source `.blend`, `.fbx`, `.obj`, and license files are never modified. Generated
 
 View the rendered models and animations online at [the GitHub Pages preview](https://ndkh-tsarsi.github.io/3d-render/).
 
+The preview opens in **Aquarium** mode with all seven aquatic characters swimming together. Use **Pause**, **Swim speed**, and **New paths** to compare their colors and animation, or switch to **Single character** to inspect any fish or dinosaur. Both views support Retina displays and use the existing local renders; opening the aquarium does not run Blender.
+
 For a local preview:
 
 ```bash

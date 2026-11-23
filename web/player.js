@@ -1,3 +1,5 @@
+import { Aquarium } from "./aquarium.js?v=aquarium-1";
+
 const assetSelect = document.querySelector("#asset");
 const animationSelect = document.querySelector("#animation");
 const mirrorInput = document.querySelector("#mirror");
@@ -6,6 +8,16 @@ const canvas = document.querySelector("#stage");
 const context = canvas.getContext("2d");
 const status = document.querySelector("#status");
 const details = document.querySelector("#details");
+const aquariumPanel = document.querySelector("#aquarium-panel");
+const spritePanel = document.querySelector("#sprite-panel");
+const aquariumViewButton = document.querySelector("#aquarium-view");
+const spriteViewButton = document.querySelector("#sprite-view");
+const aquariumStatus = document.querySelector("#aquarium-status");
+const aquariumCount = document.querySelector("#aquarium-count");
+const aquariumPause = document.querySelector("#aquarium-pause");
+const aquariumReset = document.querySelector("#aquarium-reset");
+const swimSpeed = document.querySelector("#swim-speed");
+const speedValue = document.querySelector("#speed-value");
 
 let catalog;
 let manifest;
@@ -16,6 +28,80 @@ let lastTime = performance.now();
 let playing = true;
 let assetRequestId = 0;
 let pixelRatioQuery;
+let currentView = location.hash === "#sprite" ? "sprite" : "aquarium";
+let singleAnimationFrame = null;
+let singleLoadPromise;
+let aquariumLoadPromise;
+let aquariumReady = false;
+let aquariumPlaying = true;
+
+const aquarium = new Aquarium(document.querySelector("#aquarium-stage"), {
+  onStatus(message) {
+    aquariumStatus.textContent = message;
+  },
+  onReady(count) {
+    aquariumReady = true;
+    aquariumStatus.hidden = true;
+    aquariumCount.textContent = `${count} swimmers · one little ocean`;
+    aquariumPause.disabled = false;
+    aquariumReset.disabled = false;
+  },
+});
+
+async function ensureAquarium() {
+  if (!aquariumLoadPromise) {
+    aquariumLoadPromise = aquarium.load(catalog).catch((error) => {
+      aquariumLoadPromise = null;
+      throw error;
+    });
+  }
+  await aquariumLoadPromise;
+  aquarium.setActive(currentView === "aquarium");
+}
+
+function startSingleAnimation() {
+  if (singleAnimationFrame === null && currentView === "sprite" && manifest) {
+    lastTime = performance.now();
+    singleAnimationFrame = requestAnimationFrame(animate);
+  }
+}
+
+async function setView(view) {
+  currentView = view;
+  aquariumPanel.hidden = view !== "aquarium";
+  spritePanel.hidden = view !== "sprite";
+  aquariumViewButton.setAttribute("aria-pressed", String(view === "aquarium"));
+  spriteViewButton.setAttribute("aria-pressed", String(view === "sprite"));
+  aquarium.setActive(view === "aquarium" && aquariumReady);
+  if (view !== "sprite" && singleAnimationFrame !== null) {
+    cancelAnimationFrame(singleAnimationFrame);
+    singleAnimationFrame = null;
+  }
+  if (!catalog) return;
+  if (view === "aquarium") {
+    try {
+      await ensureAquarium();
+    } catch (error) {
+      console.error(error);
+      aquariumStatus.hidden = false;
+      aquariumStatus.textContent = `Could not load the aquarium: ${error.message}. Select Aquarium to retry.`;
+      aquariumCount.textContent = "Swimmers could not be loaded";
+    }
+  } else {
+    if (!manifest) {
+      singleLoadPromise ??= chooseAsset(Number(assetSelect.value)).finally(() => {
+        singleLoadPromise = null;
+      });
+      try {
+        await singleLoadPromise;
+      } catch (error) {
+        showError(error);
+      }
+    }
+    syncCanvasResolution();
+    startSingleAnimation();
+  }
+}
 
 function syncCanvasResolution() {
   const bounds = canvas.getBoundingClientRect();
@@ -98,6 +184,8 @@ async function chooseAsset(index) {
   syncCanvasResolution();
   status.textContent = `${manifest.name} · ${manifest.view.cameraAxis} profile`;
   chooseAnimation();
+  pauseButton.disabled = false;
+  startSingleAnimation();
 }
 
 function chooseAnimation() {
@@ -128,6 +216,8 @@ function drawFrame(frame) {
 }
 
 function animate(now) {
+  singleAnimationFrame = null;
+  if (currentView !== "sprite") return;
   if (manifest) {
     const animation = manifest.animations[animationSelect.value];
     const frames = animation.frames;
@@ -147,10 +237,11 @@ function animate(now) {
     if (frames.length) drawFrame(frames[frameIndex]);
   }
   lastTime = now;
-  requestAnimationFrame(animate);
+  singleAnimationFrame = requestAnimationFrame(animate);
 }
 
 pauseButton.addEventListener("click", () => {
+  if (!manifest) return;
   playing = !playing;
   pauseButton.textContent = playing ? "Pause" : "Play";
   if (playing) {
@@ -160,8 +251,27 @@ pauseButton.addEventListener("click", () => {
 });
 assetSelect.addEventListener("change", () => chooseAsset(Number(assetSelect.value)).catch(showError));
 animationSelect.addEventListener("change", () => {
+  if (!manifest) return;
   chooseAnimation();
 });
+
+for (const [button, view] of [[aquariumViewButton, "aquarium"], [spriteViewButton, "sprite"]]) {
+  button.addEventListener("click", () => {
+    history.replaceState(null, "", `#${view}`);
+    setView(view);
+  });
+}
+window.addEventListener("hashchange", () => setView(location.hash === "#sprite" ? "sprite" : "aquarium"));
+aquariumPause.addEventListener("click", () => {
+  aquariumPlaying = !aquariumPlaying;
+  aquarium.setPlaying(aquariumPlaying);
+  aquariumPause.textContent = aquariumPlaying ? "Pause" : "Play";
+});
+swimSpeed.addEventListener("input", () => {
+  aquarium.setSpeed(Number(swimSpeed.value));
+  speedValue.value = `${Number(swimSpeed.value)}×`;
+});
+aquariumReset.addEventListener("click", () => aquarium.reset());
 
 function showError(error) {
   console.error(error);
@@ -169,13 +279,15 @@ function showError(error) {
 }
 
 try {
+  pauseButton.disabled = true;
+  await setView(currentView);
   catalog = await fetchJson("catalog.json");
   assetSelect.replaceChildren(
     ...catalog.assets.map((asset, index) => new Option(asset.name, String(index)))
   );
-  await chooseAsset(0);
-  requestAnimationFrame(animate);
+  await setView(currentView);
 } catch (error) {
   showError(error);
+  aquariumStatus.textContent = `Could not load the catalog: ${error.message}`;
 }
 
