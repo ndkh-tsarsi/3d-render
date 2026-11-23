@@ -1,0 +1,835 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "manta-ray",
+  "name": "Manta ray",
+  "style": "cartoon",
+  "generatedFace": true,
+  "face": {
+    "headBone": "Head",
+    "attachment": "nearest-source-skin-weights",
+    "profiles": [
+      "+X",
+      "-X"
+    ],
+    "expression": "friendly"
+  },
+  "frameSize": {
+    "w": 1024,
+    "h": 1024
+  },
+  "maxAtlasSize": 2048,
+  "view": {
+    "type": "profile",
+    "cameraAxis": "+X"
+  },
+  "pivot": {
+    "x": 512,
+    "y": 662,
+    "normalized": [
+      0.5,
+      0.646292
+    ]
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 1,
+      "image": "atlas-1.png",
+      "data": "atlas-1.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 2,
+      "image": "atlas-2.png",
+      "data": "atlas-2.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 3,
+      "image": "atlas-3.png",
+      "data": "atlas-3.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 4,
+      "image": "atlas-4.png",
+      "data": "atlas-4.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 5,
+      "image": "atlas-5.png",
+      "data": "atlas-5.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 6,
+      "image": "atlas-6.png",
+      "data": "atlas-6.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 7,
+      "image": "atlas-7.png",
+      "data": "atlas-7.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 8,
+      "image": "atlas-8.png",
+      "data": "atlas-8.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 9,
+      "image": "atlas-9.png",
+      "data": "atlas-9.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 10,
+      "image": "atlas-10.png",
+      "data": "atlas-10.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 11,
+      "image": "atlas-11.png",
+      "data": "atlas-11.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 12,
+      "image": "atlas-12.png",
+      "data": "atlas-12.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    }
+  ],
+  "animations": {
+    "swim": {
+      "sourceAction": "Swim",
+      "sourceRange": [
+        0.0,
+        101.0
+      ],
+      "loop": true,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "swim/0000",
+          "image": "frames/swim/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0001",
+          "image": "frames/swim/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0002",
+          "image": "frames/swim/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0003",
+          "image": "frames/swim/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0004",
+          "image": "frames/swim/0004.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0005",
+          "image": "frames/swim/0005.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0006",
+          "image": "frames/swim/0006.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0007",
+          "image": "frames/swim/0007.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0008",
+          "image": "frames/swim/0008.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0009",
+          "image": "frames/swim/0009.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0010",
+          "image": "frames/swim/0010.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0011",
+          "image": "frames/swim/0011.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0012",
+          "image": "frames/swim/0012.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0013",
+          "image": "frames/swim/0013.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0014",
+          "image": "frames/swim/0014.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0015",
+          "image": "frames/swim/0015.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0016",
+          "image": "frames/swim/0016.png",
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0017",
+          "image": "frames/swim/0017.png",
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0018",
+          "image": "frames/swim/0018.png",
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0019",
+          "image": "frames/swim/0019.png",
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0020",
+          "image": "frames/swim/0020.png",
+          "page": 5,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 40.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0021",
+          "image": "frames/swim/0021.png",
+          "page": 5,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 42.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0022",
+          "image": "frames/swim/0022.png",
+          "page": 5,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 44.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0023",
+          "image": "frames/swim/0023.png",
+          "page": 5,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 46.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0024",
+          "image": "frames/swim/0024.png",
+          "page": 6,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 48.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0025",
+          "image": "frames/swim/0025.png",
+          "page": 6,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 50.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0026",
+          "image": "frames/swim/0026.png",
+          "page": 6,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 52.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0027",
+          "image": "frames/swim/0027.png",
+          "page": 6,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 54.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0028",
+          "image": "frames/swim/0028.png",
+          "page": 7,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 56.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0029",
+          "image": "frames/swim/0029.png",
+          "page": 7,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 58.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0030",
+          "image": "frames/swim/0030.png",
+          "page": 7,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 60.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0031",
+          "image": "frames/swim/0031.png",
+          "page": 7,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 62.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0032",
+          "image": "frames/swim/0032.png",
+          "page": 8,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 64.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0033",
+          "image": "frames/swim/0033.png",
+          "page": 8,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 66.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0034",
+          "image": "frames/swim/0034.png",
+          "page": 8,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 68.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0035",
+          "image": "frames/swim/0035.png",
+          "page": 8,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 70.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0036",
+          "image": "frames/swim/0036.png",
+          "page": 9,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 72.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0037",
+          "image": "frames/swim/0037.png",
+          "page": 9,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 74.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0038",
+          "image": "frames/swim/0038.png",
+          "page": 9,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 76.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0039",
+          "image": "frames/swim/0039.png",
+          "page": 9,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 78.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0040",
+          "image": "frames/swim/0040.png",
+          "page": 10,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 80.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0041",
+          "image": "frames/swim/0041.png",
+          "page": 10,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 82.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0042",
+          "image": "frames/swim/0042.png",
+          "page": 10,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 84.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0043",
+          "image": "frames/swim/0043.png",
+          "page": 10,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 86.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0044",
+          "image": "frames/swim/0044.png",
+          "page": 11,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 88.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0045",
+          "image": "frames/swim/0045.png",
+          "page": 11,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 90.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0046",
+          "image": "frames/swim/0046.png",
+          "page": 11,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 92.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0047",
+          "image": "frames/swim/0047.png",
+          "page": 11,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 94.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0048",
+          "image": "frames/swim/0048.png",
+          "page": 12,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 96.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0049",
+          "image": "frames/swim/0049.png",
+          "page": 12,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 98.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0050",
+          "image": "frames/swim/0050.png",
+          "page": 12,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 100.0,
+          "durationMs": 41.6667
+        }
+      ]
+    }
+  },
+  "source": {
+    "file": "Manta ray.blend",
+    "author": "Quaternius",
+    "license": "CC0-1.0",
+    "licenseFile": "License.txt"
+  }
+}

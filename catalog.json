@@ -1,0 +1,165 @@
+{
+  "format": "html5-sprite-catalog-v1",
+  "assets": [
+    {
+      "id": "apatosaurus",
+      "name": "Apatosaurus",
+      "version": "cece6e5845a42e32",
+      "manifest": "apatosaurus/manifest.json",
+      "animations": [
+        "attack",
+        "death",
+        "idle",
+        "jump",
+        "run",
+        "walk"
+      ],
+      "thumbnail": "apatosaurus/thumbnail.png"
+    },
+    {
+      "id": "dolphin",
+      "name": "Dolphin",
+      "version": "3ed9bf0a1abac9be",
+      "manifest": "dolphin/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "dolphin/thumbnail.png"
+    },
+    {
+      "id": "fish1",
+      "name": "Fish1",
+      "version": "da82d18df7f1a19c",
+      "manifest": "fish1/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "fish1/thumbnail.png"
+    },
+    {
+      "id": "fish2",
+      "name": "Fish2",
+      "version": "b69405926899d97e",
+      "manifest": "fish2/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "fish2/thumbnail.png"
+    },
+    {
+      "id": "fish3",
+      "name": "Fish3",
+      "version": "b21db8891eb045f9",
+      "manifest": "fish3/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "fish3/thumbnail.png"
+    },
+    {
+      "id": "manta-ray",
+      "name": "Manta ray",
+      "version": "90617b7e487a9170",
+      "manifest": "manta-ray/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "manta-ray/thumbnail.png"
+    },
+    {
+      "id": "parasaurolophus",
+      "name": "Parasaurolophus",
+      "version": "f6c5e4314c1a1a67",
+      "manifest": "parasaurolophus/manifest.json",
+      "animations": [
+        "attack",
+        "death",
+        "idle",
+        "jump",
+        "run",
+        "walk"
+      ],
+      "thumbnail": "parasaurolophus/thumbnail.png"
+    },
+    {
+      "id": "shark",
+      "name": "Shark",
+      "version": "6f88825aa89a52cc",
+      "manifest": "shark/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "shark/thumbnail.png"
+    },
+    {
+      "id": "stegosaurus",
+      "name": "Stegosaurus",
+      "version": "2f213ad979ba8115",
+      "manifest": "stegosaurus/manifest.json",
+      "animations": [
+        "attack",
+        "death",
+        "idle",
+        "jump",
+        "run",
+        "walk"
+      ],
+      "thumbnail": "stegosaurus/thumbnail.png"
+    },
+    {
+      "id": "trex",
+      "name": "Trex",
+      "version": "be91cc164dca9978",
+      "manifest": "trex/manifest.json",
+      "animations": [
+        "attack",
+        "death",
+        "idle",
+        "jump",
+        "run",
+        "walk"
+      ],
+      "thumbnail": "trex/thumbnail.png"
+    },
+    {
+      "id": "triceratops",
+      "name": "Triceratops",
+      "version": "e929936cd56abbbd",
+      "manifest": "triceratops/manifest.json",
+      "animations": [
+        "attack",
+        "death",
+        "idle",
+        "jump",
+        "run",
+        "walk"
+      ],
+      "thumbnail": "triceratops/thumbnail.png"
+    },
+    {
+      "id": "velociraptor",
+      "name": "Velociraptor",
+      "version": "e9e6229bade288cb",
+      "manifest": "velociraptor/manifest.json",
+      "animations": [
+        "attack",
+        "death",
+        "idle",
+        "jump",
+        "run",
+        "walk"
+      ],
+      "thumbnail": "velociraptor/thumbnail.png"
+    },
+    {
+      "id": "whale",
+      "name": "Whale",
+      "version": "844ff7ad858c61d0",
+      "manifest": "whale/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "whale/thumbnail.png"
+    }
+  ]
+}

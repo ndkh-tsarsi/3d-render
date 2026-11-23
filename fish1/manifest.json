@@ -1,0 +1,299 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "fish1",
+  "name": "Fish1",
+  "style": "cartoon",
+  "generatedFace": true,
+  "face": {
+    "headBone": "Face",
+    "attachment": "nearest-source-skin-weights",
+    "profiles": [
+      "+X",
+      "-X"
+    ],
+    "expression": "friendly"
+  },
+  "frameSize": {
+    "w": 1024,
+    "h": 1024
+  },
+  "maxAtlasSize": 2048,
+  "view": {
+    "type": "profile",
+    "cameraAxis": "+X"
+  },
+  "pivot": {
+    "x": 512,
+    "y": 658,
+    "normalized": [
+      0.5,
+      0.642372
+    ]
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 1,
+      "image": "atlas-1.png",
+      "data": "atlas-1.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 2,
+      "image": "atlas-2.png",
+      "data": "atlas-2.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 3,
+      "image": "atlas-3.png",
+      "data": "atlas-3.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    }
+  ],
+  "animations": {
+    "swim": {
+      "sourceAction": "Swim",
+      "sourceRange": [
+        0.0,
+        31.0
+      ],
+      "loop": true,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "swim/0000",
+          "image": "frames/swim/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0001",
+          "image": "frames/swim/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0002",
+          "image": "frames/swim/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0003",
+          "image": "frames/swim/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0004",
+          "image": "frames/swim/0004.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0005",
+          "image": "frames/swim/0005.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0006",
+          "image": "frames/swim/0006.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0007",
+          "image": "frames/swim/0007.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0008",
+          "image": "frames/swim/0008.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0009",
+          "image": "frames/swim/0009.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0010",
+          "image": "frames/swim/0010.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0011",
+          "image": "frames/swim/0011.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0012",
+          "image": "frames/swim/0012.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0013",
+          "image": "frames/swim/0013.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0014",
+          "image": "frames/swim/0014.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0015",
+          "image": "frames/swim/0015.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 41.6667
+        }
+      ]
+    }
+  },
+  "source": {
+    "file": "Fish1.blend",
+    "author": "Quaternius",
+    "license": "CC0-1.0",
+    "licenseFile": "License.txt"
+  }
+}

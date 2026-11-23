@@ -1,0 +1,2722 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "apatosaurus",
+  "name": "Apatosaurus",
+  "frameSize": {
+    "w": 256,
+    "h": 256
+  },
+  "maxAtlasSize": 2048,
+  "view": {
+    "type": "profile",
+    "cameraAxis": "+X"
+  },
+  "pivot": {
+    "x": 128,
+    "y": 198,
+    "normalized": [
+      0.5,
+      0.771641
+    ]
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 1,
+      "image": "atlas-1.png",
+      "data": "atlas-1.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 2,
+      "image": "atlas-2.png",
+      "data": "atlas-2.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 3,
+      "image": "atlas-3.png",
+      "data": "atlas-3.json",
+      "size": {
+        "w": 1792,
+        "h": 256
+      }
+    }
+  ],
+  "animations": {
+    "attack": {
+      "sourceAction": "Apatosaurus_Attack",
+      "sourceRange": [
+        0.0,
+        45.0
+      ],
+      "loop": false,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "attack/0000",
+          "image": "frames/attack/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0001",
+          "image": "frames/attack/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0002",
+          "image": "frames/attack/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0003",
+          "image": "frames/attack/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0004",
+          "image": "frames/attack/0004.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0005",
+          "image": "frames/attack/0005.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0006",
+          "image": "frames/attack/0006.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0007",
+          "image": "frames/attack/0007.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0008",
+          "image": "frames/attack/0008.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0009",
+          "image": "frames/attack/0009.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0010",
+          "image": "frames/attack/0010.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0011",
+          "image": "frames/attack/0011.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0012",
+          "image": "frames/attack/0012.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0013",
+          "image": "frames/attack/0013.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0014",
+          "image": "frames/attack/0014.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0015",
+          "image": "frames/attack/0015.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0016",
+          "image": "frames/attack/0016.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0017",
+          "image": "frames/attack/0017.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0018",
+          "image": "frames/attack/0018.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0019",
+          "image": "frames/attack/0019.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0020",
+          "image": "frames/attack/0020.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 40.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0021",
+          "image": "frames/attack/0021.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 42.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "attack/0022",
+          "image": "frames/attack/0022.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 44.0,
+          "durationMs": 41.6667
+        },
+        {
+          "key": "attack/0023",
+          "image": "frames/attack/0023.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 45.0,
+          "durationMs": 41.6667
+        }
+      ]
+    },
+    "death": {
+      "sourceAction": "Stegosaurus_Death",
+      "sourceRange": [
+        0.0,
+        38.0
+      ],
+      "loop": false,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "death/0000",
+          "image": "frames/death/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0001",
+          "image": "frames/death/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0002",
+          "image": "frames/death/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0003",
+          "image": "frames/death/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0004",
+          "image": "frames/death/0004.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0005",
+          "image": "frames/death/0005.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0006",
+          "image": "frames/death/0006.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0007",
+          "image": "frames/death/0007.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0008",
+          "image": "frames/death/0008.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0009",
+          "image": "frames/death/0009.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0010",
+          "image": "frames/death/0010.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0011",
+          "image": "frames/death/0011.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0012",
+          "image": "frames/death/0012.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0013",
+          "image": "frames/death/0013.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0014",
+          "image": "frames/death/0014.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0015",
+          "image": "frames/death/0015.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0016",
+          "image": "frames/death/0016.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0017",
+          "image": "frames/death/0017.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0018",
+          "image": "frames/death/0018.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "death/0019",
+          "image": "frames/death/0019.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        }
+      ]
+    },
+    "idle": {
+      "sourceAction": "Apatosaurus_Idle",
+      "sourceRange": [
+        -2.0,
+        100.0
+      ],
+      "loop": true,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "idle/0000",
+          "image": "frames/idle/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": -2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0001",
+          "image": "frames/idle/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0002",
+          "image": "frames/idle/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0003",
+          "image": "frames/idle/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0004",
+          "image": "frames/idle/0004.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0005",
+          "image": "frames/idle/0005.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0006",
+          "image": "frames/idle/0006.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0007",
+          "image": "frames/idle/0007.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0008",
+          "image": "frames/idle/0008.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0009",
+          "image": "frames/idle/0009.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0010",
+          "image": "frames/idle/0010.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0011",
+          "image": "frames/idle/0011.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0012",
+          "image": "frames/idle/0012.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0013",
+          "image": "frames/idle/0013.png",
+          "page": 0,
+          "frame": {
+            "x": 256,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0014",
+          "image": "frames/idle/0014.png",
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0015",
+          "image": "frames/idle/0015.png",
+          "page": 0,
+          "frame": {
+            "x": 768,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0016",
+          "image": "frames/idle/0016.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0017",
+          "image": "frames/idle/0017.png",
+          "page": 0,
+          "frame": {
+            "x": 1280,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0018",
+          "image": "frames/idle/0018.png",
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0019",
+          "image": "frames/idle/0019.png",
+          "page": 0,
+          "frame": {
+            "x": 1792,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0020",
+          "image": "frames/idle/0020.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0021",
+          "image": "frames/idle/0021.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 40.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0022",
+          "image": "frames/idle/0022.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 42.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0023",
+          "image": "frames/idle/0023.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 44.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0024",
+          "image": "frames/idle/0024.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 46.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0025",
+          "image": "frames/idle/0025.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 48.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0026",
+          "image": "frames/idle/0026.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 50.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0027",
+          "image": "frames/idle/0027.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 52.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0028",
+          "image": "frames/idle/0028.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 54.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0029",
+          "image": "frames/idle/0029.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 56.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0030",
+          "image": "frames/idle/0030.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 58.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0031",
+          "image": "frames/idle/0031.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 60.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0032",
+          "image": "frames/idle/0032.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 62.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0033",
+          "image": "frames/idle/0033.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 64.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0034",
+          "image": "frames/idle/0034.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 66.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0035",
+          "image": "frames/idle/0035.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 68.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0036",
+          "image": "frames/idle/0036.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 70.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0037",
+          "image": "frames/idle/0037.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 72.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0038",
+          "image": "frames/idle/0038.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 74.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0039",
+          "image": "frames/idle/0039.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 76.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0040",
+          "image": "frames/idle/0040.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 78.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0041",
+          "image": "frames/idle/0041.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 80.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0042",
+          "image": "frames/idle/0042.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 82.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0043",
+          "image": "frames/idle/0043.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 84.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0044",
+          "image": "frames/idle/0044.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 86.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0045",
+          "image": "frames/idle/0045.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 88.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0046",
+          "image": "frames/idle/0046.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 90.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0047",
+          "image": "frames/idle/0047.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 92.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0048",
+          "image": "frames/idle/0048.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 94.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0049",
+          "image": "frames/idle/0049.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 96.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "idle/0050",
+          "image": "frames/idle/0050.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 98.0,
+          "durationMs": 83.3333
+        }
+      ]
+    },
+    "jump": {
+      "sourceAction": "Apatosaurus_Jump",
+      "sourceRange": [
+        0.0,
+        44.0
+      ],
+      "loop": false,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "jump/0000",
+          "image": "frames/jump/0000.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0001",
+          "image": "frames/jump/0001.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0002",
+          "image": "frames/jump/0002.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0003",
+          "image": "frames/jump/0003.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0004",
+          "image": "frames/jump/0004.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0005",
+          "image": "frames/jump/0005.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0006",
+          "image": "frames/jump/0006.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0007",
+          "image": "frames/jump/0007.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0008",
+          "image": "frames/jump/0008.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0009",
+          "image": "frames/jump/0009.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0010",
+          "image": "frames/jump/0010.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0011",
+          "image": "frames/jump/0011.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0012",
+          "image": "frames/jump/0012.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0013",
+          "image": "frames/jump/0013.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0014",
+          "image": "frames/jump/0014.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0015",
+          "image": "frames/jump/0015.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0016",
+          "image": "frames/jump/0016.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0017",
+          "image": "frames/jump/0017.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0018",
+          "image": "frames/jump/0018.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0019",
+          "image": "frames/jump/0019.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0020",
+          "image": "frames/jump/0020.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 40.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0021",
+          "image": "frames/jump/0021.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 42.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "jump/0022",
+          "image": "frames/jump/0022.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 44.0,
+          "durationMs": 83.3333
+        }
+      ]
+    },
+    "run": {
+      "sourceAction": "Apatosaurus_Run",
+      "sourceRange": [
+        0.0,
+        35.0
+      ],
+      "loop": true,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "run/0000",
+          "image": "frames/run/0000.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0001",
+          "image": "frames/run/0001.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0002",
+          "image": "frames/run/0002.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0003",
+          "image": "frames/run/0003.png",
+          "page": 1,
+          "frame": {
+            "x": 256,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0004",
+          "image": "frames/run/0004.png",
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0005",
+          "image": "frames/run/0005.png",
+          "page": 1,
+          "frame": {
+            "x": 768,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0006",
+          "image": "frames/run/0006.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0007",
+          "image": "frames/run/0007.png",
+          "page": 1,
+          "frame": {
+            "x": 1280,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0008",
+          "image": "frames/run/0008.png",
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0009",
+          "image": "frames/run/0009.png",
+          "page": 1,
+          "frame": {
+            "x": 1792,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0010",
+          "image": "frames/run/0010.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0011",
+          "image": "frames/run/0011.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0012",
+          "image": "frames/run/0012.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0013",
+          "image": "frames/run/0013.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0014",
+          "image": "frames/run/0014.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0015",
+          "image": "frames/run/0015.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0016",
+          "image": "frames/run/0016.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "run/0017",
+          "image": "frames/run/0017.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 41.6667
+        }
+      ]
+    },
+    "walk": {
+      "sourceAction": "Apatosaurus_Walk",
+      "sourceRange": [
+        0.0,
+        125.0
+      ],
+      "loop": true,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "walk/0000",
+          "image": "frames/walk/0000.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0001",
+          "image": "frames/walk/0001.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0002",
+          "image": "frames/walk/0002.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0003",
+          "image": "frames/walk/0003.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0004",
+          "image": "frames/walk/0004.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0005",
+          "image": "frames/walk/0005.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0006",
+          "image": "frames/walk/0006.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0007",
+          "image": "frames/walk/0007.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 256,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0008",
+          "image": "frames/walk/0008.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0009",
+          "image": "frames/walk/0009.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0010",
+          "image": "frames/walk/0010.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0011",
+          "image": "frames/walk/0011.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0012",
+          "image": "frames/walk/0012.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0013",
+          "image": "frames/walk/0013.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0014",
+          "image": "frames/walk/0014.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0015",
+          "image": "frames/walk/0015.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 512,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0016",
+          "image": "frames/walk/0016.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0017",
+          "image": "frames/walk/0017.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0018",
+          "image": "frames/walk/0018.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0019",
+          "image": "frames/walk/0019.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0020",
+          "image": "frames/walk/0020.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 40.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0021",
+          "image": "frames/walk/0021.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 42.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0022",
+          "image": "frames/walk/0022.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 44.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0023",
+          "image": "frames/walk/0023.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 768,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 46.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0024",
+          "image": "frames/walk/0024.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 48.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0025",
+          "image": "frames/walk/0025.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 50.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0026",
+          "image": "frames/walk/0026.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 52.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0027",
+          "image": "frames/walk/0027.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 54.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0028",
+          "image": "frames/walk/0028.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 56.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0029",
+          "image": "frames/walk/0029.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 58.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0030",
+          "image": "frames/walk/0030.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 60.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0031",
+          "image": "frames/walk/0031.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 1024,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 62.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0032",
+          "image": "frames/walk/0032.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 64.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0033",
+          "image": "frames/walk/0033.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 66.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0034",
+          "image": "frames/walk/0034.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 68.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0035",
+          "image": "frames/walk/0035.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 70.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0036",
+          "image": "frames/walk/0036.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 72.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0037",
+          "image": "frames/walk/0037.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 74.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0038",
+          "image": "frames/walk/0038.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 76.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0039",
+          "image": "frames/walk/0039.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 1280,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 78.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0040",
+          "image": "frames/walk/0040.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 80.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0041",
+          "image": "frames/walk/0041.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 82.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0042",
+          "image": "frames/walk/0042.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 84.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0043",
+          "image": "frames/walk/0043.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 86.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0044",
+          "image": "frames/walk/0044.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 88.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0045",
+          "image": "frames/walk/0045.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 90.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0046",
+          "image": "frames/walk/0046.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 92.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0047",
+          "image": "frames/walk/0047.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 1536,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 94.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0048",
+          "image": "frames/walk/0048.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 96.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0049",
+          "image": "frames/walk/0049.png",
+          "page": 2,
+          "frame": {
+            "x": 256,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 98.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0050",
+          "image": "frames/walk/0050.png",
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 100.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0051",
+          "image": "frames/walk/0051.png",
+          "page": 2,
+          "frame": {
+            "x": 768,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 102.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0052",
+          "image": "frames/walk/0052.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 104.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0053",
+          "image": "frames/walk/0053.png",
+          "page": 2,
+          "frame": {
+            "x": 1280,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 106.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0054",
+          "image": "frames/walk/0054.png",
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 108.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0055",
+          "image": "frames/walk/0055.png",
+          "page": 2,
+          "frame": {
+            "x": 1792,
+            "y": 1792,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 110.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0056",
+          "image": "frames/walk/0056.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 112.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0057",
+          "image": "frames/walk/0057.png",
+          "page": 3,
+          "frame": {
+            "x": 256,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 114.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0058",
+          "image": "frames/walk/0058.png",
+          "page": 3,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 116.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0059",
+          "image": "frames/walk/0059.png",
+          "page": 3,
+          "frame": {
+            "x": 768,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 118.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0060",
+          "image": "frames/walk/0060.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 120.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0061",
+          "image": "frames/walk/0061.png",
+          "page": 3,
+          "frame": {
+            "x": 1280,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 122.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "walk/0062",
+          "image": "frames/walk/0062.png",
+          "page": 3,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 256,
+            "h": 256
+          },
+          "sourceFrame": 124.0,
+          "durationMs": 41.6667
+        }
+      ]
+    }
+  },
+  "source": {
+    "file": "Apatosaurus.blend",
+    "author": "Quaternius",
+    "license": "CC0-1.0",
+    "licenseFile": "License.txt"
+  }
+}
