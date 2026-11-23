@@ -282,6 +282,12 @@ def add_fish_face(
     eye_radius = min(length * 0.027, head_length * 0.23, head_height * 0.21)
     eye_y = head.y + forward * head_length * 0.35
     eye_z = head_low + head_height * 0.70
+    species = Path(bpy.data.filepath).stem.casefold()
+    if species == "manta ray":
+        # The flat profile would otherwise reduce the eye white to a single
+        # pixel under the ink line. A small cartoon eye bulge stays readable.
+        eye_radius = max(eye_radius, length * 0.027)
+        eye_z = head_low + head_height * 0.82
 
     def flat_material(name: str, color: tuple[float, float, float]) -> bpy.types.Material:
         material = bpy.data.materials.new(name)
@@ -327,7 +333,9 @@ def add_fish_face(
         return position.x
 
     def eye_part(name: str, center: Vector, scale: Vector, material: bpy.types.Material) -> None:
-        bpy.ops.mesh.primitive_uv_sphere_add(segments=24, ring_count=12, radius=1.0)
+        bpy.ops.mesh.primitive_uv_sphere_add(
+            segments=24, ring_count=12, radius=1.0, location=(0.0, 0.0, 0.0)
+        )
         obj = bpy.context.object
         obj.name = name
         for vertex in obj.data.vertices:
@@ -339,6 +347,8 @@ def add_fish_face(
 
     for side, label in ((1.0, "Right"), (-1.0, "Left")):
         samples = [(eye_y, eye_z), (eye_y - eye_radius, eye_z), (eye_y + eye_radius, eye_z), (eye_y, eye_z - eye_radius), (eye_y, eye_z + eye_radius)]
+        if species == "manta ray":
+            samples = samples[:3]
         eye_x = side * (max(side * surface_x(side, y, z) for y, z in samples) + eye_radius * 0.10)
         center = Vector((eye_x, eye_y, eye_z))
         eye_part(f"{label} Eye Ink", center, Vector((eye_radius * 0.27, eye_radius, eye_radius)), dark)
@@ -356,7 +366,13 @@ def add_fish_face(
         spline.bezier_points.add(3)
         for point, amount, dip in zip(spline.bezier_points, (1.04, 0.91, 0.75, 0.61), (0.0, 0.095, 0.11, 0.01)):
             y = head.y + forward * head_length * amount
-            z = head_low + head_height * (0.46 - dip)
+            if species == "dolphin":
+                # A dolphin's beak sits far below the crown of its head. Use
+                # the actual snout bone height instead of the general head
+                # envelope, which would place the smile above the beak.
+                z = nose.z + (head.z - nose.z) * (1.0 - amount) + head_height * (0.015 - dip)
+            else:
+                z = head_low + head_height * (0.46 - dip)
             x = surface_x(side, y, z) + side * length * 0.0045
             point.co = (x, y, z)
             point.handle_left_type = "AUTO"

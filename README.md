@@ -59,6 +59,9 @@ python3 pipeline.py render --recolor
 # Render a single cartoon fish sample with cel shading, outlines, eyes, and a mouth
 python3 pipeline.py render --only Fish1 --actions swim --style cartoon --add-face --size 256 --fps 12 --output dist-cartoon
 
+# Apply the approved cartoon style and facial features to all seven aquatic models
+python3 pipeline.py render --input "Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --output dist
+
 # Use Eevee on a machine with an available GPU (faster)
 python3 pipeline.py render --engine eevee
 
@@ -75,7 +78,9 @@ Set `BLENDER_BIN=/path/to/blender` if you want to force a particular Blender exe
 
 The [Render HTML5 assets workflow](https://github.com/ndkh-tsarsi/3d-render/actions/workflows/render-assets.yml) runs automatically when models, the pipeline, or render tools change on `main`. You can also start it from **Actions → Render HTML5 assets → Run workflow**.
 
-It installs the required Linux libraries, downloads and verifies Blender 5.3.0 (cached between runs), renders every model and animation with CPU Cycles, and validates the output. A model coverage check prevents incomplete renders from being uploaded. After validation, a separate deployment job publishes the same assets to [GitHub Pages](https://ndkh-tsarsi.github.io/3d-render/).
+It installs the required Linux libraries, downloads and verifies Blender 5.3.0 (cached between runs), renders with CPU Cycles, and validates the output. Aquatic models use cartoon shading, ink outlines, eyes, and mouths; dinosaurs keep their standard appearance. A model coverage check prevents incomplete renders from being uploaded. After validation, a separate deployment job publishes the same assets to [GitHub Pages](https://ndkh-tsarsi.github.io/3d-render/).
+
+Manual runs default to `scope: aquatic`: download the existing full asset package, rerender only the seven aquatic models, and preserve every dinosaur file unchanged. Choose `scope: all` to rebuild both packs. Automatic model/pipeline changes rebuild both packs. Both scopes publish the complete 13-model preview and downloadable package.
 
 Open a successful run and download `html5-assets-<run number>` from **Artifacts**, or use the download link in the run summary. The ZIP contains the HTML5 preview, catalog, transparent frames, atlas PNGs, JSON metadata, and source-pack licenses. Downloads are retained for 30 days.
 
