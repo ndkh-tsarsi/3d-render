@@ -1,0 +1,545 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "cute-goldfish",
+  "name": "Goldfish",
+  "style": "cartoon",
+  "generatedFace": false,
+  "face": null,
+  "frameSize": {
+    "w": 1024,
+    "h": 1024
+  },
+  "maxAtlasSize": 2048,
+  "view": {
+    "type": "profile",
+    "cameraAxis": "+X"
+  },
+  "pivot": {
+    "x": 512,
+    "y": 884,
+    "normalized": [
+      0.5,
+      0.863087
+    ]
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 1,
+      "image": "atlas-1.png",
+      "data": "atlas-1.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 2,
+      "image": "atlas-2.png",
+      "data": "atlas-2.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 3,
+      "image": "atlas-3.png",
+      "data": "atlas-3.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 4,
+      "image": "atlas-4.png",
+      "data": "atlas-4.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 5,
+      "image": "atlas-5.png",
+      "data": "atlas-5.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 6,
+      "image": "atlas-6.png",
+      "data": "atlas-6.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    }
+  ],
+  "animations": {
+    "swim": {
+      "sourceAction": "Swimming_Normal",
+      "sourceRange": [
+        0.0,
+        55.0
+      ],
+      "loop": true,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "swim/0000",
+          "image": "frames/swim/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0001",
+          "image": "frames/swim/0001.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 2.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0002",
+          "image": "frames/swim/0002.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 4.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0003",
+          "image": "frames/swim/0003.png",
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 6.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0004",
+          "image": "frames/swim/0004.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 8.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0005",
+          "image": "frames/swim/0005.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 10.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0006",
+          "image": "frames/swim/0006.png",
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 12.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0007",
+          "image": "frames/swim/0007.png",
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 14.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0008",
+          "image": "frames/swim/0008.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 16.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0009",
+          "image": "frames/swim/0009.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 18.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0010",
+          "image": "frames/swim/0010.png",
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 20.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0011",
+          "image": "frames/swim/0011.png",
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 22.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0012",
+          "image": "frames/swim/0012.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 24.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0013",
+          "image": "frames/swim/0013.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 26.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0014",
+          "image": "frames/swim/0014.png",
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 28.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0015",
+          "image": "frames/swim/0015.png",
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 30.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0016",
+          "image": "frames/swim/0016.png",
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 32.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0017",
+          "image": "frames/swim/0017.png",
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 34.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0018",
+          "image": "frames/swim/0018.png",
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 36.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0019",
+          "image": "frames/swim/0019.png",
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 38.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0020",
+          "image": "frames/swim/0020.png",
+          "page": 5,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 40.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0021",
+          "image": "frames/swim/0021.png",
+          "page": 5,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 42.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0022",
+          "image": "frames/swim/0022.png",
+          "page": 5,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 44.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0023",
+          "image": "frames/swim/0023.png",
+          "page": 5,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 46.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0024",
+          "image": "frames/swim/0024.png",
+          "page": 6,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 48.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0025",
+          "image": "frames/swim/0025.png",
+          "page": 6,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 50.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0026",
+          "image": "frames/swim/0026.png",
+          "page": 6,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 52.0,
+          "durationMs": 83.3333
+        },
+        {
+          "key": "swim/0027",
+          "image": "frames/swim/0027.png",
+          "page": 6,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 54.0,
+          "durationMs": 41.6667
+        }
+      ]
+    }
+  },
+  "source": {
+    "file": "Goldfish.blend",
+    "author": "Quaternius",
+    "license": "CC0-1.0",
+    "licenseFile": "../licenses/cute-fish-pack-feb-2020.txt",
+    "pack": "Cute Fish Pack - Feb 2020"
+  },
+  "aquarium": {
+    "pack": "cute-fish",
+    "name": "Goldfish",
+    "width": 65,
+    "speed": 25,
+    "catchable": true,
+    "facing": "left",
+    "bounds": {
+      "x": 0.064453,
+      "y": 0.134766,
+      "w": 0.866211,
+      "h": 0.713867
+    },
+    "mouth": {
+      "x": 0.065918,
+      "y": 0.601718
+    }
+  },
+  "skin": {
+    "id": "cat-toon-v1",
+    "name": "Cat-inspired Toon",
+    "stableUV": "KidSkinRestUV",
+    "palette": {
+      "body": "F7931E",
+      "belly": "FBE7C4",
+      "fins": "F18854",
+      "accent": "FFE356"
+    },
+    "patterns": [
+      "small-cream-belly",
+      "flat-fin-accents"
+    ],
+    "eyes": "warm-dark-pupil-white-glints",
+    "surface": "matte-three-tone",
+    "reference": {
+      "folder": "craftpix-net-397030-free-cartoon-cat-defense-game-asset-kit",
+      "use": "palette-and-shading",
+      "artworkCopied": false
+    },
+    "sourceGeometry": "rounded-for-render",
+    "maxFrames": 0
+  },
+  "geometry": {
+    "id": "kid-rounded-v1",
+    "name": "Soft rounded cartoon silhouette",
+    "method": "catmull-clark-with-selective-boundary-creases",
+    "sourceFilesUnchanged": true,
+    "nativeRigPreserved": true,
+    "restUVPreserved": true,
+    "meshes": [
+      {
+        "object": "Cube.001",
+        "sourceVertices": 166,
+        "sourceFaces": 134,
+        "subdivisionLevels": 2,
+        "existingRoundedLegacySurface": false,
+        "protectedBoundaryEdges": 80,
+        "protectedFinComponents": 4
+      },
+      {
+        "object": "Cube.025",
+        "sourceVertices": 721,
+        "sourceFaces": 676,
+        "subdivisionLevels": 2,
+        "existingRoundedLegacySurface": false,
+        "protectedBoundaryEdges": 52,
+        "protectedFinComponents": 2
+      }
+    ]
+  }
+}

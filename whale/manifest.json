@@ -24,10 +24,10 @@
   },
   "pivot": {
     "x": 512,
-    "y": 685,
+    "y": 680,
     "normalized": [
       0.5,
-      0.668491
+      0.663599
     ]
   },
   "thumbnail": "thumbnail.png",
@@ -573,6 +573,50 @@
     "file": "Whale.blend",
     "author": "Quaternius",
     "license": "CC0-1.0",
-    "licenseFile": "License.txt"
+    "licenseFile": "../licenses/animated-fish-pack-by-quaternius.txt"
+  },
+  "skin": {
+    "id": "cat-toon-v1",
+    "name": "Cat-inspired Toon",
+    "stableUV": "KidSkinRestUV",
+    "palette": {
+      "body": "93278F",
+      "belly": "FBE7C4",
+      "fins": "56506F",
+      "accent": "F1BF8C"
+    },
+    "patterns": [
+      "small-cream-belly",
+      "flat-fin-accents",
+      "large-spots"
+    ],
+    "eyes": "warm-dark-pupil-white-glints",
+    "surface": "matte-three-tone",
+    "reference": {
+      "folder": "craftpix-net-397030-free-cartoon-cat-defense-game-asset-kit",
+      "use": "palette-and-shading",
+      "artworkCopied": false
+    },
+    "sourceGeometry": "rounded-for-render",
+    "maxFrames": 0
+  },
+  "geometry": {
+    "id": "kid-rounded-v1",
+    "name": "Soft rounded cartoon silhouette",
+    "method": "catmull-clark-with-selective-boundary-creases",
+    "sourceFilesUnchanged": true,
+    "nativeRigPreserved": true,
+    "restUVPreserved": true,
+    "meshes": [
+      {
+        "object": "Whale",
+        "sourceVertices": 226,
+        "sourceFaces": 240,
+        "subdivisionLevels": 1,
+        "existingRoundedLegacySurface": true,
+        "protectedBoundaryEdges": 0,
+        "protectedFinComponents": 0
+      }
+    ]
   }
 }

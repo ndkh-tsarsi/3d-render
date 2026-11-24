@@ -1,0 +1,4527 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "fishing-cat",
+  "name": "M\u00e8o c\u00e2u c\u00e1",
+  "style": "authored-cat-cartoon",
+  "generatedFace": false,
+  "frameSize": {
+    "w": 512,
+    "h": 512
+  },
+  "maxAtlasSize": 2048,
+  "anchorFacing": "left",
+  "view": {
+    "type": "profile",
+    "cameraAxis": "left"
+  },
+  "pivot": {
+    "x": 212.0,
+    "y": 450.0,
+    "normalized": [
+      0.414062,
+      0.878906
+    ]
+  },
+  "actor": {
+    "kind": "cat",
+    "species": "orange-tabby",
+    "weaponFree": true,
+    "sourceCharacter": "Cat1"
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 1,
+      "image": "atlas-1.png",
+      "data": "atlas-1.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 2,
+      "image": "atlas-2.png",
+      "data": "atlas-2.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 3,
+      "image": "atlas-3.png",
+      "data": "atlas-3.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 4,
+      "image": "atlas-4.png",
+      "data": "atlas-4.json",
+      "size": {
+        "w": 2048,
+        "h": 2048
+      }
+    },
+    {
+      "page": 5,
+      "image": "atlas-5.png",
+      "data": "atlas-5.json",
+      "size": {
+        "w": 2048,
+        "h": 512
+      }
+    }
+  ],
+  "animations": {
+    "idle": {
+      "sourceAction": "Recomposed idle",
+      "sourceRange": [
+        0,
+        11
+      ],
+      "loop": true,
+      "fps": 18,
+      "frames": [
+        {
+          "key": "idle/0000",
+          "image": "frames/idle/0000.png",
+          "sourceFrame": 0,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 194.0,
+              "normalized": [
+                0.523438,
+                0.378906
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0001",
+          "image": "frames/idle/0001.png",
+          "sourceFrame": 1,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 195.002,
+              "normalized": [
+                0.523438,
+                0.380864
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 54,
+            "w": 342,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0002",
+          "image": "frames/idle/0002.png",
+          "sourceFrame": 2,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 197.74,
+              "normalized": [
+                0.523438,
+                0.386211
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 56,
+            "w": 343,
+            "h": 398
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0003",
+          "image": "frames/idle/0003.png",
+          "sourceFrame": 3,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 201.48,
+              "normalized": [
+                0.523438,
+                0.393516
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 60,
+            "w": 343,
+            "h": 394
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0004",
+          "image": "frames/idle/0004.png",
+          "sourceFrame": 4,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 205.22,
+              "normalized": [
+                0.523438,
+                0.40082
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 64,
+            "w": 343,
+            "h": 391
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0005",
+          "image": "frames/idle/0005.png",
+          "sourceFrame": 5,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 207.958,
+              "normalized": [
+                0.523438,
+                0.406168
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 66,
+            "w": 343,
+            "h": 389
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0006",
+          "image": "frames/idle/0006.png",
+          "sourceFrame": 6,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 208.96,
+              "normalized": [
+                0.523438,
+                0.408125
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 67,
+            "w": 343,
+            "h": 388
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0007",
+          "image": "frames/idle/0007.png",
+          "sourceFrame": 7,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 207.958,
+              "normalized": [
+                0.523438,
+                0.406168
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 66,
+            "w": 343,
+            "h": 389
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0008",
+          "image": "frames/idle/0008.png",
+          "sourceFrame": 8,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 205.22,
+              "normalized": [
+                0.523438,
+                0.40082
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 64,
+            "w": 343,
+            "h": 391
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0009",
+          "image": "frames/idle/0009.png",
+          "sourceFrame": 9,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 201.48,
+              "normalized": [
+                0.523438,
+                0.393516
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 60,
+            "w": 343,
+            "h": 394
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0010",
+          "image": "frames/idle/0010.png",
+          "sourceFrame": 10,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 197.74,
+              "normalized": [
+                0.523438,
+                0.386211
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 56,
+            "w": 343,
+            "h": 398
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "idle/0011",
+          "image": "frames/idle/0011.png",
+          "sourceFrame": 11,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268,
+              "y": 195.002,
+              "normalized": [
+                0.523438,
+                0.380864
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 54,
+            "w": 342,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        }
+      ]
+    },
+    "pull": {
+      "sourceAction": "Recomposed pull",
+      "sourceRange": [
+        0,
+        11
+      ],
+      "loop": false,
+      "fps": 18,
+      "frames": [
+        {
+          "key": "pull/0000",
+          "image": "frames/pull/0000.png",
+          "sourceFrame": 0,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268.0,
+              "y": 194.0,
+              "normalized": [
+                0.523438,
+                0.378906
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0001",
+          "image": "frames/pull/0001.png",
+          "sourceFrame": 1,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.451,
+              "y": 368.027,
+              "normalized": [
+                0.301662,
+                0.718802
+              ]
+            },
+            "head": {
+              "x": 268.186,
+              "y": 208.178,
+              "normalized": [
+                0.523801,
+                0.406598
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 67,
+            "w": 343,
+            "h": 386
+          },
+          "palmCrop": {
+            "x": 139.4509507862464,
+            "y": 348.0265977728041,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0002",
+          "image": "frames/pull/0002.png",
+          "sourceFrame": 2,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 155.688,
+              "y": 367.727,
+              "normalized": [
+                0.304078,
+                0.718216
+              ]
+            },
+            "head": {
+              "x": 268.697,
+              "y": 210.208,
+              "normalized": [
+                0.524799,
+                0.410562
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 69,
+            "w": 344,
+            "h": 385
+          },
+          "palmCrop": {
+            "x": 140.68785786452887,
+            "y": 347.7267037690649,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0003",
+          "image": "frames/pull/0003.png",
+          "sourceFrame": 3,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 157.537,
+              "y": 360.414,
+              "normalized": [
+                0.30769,
+                0.703934
+              ]
+            },
+            "head": {
+              "x": 269.461,
+              "y": 198.206,
+              "normalized": [
+                0.52629,
+                0.38712
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 57,
+            "w": 345,
+            "h": 397
+          },
+          "palmCrop": {
+            "x": 142.5371217573438,
+            "y": 340.41427977904095,
+            "w": 30,
+            "h": 40
+          },
+          "page": 0,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0004",
+          "image": "frames/pull/0004.png",
+          "sourceFrame": 4,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 159.825,
+              "y": 355.681,
+              "normalized": [
+                0.312159,
+                0.69469
+              ]
+            },
+            "head": {
+              "x": 270.404,
+              "y": 192.798,
+              "normalized": [
+                0.528133,
+                0.376558
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 346,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 144.8251908453658,
+            "y": 335.68144675336515,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0005",
+          "image": "frames/pull/0005.png",
+          "sourceFrame": 5,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 162.378,
+              "y": 352.92,
+              "normalized": [
+                0.317145,
+                0.689297
+              ]
+            },
+            "head": {
+              "x": 271.456,
+              "y": 192.272,
+              "normalized": [
+                0.530188,
+                0.375531
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 347,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 147.37818388718568,
+            "y": 332.9198149887261,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0006",
+          "image": "frames/pull/0006.png",
+          "sourceFrame": 6,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 165.022,
+              "y": 350.065,
+              "normalized": [
+                0.322308,
+                0.683721
+              ]
+            },
+            "head": {
+              "x": 272.544,
+              "y": 191.728,
+              "normalized": [
+                0.532312,
+                0.374469
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 349,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 150.02162376047505,
+            "y": 330.06516283508034,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0007",
+          "image": "frames/pull/0007.png",
+          "sourceFrame": 7,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 167.58,
+              "y": 347.307,
+              "normalized": [
+                0.327305,
+                0.678333
+              ]
+            },
+            "head": {
+              "x": 273.596,
+              "y": 191.202,
+              "normalized": [
+                0.534367,
+                0.373442
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 350,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 152.5802883766745,
+            "y": 327.306688658749,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0008",
+          "image": "frames/pull/0008.png",
+          "sourceFrame": 8,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 169.878,
+              "y": 344.833,
+              "normalized": [
+                0.331793,
+                0.673502
+              ]
+            },
+            "head": {
+              "x": 274.539,
+              "y": 190.73,
+              "normalized": [
+                0.53621,
+                0.37252
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 52,
+            "w": 350,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 154.87818884728924,
+            "y": 324.83318960479414,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0009",
+          "image": "frames/pull/0009.png",
+          "sourceFrame": 9,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 171.739,
+              "y": 342.833,
+              "normalized": [
+                0.335427,
+                0.669596
+              ]
+            },
+            "head": {
+              "x": 275.303,
+              "y": 190.349,
+              "normalized": [
+                0.537701,
+                0.371775
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 352,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 156.73868521410225,
+            "y": 322.8331652693833,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0010",
+          "image": "frames/pull/0010.png",
+          "sourceFrame": 10,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 172.985,
+              "y": 341.495,
+              "normalized": [
+                0.337861,
+                0.666982
+              ]
+            },
+            "head": {
+              "x": 275.814,
+              "y": 190.093,
+              "normalized": [
+                0.538699,
+                0.371276
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 51,
+            "w": 353,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 157.98474730270928,
+            "y": 321.4949692863008,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "pull/0011",
+          "image": "frames/pull/0011.png",
+          "sourceFrame": 11,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 173.439,
+              "y": 341.007,
+              "normalized": [
+                0.338749,
+                0.666029
+              ]
+            },
+            "head": {
+              "x": 276.0,
+              "y": 190.0,
+              "normalized": [
+                0.539062,
+                0.371094
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 51,
+            "w": 353,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 158.43936347328926,
+            "y": 321.00700010618294,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        }
+      ]
+    },
+    "bite": {
+      "sourceAction": "Recomposed bite",
+      "sourceRange": [
+        0,
+        11
+      ],
+      "loop": true,
+      "fps": 18,
+      "frames": [
+        {
+          "key": "bite/0000",
+          "image": "frames/bite/0000.png",
+          "sourceFrame": 0,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268.0,
+              "y": 194.0,
+              "normalized": [
+                0.523438,
+                0.378906
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0001",
+          "image": "frames/bite/0001.png",
+          "sourceFrame": 1,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.024,
+              "y": 361.83,
+              "normalized": [
+                0.300828,
+                0.706699
+              ]
+            },
+            "head": {
+              "x": 269.0,
+              "y": 194.127,
+              "normalized": [
+                0.525391,
+                0.379154
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 344,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 139.02410785567628,
+            "y": 341.830097619568,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0002",
+          "image": "frames/bite/0002.png",
+          "sourceFrame": 2,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.042,
+              "y": 361.438,
+              "normalized": [
+                0.300863,
+                0.705933
+              ]
+            },
+            "head": {
+              "x": 269.732,
+              "y": 194.474,
+              "normalized": [
+                0.52682,
+                0.379832
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 345,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 139.04189246822378,
+            "y": 341.43786329134645,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0003",
+          "image": "frames/bite/0003.png",
+          "sourceFrame": 3,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.048,
+              "y": 360.928,
+              "normalized": [
+                0.300876,
+                0.704938
+              ]
+            },
+            "head": {
+              "x": 270.0,
+              "y": 194.948,
+              "normalized": [
+                0.527344,
+                0.380758
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 345,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 139.0484308428243,
+            "y": 340.92828972453157,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0004",
+          "image": "frames/bite/0004.png",
+          "sourceFrame": 4,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.042,
+              "y": 360.438,
+              "normalized": [
+                0.300863,
+                0.70398
+              ]
+            },
+            "head": {
+              "x": 269.732,
+              "y": 195.422,
+              "normalized": [
+                0.52682,
+                0.381684
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 53,
+            "w": 345,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 139.04189246822378,
+            "y": 340.43786329134645,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0005",
+          "image": "frames/bite/0005.png",
+          "sourceFrame": 5,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.024,
+              "y": 360.098,
+              "normalized": [
+                0.300828,
+                0.703316
+              ]
+            },
+            "head": {
+              "x": 269.0,
+              "y": 195.769,
+              "normalized": [
+                0.525391,
+                0.382361
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 54,
+            "w": 344,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 139.02410785567628,
+            "y": 340.09804681199915,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0006",
+          "image": "frames/bite/0006.png",
+          "sourceFrame": 6,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 360.0,
+              "normalized": [
+                0.300781,
+                0.703125
+              ]
+            },
+            "head": {
+              "x": 268.0,
+              "y": 195.896,
+              "normalized": [
+                0.523438,
+                0.382609
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 54,
+            "w": 342,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 340.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0007",
+          "image": "frames/bite/0007.png",
+          "sourceFrame": 7,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.976,
+              "y": 360.17,
+              "normalized": [
+                0.300735,
+                0.703457
+              ]
+            },
+            "head": {
+              "x": 267.0,
+              "y": 195.769,
+              "normalized": [
+                0.521484,
+                0.382361
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 55,
+            "w": 343,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 138.97610814367573,
+            "y": 340.17004638,
+            "w": 30,
+            "h": 40
+          },
+          "page": 1,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0008",
+          "image": "frames/bite/0008.png",
+          "sourceFrame": 8,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.959,
+              "y": 360.563,
+              "normalized": [
+                0.300701,
+                0.704224
+              ]
+            },
+            "head": {
+              "x": 266.268,
+              "y": 195.422,
+              "normalized": [
+                0.520055,
+                0.381684
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 55,
+            "w": 342,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 138.95875552594427,
+            "y": 340.5625687047656,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0009",
+          "image": "frames/bite/0009.png",
+          "sourceFrame": 9,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.952,
+              "y": 361.072,
+              "normalized": [
+                0.300688,
+                0.705219
+              ]
+            },
+            "head": {
+              "x": 266.0,
+              "y": 194.948,
+              "normalized": [
+                0.519531,
+                0.380758
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 55,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 138.95243314680772,
+            "y": 341.0722862685564,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0010",
+          "image": "frames/bite/0010.png",
+          "sourceFrame": 10,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 153.959,
+              "y": 361.563,
+              "normalized": [
+                0.300701,
+                0.706177
+              ]
+            },
+            "head": {
+              "x": 266.268,
+              "y": 194.474,
+              "normalized": [
+                0.520055,
+                0.379832
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 54,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 138.95875552594427,
+            "y": 341.5625687047656,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "bite/0011",
+          "image": "frames/bite/0011.png",
+          "sourceFrame": 11,
+          "durationMs": 55.55555555555556,
+          "expression": "alert",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 153.976,
+              "y": 361.902,
+              "normalized": [
+                0.300735,
+                0.70684
+              ]
+            },
+            "head": {
+              "x": 267.0,
+              "y": 194.127,
+              "normalized": [
+                0.521484,
+                0.379154
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 53,
+            "w": 343,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 138.97610814367573,
+            "y": 341.9020971875688,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        }
+      ]
+    },
+    "celebrate": {
+      "sourceAction": "Recomposed celebrate",
+      "sourceRange": [
+        0,
+        23
+      ],
+      "loop": false,
+      "fps": 18,
+      "frames": [
+        {
+          "key": "celebrate/0000",
+          "image": "frames/celebrate/0000.png",
+          "sourceFrame": 0,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 173.439,
+              "y": 341.007,
+              "normalized": [
+                0.338749,
+                0.666029
+              ]
+            },
+            "head": {
+              "x": 276.0,
+              "y": 190.0,
+              "normalized": [
+                0.539062,
+                0.371094
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 51,
+            "w": 353,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 158.43936347328926,
+            "y": 321.00700010618294,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0001",
+          "image": "frames/celebrate/0001.png",
+          "sourceFrame": 1,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 173.641,
+              "y": 340.948,
+              "normalized": [
+                0.339142,
+                0.665915
+              ]
+            },
+            "head": {
+              "x": 276.155,
+              "y": 190.135,
+              "normalized": [
+                0.539365,
+                0.371358
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 51,
+            "w": 353,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 158.6409001827902,
+            "y": 320.94825483902093,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0002",
+          "image": "frames/celebrate/0002.png",
+          "sourceFrame": 2,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 173.858,
+              "y": 340.384,
+              "normalized": [
+                0.339567,
+                0.664813
+              ]
+            },
+            "head": {
+              "x": 276.367,
+              "y": 190.841,
+              "normalized": [
+                0.53978,
+                0.372736
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 52,
+            "w": 352,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 158.8584510972355,
+            "y": 320.38440570809774,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0003",
+          "image": "frames/celebrate/0003.png",
+          "sourceFrame": 3,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 173.311,
+              "y": 339.45,
+              "normalized": [
+                0.338498,
+                0.662988
+              ]
+            },
+            "head": {
+              "x": 276.13,
+              "y": 192.04,
+              "normalized": [
+                0.539316,
+                0.375078
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 53,
+            "w": 353,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 158.31113194146837,
+            "y": 319.4499231703291,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0004",
+          "image": "frames/celebrate/0004.png",
+          "sourceFrame": 4,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 171.654,
+              "y": 339.084,
+              "normalized": [
+                0.335262,
+                0.662273
+              ]
+            },
+            "head": {
+              "x": 275.217,
+              "y": 193.031,
+              "normalized": [
+                0.537533,
+                0.377013
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 54,
+            "w": 351,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 156.65412815306027,
+            "y": 319.0838276893723,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0005",
+          "image": "frames/celebrate/0005.png",
+          "sourceFrame": 5,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 169.472,
+              "y": 340.183,
+              "normalized": [
+                0.331,
+                0.664419
+              ]
+            },
+            "head": {
+              "x": 273.999,
+              "y": 193.092,
+              "normalized": [
+                0.535154,
+                0.377133
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 350,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 154.47208364708445,
+            "y": 320.1826029902702,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0006",
+          "image": "frames/celebrate/0006.png",
+          "sourceFrame": 6,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 167.925,
+              "y": 342.667,
+              "normalized": [
+                0.327979,
+                0.669272
+              ]
+            },
+            "head": {
+              "x": 273.22,
+              "y": 192.2,
+              "normalized": [
+                0.533632,
+                0.37539
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 51,
+            "w": 351,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 152.9254750370267,
+            "y": 322.6671402880083,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0007",
+          "image": "frames/celebrate/0007.png",
+          "sourceFrame": 7,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 167.799,
+              "y": 345.329,
+              "normalized": [
+                0.327732,
+                0.674471
+              ]
+            },
+            "head": {
+              "x": 273.379,
+              "y": 191.198,
+              "normalized": [
+                0.533943,
+                0.373433
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 51,
+            "w": 350,
+            "h": 404
+          },
+          "palmCrop": {
+            "x": 152.79888531199506,
+            "y": 325.3293497487526,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0008",
+          "image": "frames/celebrate/0008.png",
+          "sourceFrame": 8,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 168.75,
+              "y": 346.682,
+              "normalized": [
+                0.32959,
+                0.677113
+              ]
+            },
+            "head": {
+              "x": 274.249,
+              "y": 191.201,
+              "normalized": [
+                0.535642,
+                0.37344
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 52,
+            "w": 349,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 153.75000548852873,
+            "y": 326.6817883457362,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0009",
+          "image": "frames/celebrate/0009.png",
+          "sourceFrame": 9,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 169.432,
+              "y": 346.158,
+              "normalized": [
+                0.330921,
+                0.676091
+              ]
+            },
+            "head": {
+              "x": 274.957,
+              "y": 192.691,
+              "normalized": [
+                0.537025,
+                0.37635
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 51,
+            "w": 349,
+            "h": 402
+          },
+          "palmCrop": {
+            "x": 154.4315793522977,
+            "y": 326.1584768702379,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0010",
+          "image": "frames/celebrate/0010.png",
+          "sourceFrame": 10,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 168.472,
+              "y": 344.673,
+              "normalized": [
+                0.329047,
+                0.67319
+              ]
+            },
+            "head": {
+              "x": 274.623,
+              "y": 195.035,
+              "normalized": [
+                0.536374,
+                0.380928
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 52,
+            "w": 349,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 153.47216358088738,
+            "y": 324.6730690399908,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0011",
+          "image": "frames/celebrate/0011.png",
+          "sourceFrame": 11,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 165.574,
+              "y": 344.026,
+              "normalized": [
+                0.323388,
+                0.671926
+              ]
+            },
+            "head": {
+              "x": 273.056,
+              "y": 196.881,
+              "normalized": [
+                0.533312,
+                0.384533
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 56,
+            "w": 349,
+            "h": 398
+          },
+          "palmCrop": {
+            "x": 150.57445696996984,
+            "y": 324.0260811263303,
+            "w": 30,
+            "h": 40
+          },
+          "page": 2,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0012",
+          "image": "frames/celebrate/0012.png",
+          "sourceFrame": 12,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 161.825,
+              "y": 345.57,
+              "normalized": [
+                0.316065,
+                0.674941
+              ]
+            },
+            "head": {
+              "x": 270.944,
+              "y": 197.142,
+              "normalized": [
+                0.529188,
+                0.385042
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 59,
+            "w": 347,
+            "h": 395
+          },
+          "palmCrop": {
+            "x": 146.8250816001803,
+            "y": 325.5695540152953,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0013",
+          "image": "frames/celebrate/0013.png",
+          "sourceFrame": 13,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 158.929,
+              "y": 349.164,
+              "normalized": [
+                0.310408,
+                0.68196
+              ]
+            },
+            "head": {
+              "x": 269.377,
+              "y": 195.813,
+              "normalized": [
+                0.526126,
+                0.382448
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 56,
+            "w": 346,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 143.92866095020304,
+            "y": 329.16375921203974,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0014",
+          "image": "frames/celebrate/0014.png",
+          "sourceFrame": 14,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 157.968,
+              "y": 353.265,
+              "normalized": [
+                0.30853,
+                0.68997
+              ]
+            },
+            "head": {
+              "x": 269.043,
+              "y": 193.975,
+              "normalized": [
+                0.525475,
+                0.378857
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 54,
+            "w": 346,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 142.96756453195567,
+            "y": 333.2648141023773,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0015",
+          "image": "frames/celebrate/0015.png",
+          "sourceFrame": 15,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 158.654,
+              "y": 356.075,
+              "normalized": [
+                0.30987,
+                0.695459
+              ]
+            },
+            "head": {
+              "x": 269.751,
+              "y": 192.971,
+              "normalized": [
+                0.526858,
+                0.376897
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 54,
+            "w": 346,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 143.65365261508012,
+            "y": 336.0748568312358,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0016",
+          "image": "frames/celebrate/0016.png",
+          "sourceFrame": 16,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 159.622,
+              "y": 356.835,
+              "normalized": [
+                0.311763,
+                0.696943
+              ]
+            },
+            "head": {
+              "x": 270.621,
+              "y": 193.426,
+              "normalized": [
+                0.528557,
+                0.377784
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 51,
+            "w": 346,
+            "h": 404
+          },
+          "palmCrop": {
+            "x": 144.62241303987366,
+            "y": 336.83504805006663,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0017",
+          "image": "frames/celebrate/0017.png",
+          "sourceFrame": 17,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 159.512,
+              "y": 356.264,
+              "normalized": [
+                0.311547,
+                0.695828
+              ]
+            },
+            "head": {
+              "x": 270.78,
+              "y": 194.851,
+              "normalized": [
+                0.528868,
+                0.380568
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 51,
+            "w": 344,
+            "h": 403
+          },
+          "palmCrop": {
+            "x": 144.51195827675625,
+            "y": 336.2637842730023,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0018",
+          "image": "frames/celebrate/0018.png",
+          "sourceFrame": 18,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 157.966,
+              "y": 355.858,
+              "normalized": [
+                0.308527,
+                0.695036
+              ]
+            },
+            "head": {
+              "x": 270.001,
+              "y": 196.122,
+              "normalized": [
+                0.527346,
+                0.383051
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 53,
+            "w": 345,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 142.96593040255155,
+            "y": 335.85847823534306,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0019",
+          "image": "frames/celebrate/0019.png",
+          "sourceFrame": 19,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 155.775,
+              "y": 356.677,
+              "normalized": [
+                0.304249,
+                0.696636
+              ]
+            },
+            "head": {
+              "x": 268.783,
+              "y": 196.389,
+              "normalized": [
+                0.524967,
+                0.383572
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 55,
+            "w": 344,
+            "h": 399
+          },
+          "palmCrop": {
+            "x": 140.77547838823702,
+            "y": 336.6774410795449,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0020",
+          "image": "frames/celebrate/0020.png",
+          "sourceFrame": 20,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 154.114,
+              "y": 358.597,
+              "normalized": [
+                0.301003,
+                0.700384
+              ]
+            },
+            "head": {
+              "x": 267.87,
+              "y": 195.667,
+              "normalized": [
+                0.523184,
+                0.382162
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 55,
+            "w": 343,
+            "h": 398
+          },
+          "palmCrop": {
+            "x": 139.11352192478694,
+            "y": 338.59677032535774,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0021",
+          "image": "frames/celebrate/0021.png",
+          "sourceFrame": 21,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 153.569,
+              "y": 360.599,
+              "normalized": [
+                0.299939,
+                0.704294
+              ]
+            },
+            "head": {
+              "x": 267.633,
+              "y": 194.67,
+              "normalized": [
+                0.52272,
+                0.380214
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 54,
+            "w": 343,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 138.56901827982685,
+            "y": 340.59851400979494,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0022",
+          "image": "frames/celebrate/0022.png",
+          "sourceFrame": 22,
+          "durationMs": 55.55555555555556,
+          "expression": "happy",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 153.794,
+              "y": 361.754,
+              "normalized": [
+                0.300379,
+                0.70655
+              ]
+            },
+            "head": {
+              "x": 267.845,
+              "y": 194.091,
+              "normalized": [
+                0.523135,
+                0.379084
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 401
+          },
+          "palmCrop": {
+            "x": 138.79418825302653,
+            "y": 341.75378546254564,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "celebrate/0023",
+          "image": "frames/celebrate/0023.png",
+          "sourceFrame": 23,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268.0,
+              "y": 194.0,
+              "normalized": [
+                0.523438,
+                0.378906
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        }
+      ]
+    },
+    "miss": {
+      "sourceAction": "Recomposed miss",
+      "sourceRange": [
+        0,
+        23
+      ],
+      "loop": false,
+      "fps": 18,
+      "frames": [
+        {
+          "key": "miss/0000",
+          "image": "frames/miss/0000.png",
+          "sourceFrame": 0,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268.0,
+              "y": 194.0,
+              "normalized": [
+                0.523438,
+                0.378906
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 139.0,
+            "y": 342.0,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0001",
+          "image": "frames/miss/0001.png",
+          "sourceFrame": 1,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.732,
+              "y": 363.366,
+              "normalized": [
+                0.300259,
+                0.709698
+              ]
+            },
+            "head": {
+              "x": 267.188,
+              "y": 198.512,
+              "normalized": [
+                0.521852,
+                0.387719
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 58,
+            "w": 343,
+            "h": 397
+          },
+          "palmCrop": {
+            "x": 138.73243725227877,
+            "y": 343.36560446397164,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0002",
+          "image": "frames/miss/0002.png",
+          "sourceFrame": 2,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.538,
+              "y": 364.36,
+              "normalized": [
+                0.299879,
+                0.711641
+              ]
+            },
+            "head": {
+              "x": 266.598,
+              "y": 201.798,
+              "normalized": [
+                0.520698,
+                0.394136
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 61,
+            "w": 342,
+            "h": 394
+          },
+          "palmCrop": {
+            "x": 138.53793353313134,
+            "y": 344.3601347916681,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0003",
+          "image": "frames/miss/0003.png",
+          "sourceFrame": 3,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.369,
+              "y": 365.224,
+              "normalized": [
+                0.299549,
+                0.713328
+              ]
+            },
+            "head": {
+              "x": 266.084,
+              "y": 204.651,
+              "normalized": [
+                0.519696,
+                0.399709
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 65,
+            "w": 342,
+            "h": 391
+          },
+          "palmCrop": {
+            "x": 138.36922176806425,
+            "y": 345.22402178886733,
+            "w": 30,
+            "h": 40
+          },
+          "page": 3,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0004",
+          "image": "frames/miss/0004.png",
+          "sourceFrame": 4,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.22,
+              "y": 365.987,
+              "normalized": [
+                0.299258,
+                0.714819
+              ]
+            },
+            "head": {
+              "x": 265.631,
+              "y": 207.172,
+              "normalized": [
+                0.51881,
+                0.404633
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 68,
+            "w": 342,
+            "h": 389
+          },
+          "palmCrop": {
+            "x": 138.2203131865061,
+            "y": 345.9874611375293,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0005",
+          "image": "frames/miss/0005.png",
+          "sourceFrame": 5,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.09,
+              "y": 366.659,
+              "normalized": [
+                0.299003,
+                0.71613
+              ]
+            },
+            "head": {
+              "x": 265.232,
+              "y": 209.389,
+              "normalized": [
+                0.518032,
+                0.408963
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 70,
+            "w": 341,
+            "h": 388
+          },
+          "palmCrop": {
+            "x": 138.0895201830398,
+            "y": 346.6587625315744,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0006",
+          "image": "frames/miss/0006.png",
+          "sourceFrame": 6,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.977,
+              "y": 367.239,
+              "normalized": [
+                0.298782,
+                0.717264
+              ]
+            },
+            "head": {
+              "x": 264.887,
+              "y": 211.306,
+              "normalized": [
+                0.517358,
+                0.412707
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 72,
+            "w": 341,
+            "h": 386
+          },
+          "palmCrop": {
+            "x": 137.97650888172558,
+            "y": 347.23935529304356,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0007",
+          "image": "frames/miss/0007.png",
+          "sourceFrame": 7,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.881,
+              "y": 367.728,
+              "normalized": [
+                0.298597,
+                0.718219
+              ]
+            },
+            "head": {
+              "x": 264.597,
+              "y": 212.919,
+              "normalized": [
+                0.516792,
+                0.415858
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 74,
+            "w": 341,
+            "h": 385
+          },
+          "palmCrop": {
+            "x": 137.88146422336308,
+            "y": 347.72804472384155,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0008",
+          "image": "frames/miss/0008.png",
+          "sourceFrame": 8,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.805,
+              "y": 368.123,
+              "normalized": [
+                0.298447,
+                0.71899
+              ]
+            },
+            "head": {
+              "x": 264.363,
+              "y": 214.222,
+              "normalized": [
+                0.516334,
+                0.418402
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 76,
+            "w": 341,
+            "h": 383
+          },
+          "palmCrop": {
+            "x": 137.80476016002686,
+            "y": 348.122699147359,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0009",
+          "image": "frames/miss/0009.png",
+          "sourceFrame": 9,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.747,
+              "y": 368.421,
+              "normalized": [
+                0.298334,
+                0.719572
+              ]
+            },
+            "head": {
+              "x": 264.186,
+              "y": 215.207,
+              "normalized": [
+                0.515988,
+                0.420325
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 77,
+            "w": 341,
+            "h": 382
+          },
+          "palmCrop": {
+            "x": 137.74680297667314,
+            "y": 348.42105587848295,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 512,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0010",
+          "image": "frames/miss/0010.png",
+          "sourceFrame": 10,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.708,
+              "y": 368.621,
+              "normalized": [
+                0.298258,
+                0.719963
+              ]
+            },
+            "head": {
+              "x": 264.067,
+              "y": 215.867,
+              "normalized": [
+                0.515756,
+                0.421615
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 77,
+            "w": 341,
+            "h": 383
+          },
+          "palmCrop": {
+            "x": 137.70794807103746,
+            "y": 348.62115248580017,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0011",
+          "image": "frames/miss/0011.png",
+          "sourceFrame": 11,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.688,
+              "y": 368.722,
+              "normalized": [
+                0.29822,
+                0.720159
+              ]
+            },
+            "head": {
+              "x": 264.007,
+              "y": 216.199,
+              "normalized": [
+                0.51564,
+                0.422263
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 78,
+            "w": 341,
+            "h": 382
+          },
+          "palmCrop": {
+            "x": 137.6884532884298,
+            "y": 348.7215705573186,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1536,
+            "y": 512,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0012",
+          "image": "frames/miss/0012.png",
+          "sourceFrame": 12,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.688,
+              "y": 368.722,
+              "normalized": [
+                0.29822,
+                0.720159
+              ]
+            },
+            "head": {
+              "x": 264.007,
+              "y": 216.199,
+              "normalized": [
+                0.51564,
+                0.422263
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 78,
+            "w": 341,
+            "h": 382
+          },
+          "palmCrop": {
+            "x": 137.6884532884298,
+            "y": 348.7215705573186,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0013",
+          "image": "frames/miss/0013.png",
+          "sourceFrame": 13,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.708,
+              "y": 368.621,
+              "normalized": [
+                0.298258,
+                0.719963
+              ]
+            },
+            "head": {
+              "x": 264.067,
+              "y": 215.867,
+              "normalized": [
+                0.515756,
+                0.421615
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 77,
+            "w": 341,
+            "h": 383
+          },
+          "palmCrop": {
+            "x": 137.70794807103746,
+            "y": 348.62115248580017,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 512,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0014",
+          "image": "frames/miss/0014.png",
+          "sourceFrame": 14,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.747,
+              "y": 368.421,
+              "normalized": [
+                0.298334,
+                0.719572
+              ]
+            },
+            "head": {
+              "x": 264.186,
+              "y": 215.207,
+              "normalized": [
+                0.515988,
+                0.420325
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 77,
+            "w": 341,
+            "h": 382
+          },
+          "palmCrop": {
+            "x": 137.74680297667314,
+            "y": 348.42105587848295,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0015",
+          "image": "frames/miss/0015.png",
+          "sourceFrame": 15,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.805,
+              "y": 368.123,
+              "normalized": [
+                0.298447,
+                0.71899
+              ]
+            },
+            "head": {
+              "x": 264.363,
+              "y": 214.222,
+              "normalized": [
+                0.516334,
+                0.418402
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 76,
+            "w": 341,
+            "h": 383
+          },
+          "palmCrop": {
+            "x": 137.80476016002686,
+            "y": 348.122699147359,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1536,
+            "y": 1024,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0016",
+          "image": "frames/miss/0016.png",
+          "sourceFrame": 16,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.881,
+              "y": 367.728,
+              "normalized": [
+                0.298597,
+                0.718219
+              ]
+            },
+            "head": {
+              "x": 264.597,
+              "y": 212.919,
+              "normalized": [
+                0.516792,
+                0.415858
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 74,
+            "w": 341,
+            "h": 385
+          },
+          "palmCrop": {
+            "x": 137.88146422336308,
+            "y": 347.72804472384155,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 0,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0017",
+          "image": "frames/miss/0017.png",
+          "sourceFrame": 17,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 152.977,
+              "y": 367.239,
+              "normalized": [
+                0.298782,
+                0.717264
+              ]
+            },
+            "head": {
+              "x": 264.887,
+              "y": 211.306,
+              "normalized": [
+                0.517358,
+                0.412707
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 72,
+            "w": 341,
+            "h": 386
+          },
+          "palmCrop": {
+            "x": 137.97650888172558,
+            "y": 347.23935529304356,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 512,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0018",
+          "image": "frames/miss/0018.png",
+          "sourceFrame": 18,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.09,
+              "y": 366.659,
+              "normalized": [
+                0.299003,
+                0.71613
+              ]
+            },
+            "head": {
+              "x": 265.232,
+              "y": 209.389,
+              "normalized": [
+                0.518032,
+                0.408963
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 70,
+            "w": 341,
+            "h": 388
+          },
+          "palmCrop": {
+            "x": 138.0895201830398,
+            "y": 346.6587625315744,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1024,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0019",
+          "image": "frames/miss/0019.png",
+          "sourceFrame": 19,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.22,
+              "y": 365.987,
+              "normalized": [
+                0.299258,
+                0.714819
+              ]
+            },
+            "head": {
+              "x": 265.631,
+              "y": 207.172,
+              "normalized": [
+                0.51881,
+                0.404633
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 68,
+            "w": 342,
+            "h": 389
+          },
+          "palmCrop": {
+            "x": 138.2203131865061,
+            "y": 345.9874611375293,
+            "w": 30,
+            "h": 40
+          },
+          "page": 4,
+          "frame": {
+            "x": 1536,
+            "y": 1536,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0020",
+          "image": "frames/miss/0020.png",
+          "sourceFrame": 20,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.369,
+              "y": 365.224,
+              "normalized": [
+                0.299549,
+                0.713328
+              ]
+            },
+            "head": {
+              "x": 266.084,
+              "y": 204.651,
+              "normalized": [
+                0.519696,
+                0.399709
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 65,
+            "w": 342,
+            "h": 391
+          },
+          "palmCrop": {
+            "x": 138.36922176806428,
+            "y": 345.22402178886733,
+            "w": 30,
+            "h": 40
+          },
+          "page": 5,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0021",
+          "image": "frames/miss/0021.png",
+          "sourceFrame": 21,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 211.5,
+              "y": 451.0,
+              "normalized": [
+                0.413086,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.538,
+              "y": 364.36,
+              "normalized": [
+                0.299879,
+                0.711641
+              ]
+            },
+            "head": {
+              "x": 266.598,
+              "y": 201.798,
+              "normalized": [
+                0.520698,
+                0.394136
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 61,
+            "w": 342,
+            "h": 394
+          },
+          "palmCrop": {
+            "x": 138.53793353313134,
+            "y": 344.3601347916681,
+            "w": 30,
+            "h": 40
+          },
+          "page": 5,
+          "frame": {
+            "x": 512,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0022",
+          "image": "frames/miss/0022.png",
+          "sourceFrame": 22,
+          "durationMs": 55.55555555555556,
+          "expression": "disappointed",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 451.0,
+              "normalized": [
+                0.414062,
+                0.880859
+              ]
+            },
+            "grip": {
+              "x": 153.732,
+              "y": 363.366,
+              "normalized": [
+                0.300259,
+                0.709698
+              ]
+            },
+            "head": {
+              "x": 267.188,
+              "y": 198.512,
+              "normalized": [
+                0.521852,
+                0.387719
+              ]
+            }
+          },
+          "bounds": {
+            "x": 80,
+            "y": 58,
+            "w": 343,
+            "h": 397
+          },
+          "palmCrop": {
+            "x": 138.73243725227877,
+            "y": 343.36560446397164,
+            "w": 30,
+            "h": 40
+          },
+          "page": 5,
+          "frame": {
+            "x": 1024,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        },
+        {
+          "key": "miss/0023",
+          "image": "frames/miss/0023.png",
+          "sourceFrame": 23,
+          "durationMs": 55.55555555555556,
+          "expression": "calm",
+          "anchors": {
+            "feet": {
+              "x": 212.0,
+              "y": 450.0,
+              "normalized": [
+                0.414062,
+                0.878906
+              ]
+            },
+            "grip": {
+              "x": 154.0,
+              "y": 362.0,
+              "normalized": [
+                0.300781,
+                0.707031
+              ]
+            },
+            "head": {
+              "x": 268.0,
+              "y": 194.0,
+              "normalized": [
+                0.523437,
+                0.378906
+              ]
+            }
+          },
+          "bounds": {
+            "x": 81,
+            "y": 53,
+            "w": 342,
+            "h": 400
+          },
+          "palmCrop": {
+            "x": 138.99999999999974,
+            "y": 342.00000000000125,
+            "w": 30,
+            "h": 40
+          },
+          "page": 5,
+          "frame": {
+            "x": 1536,
+            "y": 0,
+            "w": 512,
+            "h": 512
+          }
+        }
+      ]
+    }
+  },
+  "source": {
+    "type": "provided-vector-parts",
+    "folder": "raw/craftpix-net-397030-free-cartoon-cat-defense-game-asset-kit",
+    "file": "Ai/Cat Characters/Char1 Parts.ai",
+    "parts": [
+      "Head",
+      "Body",
+      "Tails",
+      "cream forearm crop from Gun; weapon omitted"
+    ],
+    "modification": "Weapon-free composition; breathing/tail idle, pulling, alert, celebration and disappointment poses; antialiased code-native facial expressions; source files unchanged",
+    "licenseFile": "../licenses/craftpix-cat-defense.txt",
+    "author": "Craftpix"
+  }
+}

@@ -17,9 +17,359 @@
       "thumbnail": "apatosaurus/thumbnail.png"
     },
     {
+      "id": "cute-anglerfish",
+      "name": "Anglerfish",
+      "version": "b30327d4b8b0af77",
+      "manifest": "cute-anglerfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-anglerfish/thumbnail.png"
+    },
+    {
+      "id": "cute-armoredcatfish",
+      "name": "Armored Catfish",
+      "version": "07e58c41e7a22627",
+      "manifest": "cute-armoredcatfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-armoredcatfish/thumbnail.png"
+    },
+    {
+      "id": "cute-betta",
+      "name": "Betta",
+      "version": "05c28937512d1abc",
+      "manifest": "cute-betta/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-betta/thumbnail.png"
+    },
+    {
+      "id": "cute-blacklionfish",
+      "name": "Black Lion Fish",
+      "version": "a76a3ce0b3780449",
+      "manifest": "cute-blacklionfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-blacklionfish/thumbnail.png"
+    },
+    {
+      "id": "cute-blobfish",
+      "name": "Blobfish",
+      "version": "708637d49b158436",
+      "manifest": "cute-blobfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-blobfish/thumbnail.png"
+    },
+    {
+      "id": "cute-bluegoldfish",
+      "name": "Blue Goldfish",
+      "version": "1c15d1456a5bfc15",
+      "manifest": "cute-bluegoldfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-bluegoldfish/thumbnail.png"
+    },
+    {
+      "id": "cute-bluetang",
+      "name": "Blue Tang",
+      "version": "15b4e79ed4ed111e",
+      "manifest": "cute-bluetang/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-bluetang/thumbnail.png"
+    },
+    {
+      "id": "cute-butterflyfish",
+      "name": "Butterfly Fish",
+      "version": "f7fa971058800f0e",
+      "manifest": "cute-butterflyfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-butterflyfish/thumbnail.png"
+    },
+    {
+      "id": "cute-cardinalfish",
+      "name": "Cardinal Fish",
+      "version": "a5ef619a4ccc4801",
+      "manifest": "cute-cardinalfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-cardinalfish/thumbnail.png"
+    },
+    {
+      "id": "cute-clownfish",
+      "name": "Clownfish",
+      "version": "f508a2c97789a282",
+      "manifest": "cute-clownfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-clownfish/thumbnail.png"
+    },
+    {
+      "id": "cute-coralgrouper",
+      "name": "Coral Grouper",
+      "version": "f4c9e1fd29b63f21",
+      "manifest": "cute-coralgrouper/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-coralgrouper/thumbnail.png"
+    },
+    {
+      "id": "cute-cowfish",
+      "name": "Cowfish",
+      "version": "17f5a345b6cbcf3b",
+      "manifest": "cute-cowfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-cowfish/thumbnail.png"
+    },
+    {
+      "id": "cute-flatfish",
+      "name": "Flatfish",
+      "version": "b1bea87182ef0277",
+      "manifest": "cute-flatfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-flatfish/thumbnail.png"
+    },
+    {
+      "id": "cute-flowerhorn",
+      "name": "Flower Horn",
+      "version": "18d2393dd597061e",
+      "manifest": "cute-flowerhorn/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-flowerhorn/thumbnail.png"
+    },
+    {
+      "id": "cute-goblinshark",
+      "name": "Goblin Shark",
+      "version": "ef7b4af1dfe343c4",
+      "manifest": "cute-goblinshark/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-goblinshark/thumbnail.png"
+    },
+    {
+      "id": "cute-goldfish",
+      "name": "Goldfish",
+      "version": "5fbd9c2e39e39757",
+      "manifest": "cute-goldfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-goldfish/thumbnail.png"
+    },
+    {
+      "id": "cute-humphead",
+      "name": "Humphead",
+      "version": "da575d2b8c418cd6",
+      "manifest": "cute-humphead/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-humphead/thumbnail.png"
+    },
+    {
+      "id": "cute-koi",
+      "name": "Koi",
+      "version": "e1abb5a51351f160",
+      "manifest": "cute-koi/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-koi/thumbnail.png"
+    },
+    {
+      "id": "cute-lionfish",
+      "name": "Lionfish",
+      "version": "d281f8e0a2811fc8",
+      "manifest": "cute-lionfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-lionfish/thumbnail.png"
+    },
+    {
+      "id": "cute-mandarinfish",
+      "name": "Mandarin Fish",
+      "version": "dcbe034d505e0094",
+      "manifest": "cute-mandarinfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-mandarinfish/thumbnail.png"
+    },
+    {
+      "id": "cute-moorishidol",
+      "name": "Moorish Idol",
+      "version": "bd585abdf9ca2ad6",
+      "manifest": "cute-moorishidol/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-moorishidol/thumbnail.png"
+    },
+    {
+      "id": "cute-parrotfish",
+      "name": "Parrot Fish",
+      "version": "5b20daff73693f8b",
+      "manifest": "cute-parrotfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-parrotfish/thumbnail.png"
+    },
+    {
+      "id": "cute-piranha",
+      "name": "Piranha",
+      "version": "91c1fb5e759ebeb6",
+      "manifest": "cute-piranha/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-piranha/thumbnail.png"
+    },
+    {
+      "id": "cute-puffer",
+      "name": "Puffer",
+      "version": "d3107b8e444eb41c",
+      "manifest": "cute-puffer/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-puffer/thumbnail.png"
+    },
+    {
+      "id": "cute-redsnapper",
+      "name": "Red Snapper",
+      "version": "eb49ccd958c4485f",
+      "manifest": "cute-redsnapper/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-redsnapper/thumbnail.png"
+    },
+    {
+      "id": "cute-royalgramma",
+      "name": "Royal Gramma",
+      "version": "d0c691560dc2dcb9",
+      "manifest": "cute-royalgramma/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-royalgramma/thumbnail.png"
+    },
+    {
+      "id": "cute-shark",
+      "name": "Shark",
+      "version": "780f1de713e49d8a",
+      "manifest": "cute-shark/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-shark/thumbnail.png"
+    },
+    {
+      "id": "cute-sunfish",
+      "name": "Sunfish",
+      "version": "95c4d196553b11e9",
+      "manifest": "cute-sunfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-sunfish/thumbnail.png"
+    },
+    {
+      "id": "cute-swordfish",
+      "name": "Swordfish",
+      "version": "e40eb72c1871396b",
+      "manifest": "cute-swordfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-swordfish/thumbnail.png"
+    },
+    {
+      "id": "cute-tang",
+      "name": "Tang",
+      "version": "c1b4b41f151ce0d8",
+      "manifest": "cute-tang/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-tang/thumbnail.png"
+    },
+    {
+      "id": "cute-tetra",
+      "name": "Tetra",
+      "version": "854488916738442b",
+      "manifest": "cute-tetra/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-tetra/thumbnail.png"
+    },
+    {
+      "id": "cute-tuna",
+      "name": "Tuna",
+      "version": "7f5284e21705fc12",
+      "manifest": "cute-tuna/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-tuna/thumbnail.png"
+    },
+    {
+      "id": "cute-turbot",
+      "name": "Turbot",
+      "version": "cb66bc290dde4016",
+      "manifest": "cute-turbot/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-turbot/thumbnail.png"
+    },
+    {
+      "id": "cute-yellowtang",
+      "name": "Yellow Tang",
+      "version": "b50eec79c040beaa",
+      "manifest": "cute-yellowtang/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-yellowtang/thumbnail.png"
+    },
+    {
+      "id": "cute-zebraclownfish",
+      "name": "Zebra Clown Fish",
+      "version": "ebdfacadc9643616",
+      "manifest": "cute-zebraclownfish/manifest.json",
+      "animations": [
+        "swim"
+      ],
+      "thumbnail": "cute-zebraclownfish/thumbnail.png"
+    },
+    {
       "id": "dolphin",
       "name": "Dolphin",
-      "version": "3ed9bf0a1abac9be",
+      "version": "0b9c154532ea1c52",
       "manifest": "dolphin/manifest.json",
       "animations": [
         "swim"
@@ -29,7 +379,7 @@
     {
       "id": "fish1",
       "name": "Fish1",
-      "version": "da82d18df7f1a19c",
+      "version": "333d338c0f1b8230",
       "manifest": "fish1/manifest.json",
       "animations": [
         "swim"
@@ -39,7 +389,7 @@
     {
       "id": "fish2",
       "name": "Fish2",
-      "version": "b69405926899d97e",
+      "version": "ec934503754daffe",
       "manifest": "fish2/manifest.json",
       "animations": [
         "swim"
@@ -49,12 +399,26 @@
     {
       "id": "fish3",
       "name": "Fish3",
-      "version": "b21db8891eb045f9",
+      "version": "5daf5e6b337fc5af",
       "manifest": "fish3/manifest.json",
       "animations": [
         "swim"
       ],
       "thumbnail": "fish3/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat",
+      "name": "M\u00e8o c\u00e2u c\u00e1",
+      "version": "0f6cd0232488346b",
+      "manifest": "fishing-cat/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "thumbnail": "fishing-cat/thumbnail.png"
     },
     {
       "id": "fishingrod-lvl1",
@@ -107,9 +471,69 @@
       "thumbnail": "fishingrod-lvl5/thumbnail.png"
     },
     {
+      "id": "lure-1",
+      "name": "Fishing lure \u00b7 1",
+      "version": "5c6205aff75bc69e",
+      "manifest": "lure-1/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "lure-1/thumbnail.png"
+    },
+    {
+      "id": "lure-2",
+      "name": "Fishing lure \u00b7 2",
+      "version": "67de37f75231db01",
+      "manifest": "lure-2/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "lure-2/thumbnail.png"
+    },
+    {
+      "id": "lure-3",
+      "name": "Fishing lure \u00b7 3",
+      "version": "d28fd723e1f21617",
+      "manifest": "lure-3/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "lure-3/thumbnail.png"
+    },
+    {
+      "id": "lure-4",
+      "name": "Fishing lure \u00b7 4",
+      "version": "0e084d5409531666",
+      "manifest": "lure-4/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "lure-4/thumbnail.png"
+    },
+    {
+      "id": "lure-5",
+      "name": "Fishing lure \u00b7 5",
+      "version": "9db449d69abfafbb",
+      "manifest": "lure-5/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "lure-5/thumbnail.png"
+    },
+    {
+      "id": "lure-6",
+      "name": "Fishing lure \u00b7 6",
+      "version": "63b8fd3c6c490bba",
+      "manifest": "lure-6/manifest.json",
+      "animations": [
+        "still"
+      ],
+      "thumbnail": "lure-6/thumbnail.png"
+    },
+    {
       "id": "manta-ray",
       "name": "Manta ray",
-      "version": "90617b7e487a9170",
+      "version": "85f609225fb8e837",
       "manifest": "manta-ray/manifest.json",
       "animations": [
         "swim"
@@ -144,7 +568,7 @@
     {
       "id": "shark",
       "name": "Shark",
-      "version": "6f88825aa89a52cc",
+      "version": "02da960764a73a45",
       "manifest": "shark/manifest.json",
       "animations": [
         "swim"
@@ -214,7 +638,7 @@
     {
       "id": "whale",
       "name": "Whale",
-      "version": "844ff7ad858c61d0",
+      "version": "4a63a922f7d72ab0",
       "manifest": "whale/manifest.json",
       "animations": [
         "swim"

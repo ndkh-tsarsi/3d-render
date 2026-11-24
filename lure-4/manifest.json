@@ -1,0 +1,89 @@
+{
+  "format": "html5-sprite-asset-v1",
+  "id": "lure-4",
+  "name": "Fishing lure \u00b7 4",
+  "style": "cartoon",
+  "generatedFace": false,
+  "face": null,
+  "frameSize": {
+    "w": 1024,
+    "h": 1024
+  },
+  "maxAtlasSize": 2048,
+  "view": {
+    "type": "profile",
+    "cameraAxis": "+X"
+  },
+  "pivot": {
+    "x": 512,
+    "y": 658,
+    "normalized": [
+      0.5,
+      0.642453
+    ]
+  },
+  "thumbnail": "thumbnail.png",
+  "atlases": [
+    {
+      "page": 0,
+      "image": "atlas-0.png",
+      "data": "atlas-0.json",
+      "size": {
+        "w": 1024,
+        "h": 1024
+      }
+    }
+  ],
+  "animations": {
+    "still": {
+      "sourceAction": null,
+      "sourceRange": [
+        0.0,
+        0.0
+      ],
+      "loop": false,
+      "fps": 12.0,
+      "frames": [
+        {
+          "key": "still/0000",
+          "image": "frames/still/0000.png",
+          "page": 0,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1024,
+            "h": 1024
+          },
+          "sourceFrame": 0.0,
+          "durationMs": 83.3333
+        }
+      ]
+    }
+  },
+  "source": {
+    "file": "Lure_4.blend",
+    "author": "Quaternius",
+    "license": "CC0-1.0",
+    "licenseFile": "License.txt"
+  },
+  "prop": {
+    "kind": "fishing-lure",
+    "number": 4,
+    "lineAnchor": {
+      "x": 0.067871,
+      "y": 0.444065
+    },
+    "biteAnchor": {
+      "x": 0.932129,
+      "y": 0.499135
+    },
+    "bounds": {
+      "x": 0.067383,
+      "y": 0.356445,
+      "w": 0.865234,
+      "h": 0.287109
+    },
+    "hasHook": true,
+    "sourceView": "+Z"
+  }
+}

@@ -1,16 +1,45 @@
+import { sceneSizing } from "./scene-sizing.js?v=scene-ratio-1";
+
 const SPECIES = [
-  { id: "dolphin", width: 200, speed: 36 },
-  { id: "fish1", width: 155, speed: 28 },
-  { id: "fish2", width: 150, speed: 34 },
-  { id: "fish3", width: 160, speed: 25 },
-  { id: "manta-ray", width: 200, speed: 22 },
-  { id: "shark", width: 235, speed: 43 },
-  { id: "whale", width: 240, speed: 20 },
+  { id: "dolphin", width: 205, speed: 36 },
+  { id: "fish1", width: 95, speed: 28, catchable: true },
+  { id: "fish2", width: 85, speed: 34, catchable: true },
+  { id: "fish3", width: 65, speed: 25, catchable: true },
+  { id: "manta-ray", width: 220, speed: 22 },
+  { id: "shark", width: 270, speed: 43 },
+  { id: "whale", width: 330, speed: 20 },
 ];
 
 const ATLAS_EDGE = 1024;
+const BITE_DURATION = 3;
+const REEL_DURATION = 2.2;
+const CAUGHT_DURATION = 1.6;
+const RELEASE_DURATION = 1.6;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const randomBetween = (min, max) => min + Math.random() * (max - min);
+
+function crowdScale(count, width) {
+  const density = clamp((count - SPECIES.length) / 35, 0, 1);
+  return 1 - density * (width < 560 ? 0.22 : 0.16);
+}
+
+function cuteDefaults(id) {
+  const species = id.slice(5).replaceAll("-", "").toLowerCase();
+  const widths = {
+    anglerfish: 115, armoredcatfish: 125, betta: 75, blacklionfish: 105,
+    blobfish: 100, bluegoldfish: 70, bluetang: 80, butterflyfish: 75,
+    cardinalfish: 65, clownfish: 60, coralgrouper: 140, cowfish: 90,
+    flatfish: 105, flowerhorn: 110, goblinshark: 245, goldfish: 70,
+    humphead: 150, koi: 125, lionfish: 105, mandarinfish: 65,
+    moorishidol: 85, parrotfish: 125, piranha: 90, puffer: 95,
+    redsnapper: 135, royalgramma: 65, shark: 250, sunfish: 215,
+    swordfish: 240, tang: 80, tetra: 55, tuna: 210, turbot: 110,
+    yellowtang: 80, zebraclownfish: 60,
+  };
+  const width = widths[species] ?? 85;
+  return { id, width, speed: width >= 200 ? 34 : 22 + width * 0.055,
+    catchable: width <= 150 && !["lionfish", "blacklionfish", "anglerfish"].includes(species) };
+}
 
 function versioned(path, version) {
   return version ? `${path}?v=${encodeURIComponent(version)}` : path;
@@ -31,8 +60,8 @@ function makeCanvas(width, height) {
   return canvas;
 }
 
-async function loadAtlas(path, page) {
-  const scale = Math.min(1, ATLAS_EDGE / Math.max(page.size.w, page.size.h));
+async function loadAtlas(path, page, edge = ATLAS_EDGE) {
+  const scale = Math.min(1, edge / Math.max(page.size.w, page.size.h));
   const width = Math.max(1, Math.round(page.size.w * scale));
   const height = Math.max(1, Math.round(page.size.h * scale));
   if (typeof createImageBitmap === "function") {
@@ -46,7 +75,7 @@ async function loadAtlas(path, page) {
         resizeQuality: "high",
       });
       // Browsers that ignore resize options are handled by their actual size.
-      if (image.width <= ATLAS_EDGE && image.height <= ATLAS_EDGE) {
+      if (image.width <= width && image.height <= height) {
         return { image, scaleX: image.width / page.size.w, scaleY: image.height / page.size.h };
       }
       const reduced = makeCanvas(width, height);
@@ -80,7 +109,26 @@ async function loadAtlas(path, page) {
 }
 
 function contentBounds(model) {
-  const fallback = { centerX: 0.5, centerY: 0.6, width: 0.86, height: 0.48 };
+  const applyMouth = (bounds) => {
+    const point = model.aquarium?.mouth;
+    return Number.isFinite(point?.x) && Number.isFinite(point?.y)
+      && point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1
+      ? { ...bounds, mouthX: point.x, mouthY: point.y } : bounds;
+  };
+  const fallback = applyMouth({ centerX: 0.5, centerY: 0.6, width: 0.86, height: 0.48,
+    mouthX: 0.5 + model.spriteFacing * 0.86 * 0.46, mouthY: 0.6 });
+  const authored = model.aquarium?.bounds;
+  if (authored && [authored.x, authored.y, authored.w, authored.h].every(Number.isFinite)
+    && authored.x >= 0 && authored.y >= 0 && authored.w > 0 && authored.h > 0
+    && authored.x + authored.w <= 1 && authored.y + authored.h <= 1) {
+    return applyMouth({
+      centerX: authored.x + authored.w / 2,
+      centerY: authored.y + authored.h / 2,
+      width: authored.w, height: authored.h,
+      mouthX: authored.x + authored.w * (model.spriteFacing > 0 ? 0.985 : 0.015),
+      mouthY: authored.y + authored.h / 2,
+    });
+  }
   try {
     // Measure the visible body once; the square source frame has ample padding.
     const probe = makeCanvas(128, 128);
@@ -107,24 +155,41 @@ function contentBounds(model) {
       }
     }
     if (right <= left || bottom <= top) return fallback;
-    return {
+    const noseRows = [];
+    const noseLeft = model.spriteFacing > 0 ? Math.max(left, right - 4) : left;
+    const noseRight = model.spriteFacing > 0 ? right : Math.min(right, left + 4);
+    for (let y = top; y < bottom; y += 1) {
+      for (let x = noseLeft; x < noseRight; x += 1) {
+        if (data[(y * 128 + x) * 4 + 3] >= 24) noseRows.push(y + 0.5);
+      }
+    }
+    return applyMouth({
       centerX: (left + right) / 256,
       centerY: (top + bottom) / 256,
       width: (right - left) / 128,
       height: (bottom - top) / 128,
-    };
+      mouthX: (model.spriteFacing > 0 ? right - 1.5 : left + 1.5) / 128,
+      mouthY: noseRows.length ? noseRows.reduce((sum, y) => sum + y, 0) / noseRows.length / 128 : (top + bottom) / 256,
+    });
   } catch (error) {
     return fallback;
   }
 }
 
 export class Aquarium {
-  constructor(canvas, { onStatus = () => {}, onReady = () => {}, drawOverlay = () => {} } = {}) {
+  constructor(canvas, { onStatus = () => {}, onReady = () => {}, drawOverlay = () => {},
+    getBait = () => null, getReelTarget = () => null, onFishingEvent = () => {} } = {}) {
     this.canvas = canvas;
     this.context = canvas.getContext("2d");
     this.onStatus = onStatus;
     this.onReady = onReady;
     this.drawOverlay = drawOverlay;
+    this.getBait = getBait;
+    this.getReelTarget = getReelTarget;
+    this.onFishingEvent = onFishingEvent;
+    this.catchCount = 0;
+    this.fishingEnabled = false;
+    this.fishing = { phase: "disabled", model: null, elapsed: 0, waitTime: randomBetween(5, 10) };
     this.models = [];
     this.active = false;
     this.playing = true;
@@ -152,17 +217,29 @@ export class Aquarium {
 
   async load(catalog) {
     const requestId = ++this.loadId;
-    this.onStatus("Loading aquarium · 0 / 7 fish");
-    const models = await Promise.all(SPECIES.map(async (species, index) => {
+    const extras = catalog.assets.filter((asset) => asset.id.startsWith("cute-")
+      && !SPECIES.some((species) => species.id === asset.id));
+    const roster = [...SPECIES, ...extras.map((asset) => cuteDefaults(asset.id))];
+    this.onStatus(`Loading aquarium · 0 / ${roster.length} fish`);
+    const models = await Promise.all(roster.map(async (species, index) => {
       const asset = catalog.assets.find((entry) => entry.id === species.id);
       if (!asset) throw new Error(`Aquarium is missing ${species.id}`);
       const manifest = await fetchJson(versioned(asset.manifest, asset.version));
-      const animation = manifest.animations.swim;
-      if (!animation?.frames?.length) throw new Error(`${asset.name} has no swim animation`);
+      const aquarium = { ...asset.aquarium, ...manifest.aquarium };
+      const animation = manifest.animations.swim ?? manifest.animations.idle
+        ?? manifest.animations.still ?? Object.values(manifest.animations)[0];
+      if (!animation?.frames?.length) throw new Error(`${asset.name} has no animation frames`);
       const durations = animation.frames.map((frame) =>
         Math.max(1, frame.durationMs || 1000 / (animation.fps || 12)));
       return {
         ...species, index, asset, manifest,
+        aquarium,
+        width: Number.isFinite(aquarium.width) ? clamp(aquarium.width, 32, 330) : species.width,
+        speed: Number.isFinite(aquarium.speed) ? clamp(aquarium.speed, 12, 55) : species.speed,
+        catchable: typeof aquarium.catchable === "boolean" ? aquarium.catchable : Boolean(species.catchable),
+        displayName: aquarium.name || manifest.name,
+        pack: aquarium.pack || (species.id.startsWith("cute-") ? "cute-fish" : "original"),
+        spriteFacing: aquarium.facing === "right" ? 1 : -1,
         frames: animation.frames,
         durations,
         totalDuration: durations.reduce((sum, duration) => sum + duration, 0),
@@ -186,19 +263,20 @@ export class Aquarium {
       while (!failure && cursor < jobs.length && requestId === this.loadId && !this.destroyed) {
         const { model, page, path } = jobs[cursor++];
         try {
-          const atlas = await loadAtlas(path, page);
+          const atlas = await loadAtlas(path, page, this.atlasEdge(model, page));
           model.images.set(page.page, atlas);
+          if (page.page === model.frames[0].page && !model.bounds) model.bounds = contentBounds(model);
           model.pending.delete(page.page);
           if (!model.pending.size && requestId === this.loadId && !this.destroyed) {
             completed += 1;
-            this.onStatus(`Loading aquarium · ${completed} / 7 fish`);
+            this.onStatus(`Loading aquarium · ${completed} / ${models.length} fish`);
           }
         } catch (error) {
           failure = error;
         }
       }
     };
-    // Keep temporary decodes bounded and retain only <=1024px atlas bitmaps.
+    // Decode only two pages at once, at the display resolution each species needs.
     await Promise.all([worker(), worker()]);
     if (failure || requestId !== this.loadId || this.destroyed) {
       this.release(models);
@@ -217,6 +295,7 @@ export class Aquarium {
 
   reset() {
     this.clock = 0;
+    this.cancelFishing("reset");
     const placed = [];
     for (const model of this.models) {
       const bounds = this.swimmingBounds(model);
@@ -294,6 +373,12 @@ export class Aquarium {
     this.context.imageSmoothingEnabled = true;
     this.context.imageSmoothingQuality = "high";
     for (const model of this.models) this.constrainPosition(model);
+    if (this.fishing.model && ["nibbling", "biting"].includes(this.fishing.phase)) {
+      // Layout changes must keep the mouth attached even while playback is paused.
+      this.guideToBait(this.fishing.model, 0);
+    } else if (this.fishing.model && ["reeling", "caught"].includes(this.fishing.phase)) {
+      this.guideReel(this.fishing.model);
+    }
     this.draw();
   }
 
@@ -333,6 +418,7 @@ export class Aquarium {
     if (this.active && this.playing && !document.hidden) {
       const scaled = delta * this.speed;
       this.clock += scaled / 1000;
+      this.updateFishing(scaled / 1000);
       this.advanceSwimmers(scaled / 1000);
       for (const model of this.models) {
         model.elapsed += scaled;
@@ -349,11 +435,302 @@ export class Aquarium {
   sizeScale() {
     return Math.min(1,
       Math.max(0.55, this.width / 720),
-      Math.max(0.55, this.height / 540));
+      Math.max(0.55, this.height / 540)) * crowdScale(this.models.length, this.width);
+  }
+
+  atlasEdge(model, page) {
+    // Cache for the largest layout so resizing a phone-sized preview stays sharp.
+    const sizing = sceneSizing(1180, 600);
+    const bodyFraction = clamp(model.aquarium.bounds?.w ?? model.bounds?.width ?? 0.8, 0.25, 1);
+    const heightFraction = model.aquarium.bounds?.h ?? model.bounds?.height;
+    const bodyWidth = Math.min(model.width * sizing.fishScale,
+      heightFraction > 0 ? sizing.fishMaxHeight * bodyFraction / heightFraction : Infinity);
+    // Retain enough pixels for Retina even when initially opened on a DPR1 monitor.
+    const ratio = Math.max(2, window.devicePixelRatio || 1);
+    const pageFrames = Math.max(page.size.w / model.manifest.frameSize.w,
+      page.size.h / model.manifest.frameSize.h);
+    const needed = bodyWidth * ratio / bodyFraction * pageFrames;
+    // Canvas supports non-power-of-two textures; avoid wasting a whole larger page.
+    return Math.min(ATLAS_EDGE, Math.max(128, Math.ceil(needed / 16) * 16));
   }
 
   bodyWidth(model) {
-    return Math.min(model.width * this.sizeScale(), this.width * 0.58);
+    const sizing = sceneSizing(this.width, this.height);
+    const aspect = model.bounds.height / model.bounds.width;
+    return Math.min(model.width * sizing.fishScale, sizing.fishMaxWidth,
+      sizing.fishMaxHeight / aspect);
+  }
+
+  get fishingState() {
+    const fishing = this.fishing;
+    return {
+      phase: fishing.phase,
+      fishId: fishing.model?.id ?? fishing.fishId ?? null,
+      name: fishing.model?.displayName ?? fishing.name ?? null,
+      mouth: fishing.model ? this.mouthPosition(fishing.model) : null,
+      biteProgress: fishing.phase === "biting" ? clamp(fishing.elapsed / BITE_DURATION, 0, 1) : 0,
+      reelProgress: fishing.phase === "reeling" ? clamp(fishing.elapsed / REEL_DURATION, 0, 1)
+        : fishing.phase === "caught" ? 1 : 0,
+      caughtProgress: fishing.phase === "caught" ? clamp(fishing.elapsed / CAUGHT_DURATION, 0, 1) : 0,
+      releaseProgress: fishing.phase === "released" ? clamp(fishing.elapsed / RELEASE_DURATION, 0, 1) : 0,
+      catchCount: this.catchCount,
+      elapsed: fishing.elapsed,
+      reason: fishing.reason ?? null,
+    };
+  }
+
+  fishingPhase(phase, reason = null) {
+    const changed = this.fishing.phase !== phase;
+    this.fishing.phase = phase;
+    this.fishing.elapsed = 0;
+    this.fishing.reason = reason;
+    if (changed || reason) this.onFishingEvent(this.fishingState);
+  }
+
+  setFishingEnabled(enabled) {
+    const next = Boolean(enabled);
+    if (this.fishingEnabled === next) return;
+    this.fishingEnabled = next;
+    this.cancelFishing(next ? "enabled" : "disabled");
+    this.draw();
+  }
+
+  cancelFishing(reason = "cancelled") {
+    const model = this.fishing.model;
+    if (model) {
+      this.returnFishToWater(model, ["reeling", "caught"].includes(this.fishing.phase));
+    }
+    this.fishing.model = null;
+    this.fishing.fishId = null;
+    this.fishing.name = null;
+    this.fishing.reelStart = null;
+    this.fishing.waitTime = randomBetween(5, 10);
+    this.fishingPhase(this.fishingEnabled && reason !== "bait-unavailable" ? "waiting" : "disabled", reason);
+  }
+
+  currentBait() {
+    const bait = this.getBait({ width: this.width, height: this.height, clock: this.clock });
+    return bait?.enabled !== false && Number.isFinite(bait?.x) && Number.isFinite(bait?.y) ? bait : null;
+  }
+
+  mouthOffset(model, { direction = model.direction, pitch = model.pitch, turnScale = model.turnScale } = {}) {
+    const size = this.bodyWidth(model) / model.bounds.width;
+    const localX = ((model.bounds.mouthX ?? model.bounds.centerX - model.bounds.width * 0.46) - model.bounds.centerX)
+      * size * (direction === model.spriteFacing ? 1 : -1) * turnScale;
+    const localY = ((model.bounds.mouthY ?? model.bounds.centerY) - model.bounds.centerY) * size;
+    return { x: Math.cos(pitch) * localX - Math.sin(pitch) * localY,
+      y: Math.sin(pitch) * localX + Math.cos(pitch) * localY };
+  }
+
+  mouthPosition(model) {
+    const offset = this.mouthOffset(model);
+    return { x: model.x * this.width + offset.x, y: model.y * this.height + offset.y };
+  }
+
+  castBait() {
+    if (!this.fishingEnabled || !this.active || !this.playing || document.hidden ||
+      ["approaching", "nibbling", "biting", "reeling", "caught"].includes(this.fishing.phase)) return false;
+    const bait = this.currentBait();
+    const candidates = this.models.filter((model) => model.catchable && model.width <= 160);
+    if (!bait || !candidates.length) return false;
+    // Vary the visitor while favoring fish already near the lure.
+    const ranked = candidates.map((model) => {
+      const bounds = this.swimmingBounds(model);
+      const preferred = bait.x >= model.x * this.width ? 1 : -1;
+      const direction = [preferred, -preferred].find((facing) => {
+        const offset = this.mouthOffset(model, { direction: facing, pitch: 0, turnScale: 1 });
+        return bait.x - offset.x >= bounds.left && bait.x - offset.x <= bounds.right &&
+          bait.y - offset.y >= bounds.top && bait.y - offset.y <= bounds.bottom;
+      });
+      return { model, direction,
+        score: Math.hypot(model.x * this.width - bait.x, model.y * this.height - bait.y) + Math.random() * 180 };
+    }).filter((candidate) => candidate.direction).sort((a, b) => a.score - b.score);
+    if (!ranked.length) return false;
+    this.fishing.model = ranked[0].model;
+    this.fishing.fishId = this.fishing.model.id;
+    this.fishing.name = this.fishing.model.displayName;
+    this.fishing.direction = ranked[0].direction;
+    this.fishingPhase("approaching");
+    return true;
+  }
+
+  reelIn() {
+    if (!this.fishingEnabled || !this.active || !this.playing || document.hidden ||
+      this.fishing.phase !== "biting" || !this.fishing.model || !this.currentBait()) return false;
+    const mouth = this.mouthPosition(this.fishing.model);
+    this.fishing.reelStart = { x: mouth.x / this.width, y: mouth.y / this.height };
+    this.fishing.reelPitch = this.fishing.model.pitch;
+    this.fishingPhase("reeling");
+    return true;
+  }
+
+  returnFishToWater(model, respawn = false) {
+    model.pitch = 0;
+    model.turnScale = 1;
+    const bounds = this.swimmingBounds(model);
+    if (respawn) {
+      model.x = randomBetween(bounds.left, Math.max(bounds.left, this.width * 0.55)) / this.width;
+      model.y = randomBetween(Math.max(bounds.top, this.height * 0.55), bounds.bottom) / this.height;
+    }
+    this.constrainPosition(model);
+    model.vx = -model.direction * model.speed * this.sizeScale() * 0.8;
+    model.vy = randomBetween(-8, 8);
+    this.chooseTarget(model);
+  }
+
+  guideReel(model) {
+    const fishing = this.fishing;
+    if (!fishing.reelStart || !this.width || !this.height) return;
+    const progress = fishing.phase === "caught" ? 1 : clamp(fishing.elapsed / REEL_DURATION, 0, 1);
+    const ease = 1 - (1 - progress) ** 3;
+    const supplied = this.getReelTarget({ width: this.width, height: this.height, clock: this.clock });
+    const target = Number.isFinite(supplied?.x) && Number.isFinite(supplied?.y)
+      ? supplied : { x: this.width * 0.8, y: Math.min(100, this.height * 0.2) };
+    const start = { x: fishing.reelStart.x * this.width, y: fishing.reelStart.y * this.height };
+    const swing = Math.sin(progress * Math.PI * 5) * Math.sin(progress * Math.PI) * 6;
+    const desiredMouth = {
+      x: start.x + (target.x - start.x) * ease + swing,
+      y: start.y + (target.y - start.y) * ease - Math.sin(progress * Math.PI) * Math.min(44, this.height * 0.1),
+    };
+    const landedWiggle = fishing.phase === "caught" ? Math.sin(fishing.elapsed * 16) * 0.07 : 0;
+    model.pitch = (fishing.reelPitch ?? 0) * (1 - progress)
+      - model.direction * Math.sin(progress * Math.PI) * 1.05 + landedWiggle;
+    model.turnScale = 1;
+    const offset = this.mouthOffset(model);
+    const bodyWidth = this.bodyWidth(model);
+    const bodyHeight = bodyWidth * model.bounds.height / model.bounds.width;
+    const radiusX = Math.abs(Math.cos(model.pitch)) * bodyWidth / 2
+      + Math.abs(Math.sin(model.pitch)) * bodyHeight / 2 + 6;
+    const radiusY = Math.abs(Math.sin(model.pitch)) * bodyWidth / 2
+      + Math.abs(Math.cos(model.pitch)) * bodyHeight / 2 + 6;
+    const left = Math.min(this.width / 2, radiusX);
+    const top = Math.min(this.height / 2, radiusY);
+    // A hooked fish can rise above its normal swimming area, but stays visible.
+    model.x = clamp(desiredMouth.x - offset.x, left, Math.max(left, this.width - left)) / this.width;
+    model.y = clamp(desiredMouth.y - offset.y, top, Math.max(top, this.height - top)) / this.height;
+    model.vx = 0;
+    model.vy = 0;
+  }
+
+  updateFishing(seconds) {
+    if (!this.fishingEnabled) return;
+    const bait = this.currentBait();
+    if (!bait) {
+      if (this.fishing.phase !== "disabled") this.cancelFishing("bait-unavailable");
+      return;
+    }
+    const fishing = this.fishing;
+    if (fishing.phase === "disabled") {
+      fishing.waitTime = randomBetween(5, 10);
+      this.fishingPhase("waiting", "bait-returned");
+    }
+    fishing.elapsed += seconds;
+    if (fishing.phase === "reeling") {
+      if (fishing.elapsed >= REEL_DURATION) {
+        this.guideReel(fishing.model);
+        this.catchCount += 1;
+        this.fishingPhase("caught", "landed");
+      }
+      return;
+    }
+    if (fishing.phase === "caught") {
+      if (fishing.elapsed >= CAUGHT_DURATION) {
+        this.returnFishToWater(fishing.model, true);
+        fishing.model = null;
+        fishing.reelStart = null;
+        fishing.waitTime = randomBetween(5, 10);
+        this.fishingPhase("waiting", "next-cast");
+      }
+      return;
+    }
+    if (fishing.phase === "waiting") {
+      if (fishing.elapsed >= fishing.waitTime) this.castBait();
+      return;
+    }
+    if (fishing.phase === "released") {
+      if (fishing.elapsed >= RELEASE_DURATION) {
+        fishing.waitTime = randomBetween(5, 10);
+        this.fishingPhase("waiting");
+      }
+      return;
+    }
+    if (fishing.phase === "approaching" && fishing.elapsed >= 18) this.finishBite("timeout");
+    else if (fishing.phase === "nibbling" && fishing.elapsed >= 0.7) this.fishingPhase("biting");
+    else if (fishing.phase === "biting" && fishing.elapsed >= BITE_DURATION) this.finishBite("released");
+  }
+
+  finishBite(reason) {
+    const model = this.fishing.model;
+    if (model) {
+      model.vx = -model.direction * model.speed * this.sizeScale();
+      model.vy = randomBetween(-12, 12);
+      this.chooseTarget(model);
+    }
+    this.fishing.model = null;
+    this.fishingPhase("released", reason);
+  }
+
+  guideToBait(model, seconds) {
+    const bait = this.currentBait();
+    if (!bait) return false;
+    const fishing = this.fishing;
+    const bounds = this.swimmingBounds(model);
+    const fits = (direction) => {
+      const offset = this.mouthOffset(model, { direction, pitch: 0, turnScale: 1 });
+      return bait.x - offset.x >= bounds.left && bait.x - offset.x <= bounds.right &&
+        bait.y - offset.y >= bounds.top && bait.y - offset.y <= bounds.bottom;
+    };
+    if (!fits(fishing.direction)) {
+      if (!fits(-fishing.direction)) {
+        this.finishBite("bait-unreachable");
+        return true;
+      }
+      fishing.direction = -fishing.direction;
+      if (fishing.phase !== "approaching") {
+        // A narrow layout may only have room on the other side of the bait.
+        model.direction = fishing.direction;
+        model.turnScale = 1;
+      }
+    }
+    const facing = fishing.direction;
+    if (model.direction !== facing) {
+      model.turnScale = Math.max(0.2, model.turnScale - seconds * 3.5);
+      if (model.turnScale <= 0.2) model.direction = facing;
+      model.vx = 0;
+      model.vy = 0;
+      return true;
+    }
+    model.turnScale = Math.min(1, model.turnScale + seconds * 3);
+    model.direction = facing;
+    if (fishing.phase === "approaching") {
+      const offset = this.mouthOffset(model);
+      const targetX = clamp(bait.x - offset.x, bounds.left, bounds.right);
+      const targetY = clamp(bait.y - offset.y, bounds.top, bounds.bottom);
+      const dx = targetX - model.x * this.width;
+      const dy = targetY - model.y * this.height;
+      const distance = Math.hypot(dx, dy);
+      const speed = Math.max(80, model.speed * this.sizeScale() * 2.5);
+      const travel = Math.min(distance, speed * seconds);
+      const oldX = model.x * this.width;
+      const oldY = model.y * this.height;
+      model.x = (oldX + dx / Math.max(1, distance) * travel) / this.width;
+      model.y = (oldY + dy / Math.max(1, distance) * travel) / this.height;
+      model.vx = (model.x * this.width - oldX) / Math.max(0.001, seconds);
+      model.vy = (model.y * this.height - oldY) / Math.max(0.001, seconds);
+      model.pitch += (0 - model.pitch) * (1 - Math.exp(-seconds * 5));
+      if (distance < 4 && Math.hypot(this.mouthPosition(model).x - bait.x,
+        this.mouthPosition(model).y - bait.y) < 8) this.fishingPhase("nibbling");
+    } else {
+      model.pitch = Math.sin(this.clock * 15) * (fishing.phase === "biting" ? 0.055 : 0.02);
+      const offset = this.mouthOffset(model);
+      const tugX = fishing.phase === "biting" ? Math.sin(fishing.elapsed * 20) * 4 : 0;
+      const tugY = fishing.phase === "biting" ? Math.sin(fishing.elapsed * 16) * 4 : 0;
+      model.x = clamp(bait.x + tugX - offset.x, bounds.left, bounds.right) / this.width;
+      model.y = clamp(bait.y + tugY - offset.y, bounds.top, bounds.bottom) / this.height;
+      model.vx = 0;
+      model.vy = 0;
+    }
+    return true;
   }
 
   swimmingBounds(model) {
@@ -403,6 +780,14 @@ export class Aquarium {
     }));
     const smooth = 1 - Math.exp(-seconds * 1.35);
     for (const model of this.models) {
+      if (model === this.fishing.model && ["reeling", "caught"].includes(this.fishing.phase)) {
+        this.guideReel(model);
+        continue;
+      }
+      if (model === this.fishing.model && ["approaching", "nibbling", "biting"].includes(this.fishing.phase)) {
+        this.guideToBait(model, seconds);
+        continue;
+      }
       const point = positions[model.index];
       const bounds = this.swimmingBounds(model);
       model.wanderTime -= seconds;
@@ -483,8 +868,8 @@ export class Aquarium {
       context.save();
       context.translate(model.x * this.width, model.y * this.height);
       context.rotate(model.pitch);
-      // Authored +X profiles face left; a positive travel direction faces right.
-      context.scale((model.direction > 0 ? -1 : 1) * model.turnScale, 1);
+      // Respect authored facing while keeping the nose in the travel direction.
+      context.scale((model.direction === model.spriteFacing ? 1 : -1) * model.turnScale, 1);
       context.drawImage(atlas.image,
         rect.x * atlas.scaleX, rect.y * atlas.scaleY,
         rect.w * atlas.scaleX, rect.h * atlas.scaleY,
@@ -492,7 +877,8 @@ export class Aquarium {
         size, size * model.manifest.frameSize.h / model.manifest.frameSize.w);
       context.restore();
     }
-    this.drawOverlay(context, { width: this.width, height: this.height, clock: this.clock });
+    this.drawOverlay(context, { width: this.width, height: this.height, clock: this.clock,
+      fishing: this.fishingState });
   }
 
   release(models) {
@@ -504,6 +890,8 @@ export class Aquarium {
 
   destroy() {
     this.destroyed = true;
+    this.fishingEnabled = false;
+    this.cancelFishing("destroyed");
     this.loadId += 1;
     this.cancelFrame();
     this.resizeObserver?.disconnect();
