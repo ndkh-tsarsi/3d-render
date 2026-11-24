@@ -18,13 +18,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy locally rendered assets
+  package:
+    name: Validate and upload locally rendered assets
     runs-on: ubuntu-24.04
     timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Check out latest preview player
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -61,6 +58,17 @@ jobs:
         with:
           path: dist/
 
+  # A separate job avoids the uploader's artifact metadata visibility race.
+  # https://github.com/actions/deploy-pages/issues/451
+  deploy:
+    name: Deploy existing HTML5 assets to Pages
+    needs: package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy rendered preview
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
