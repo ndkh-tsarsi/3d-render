@@ -160,7 +160,15 @@ def ensure_materials(
 
     for obj in meshes:
         for polygon in obj.data.polygons:
-            polygon.use_smooth = False
+            polygon.use_smooth = style == "cartoon"
+        if style == "cartoon" and asset_id in {
+            "fish1", "fish2", "fish3", "dolphin", "shark", "manta-ray", "whale"
+        } and not any(modifier.type == "SUBSURF" for modifier in obj.modifiers):
+            surface = obj.modifiers.new("Soft Cartoon Surface", "SUBSURF")
+            surface.subdivision_type = "CATMULL_CLARK"
+            surface.levels = 1
+            surface.render_levels = 1
+            surface.boundary_smooth = "PRESERVE_CORNERS"
     mode = "new deterministic palette" if recolor else "enhanced authored colors with smart gray fallback"
     log(f"Prepared {len(materials)} material(s): {mode}")
 
@@ -168,15 +176,15 @@ def ensure_materials(
 def vibrant_cartoon_color(
     asset_id: str, material_name: str, color: tuple[float, float, float]
 ) -> tuple[float, float, float]:
-    """Vivid display palettes, converted to linear for the emission shader."""
+    """Bright toy palettes, converted from display sRGB to shader linear RGB."""
     palettes = {
-        "fish1": {"top": "FF7B28", "bottom": "79E0BD", "fins": "FFD557"},
-        "fish2": {"body": "2563EB", "front": "38BDF8", "fins": "FFE45C"},
-        "fish3": {"body": "FF751F", "stripes": "FFF1D2", "outline": "18212F"},
-        "dolphin": {"top": "20B8D5", "bottom": "D5FAFF"},
-        "shark": {"top": "087AB4", "bottom": "D7F9FF"},
-        "manta-ray": {"top": "1767C2", "bottom": "C9F8FC"},
-        "whale": {"top": "4147E3", "bottom": "FFBB28"},
+        "fish1": {"top": "FF8B35", "bottom": "42E1B2", "fins": "FFE65C"},
+        "fish2": {"body": "1478F2", "front": "38DDF5", "fins": "FFE85C"},
+        "fish3": {"body": "FF852B", "stripes": "FFF5E0", "outline": "24394C"},
+        "dolphin": {"top": "3ACFE2", "bottom": "E6FFFF"},
+        "shark": {"top": "189FD1", "bottom": "E6F8FD"},
+        "manta-ray": {"top": "3B8CEB", "bottom": "DDF8FF"},
+        "whale": {"top": "7261F1", "bottom": "FFD55D"},
     }
     name = material_name.casefold()
     display_hex = palettes.get(asset_id, {}).get(name)
@@ -202,7 +210,7 @@ def build_cartoon_shader(
     color: tuple[float, float, float],
     view: str,
 ) -> None:
-    """Three hard shade bands from animated normals, compatible with CPU Cycles."""
+    """Soft cel volume with a small pearly highlight, compatible with CPU Cycles."""
     nodes = material.node_tree.nodes
     links = material.node_tree.links
     geometry = nodes.new("ShaderNodeNewGeometry")
@@ -213,14 +221,14 @@ def build_cartoon_shader(
     links.new(geometry.outputs["Normal"], light.inputs[0])
 
     bands = nodes.new("ShaderNodeValToRGB")
-    bands.color_ramp.interpolation = "CONSTANT"
+    bands.color_ramp.interpolation = "EASE"
     shadow = bands.color_ramp.elements[0]
     shadow.position = 0.0
-    shadow.color = (0.45, 0.50, 0.59, 1.0)
+    shadow.color = (0.62, 0.71, 0.86, 1.0)
     midtone = bands.color_ramp.elements[1]
-    midtone.position = 0.08
-    midtone.color = (0.73, 0.77, 0.83, 1.0)
-    highlight = bands.color_ramp.elements.new(0.52)
+    midtone.position = 0.24
+    midtone.color = (0.84, 0.89, 0.96, 1.0)
+    highlight = bands.color_ramp.elements.new(0.66)
     highlight.color = (1.0, 1.0, 1.0, 1.0)
     links.new(light.outputs["Value"], bands.inputs["Fac"])
 
@@ -229,10 +237,23 @@ def build_cartoon_shader(
     tint.inputs[0].default_value = 1.0
     tint.inputs[1].default_value = (*color, 1.0)
     links.new(bands.outputs["Color"], tint.inputs[2])
-    shader = nodes.new("ShaderNodeEmission")
-    shader.inputs["Strength"].default_value = 1.0
-    links.new(tint.outputs["Color"], shader.inputs["Color"])
-    links.new(shader.outputs["Emission"], output.inputs["Surface"])
+    emission = nodes.new("ShaderNodeEmission")
+    emission.inputs["Strength"].default_value = 1.0
+    links.new(tint.outputs["Color"], emission.inputs["Color"])
+    toy = nodes.new("ShaderNodeBsdfPrincipled")
+    toy.inputs["Base Color"].default_value = (*color, 1.0)
+    toy.inputs["Roughness"].default_value = 0.38
+    toy.inputs["Metallic"].default_value = 0.0
+    if "Specular IOR Level" in toy.inputs:
+        toy.inputs["Specular IOR Level"].default_value = 0.28
+    if "Coat Weight" in toy.inputs:
+        toy.inputs["Coat Weight"].default_value = 0.14
+        toy.inputs["Coat Roughness"].default_value = 0.30
+    finish = nodes.new("ShaderNodeMixShader")
+    finish.inputs[0].default_value = 0.28
+    links.new(emission.outputs["Emission"], finish.inputs[1])
+    links.new(toy.outputs["BSDF"], finish.inputs[2])
+    links.new(finish.outputs[0], output.inputs["Surface"])
 
 
 def enhance_authored_color(color: tuple[float, float, float], name: str) -> tuple[float, float, float]:
@@ -313,10 +334,12 @@ def add_fish_face(
     eye_z = head_low + head_height * 0.70
     species = Path(bpy.data.filepath).stem.casefold()
     expressive_cartoon = style == "cartoon"
+    if expressive_cartoon:
+        eye_radius *= 1.18 if species != "shark" else 1.08
     if species == "manta ray":
         # The flat profile would otherwise reduce the eye white to a single
         # pixel under the ink line. A small cartoon eye bulge stays readable.
-        eye_radius = max(eye_radius, length * 0.027)
+        eye_radius = max(eye_radius, length * (0.032 if expressive_cartoon else 0.027))
         eye_z = head_low + head_height * 0.82
 
     def flat_material(name: str, color: tuple[float, float, float]) -> bpy.types.Material:
@@ -331,9 +354,10 @@ def add_fish_face(
         material.node_tree.links.new(emission.outputs["Emission"], output.inputs["Surface"])
         return material
 
-    dark = flat_material("Face Ink", (0.009, 0.015, 0.025))
+    dark = flat_material("Face Ink", (0.012, 0.029, 0.055) if expressive_cartoon else (0.009, 0.015, 0.025))
     white = flat_material("Eye White", (0.95, 0.97, 1.0))
     glint = flat_material("Eye Highlight", (1.0, 1.0, 1.0))
+    iris = flat_material("Eye Ocean Iris", (0.025, 0.13, 0.23)) if expressive_cartoon else dark
     features: list[bpy.types.Object] = []
 
     def bind_skin(obj: bpy.types.Object) -> None:
@@ -468,17 +492,31 @@ def add_fish_face(
         samples = [(eye_y, eye_z), (eye_y - eye_radius, eye_z), (eye_y + eye_radius, eye_z), (eye_y, eye_z - eye_radius), (eye_y, eye_z + eye_radius)]
         if species == "manta ray":
             samples = samples[:3]
-        eye_x = side * (max(side * surface_x(side, y, z) for y, z in samples) + eye_radius * 0.10)
+        eye_surfaces = [surface_x(side, eye_y, eye_z)]
+        for sample_y, sample_z in samples[1:]:
+            try:
+                eye_surfaces.append(surface_x(side, sample_y, sample_z))
+            except RuntimeError:
+                # The enlarged cartoon whites may overhang a narrow crown.
+                # Their center must attach, but an outer sample may miss it.
+                if not expressive_cartoon:
+                    raise
+        eye_x = side * (max(side * value for value in eye_surfaces) + eye_radius * 0.10)
         center = Vector((eye_x, eye_y, eye_z))
         eye_part(f"{label} Eye Ink", center, Vector((eye_radius * 0.27, eye_radius, eye_radius)), dark)
         white_radius = 0.90 if expressive_cartoon and species == "fish3" else 0.87
         eye_part(f"{label} Eye White", center + Vector((side * eye_radius * 0.14, 0.0, 0.0)), Vector((eye_radius * 0.29, eye_radius * white_radius, eye_radius * white_radius)), white)
         pupil_forward = 0.12 if expressive_cartoon and species == "fish3" else 0.20
         pupil_center = center + Vector((side * eye_radius * 0.45, forward * eye_radius * pupil_forward, eye_radius * 0.03))
+        if expressive_cartoon:
+            eye_part(f"{label} Iris", pupil_center, Vector((eye_radius * 0.13, eye_radius * 0.60, eye_radius * 0.60)), iris)
+            pupil_center += Vector((side * eye_radius * 0.08, 0.0, 0.0))
         pupil_radius = 0.48 if expressive_cartoon and species == "fish3" else 0.45
         eye_part(f"{label} Pupil", pupil_center, Vector((eye_radius * 0.13, eye_radius * pupil_radius, eye_radius * pupil_radius)), dark)
         highlight_radius = 0.17 if expressive_cartoon and species == "fish3" else 0.14
         eye_part(f"{label} Eye Highlight", pupil_center + Vector((side * eye_radius * 0.13, forward * eye_radius * 0.11, eye_radius * 0.17)), Vector((eye_radius * 0.055, eye_radius * highlight_radius, eye_radius * highlight_radius)), glint)
+        if expressive_cartoon:
+            eye_part(f"{label} Eye Soft Glint", pupil_center + Vector((side * eye_radius * 0.13, -forward * eye_radius * 0.14, -eye_radius * 0.14)), Vector((eye_radius * 0.05, eye_radius * 0.075, eye_radius * 0.075)), glint)
 
         if expressive_cartoon and species == "shark":
             brow_x = eye_x + side * eye_radius * 0.67
@@ -498,7 +536,7 @@ def add_fish_face(
         mouth_data = bpy.data.curves.new(f"{label} Curved Smile", type="CURVE")
         mouth_data.dimensions = "3D"
         mouth_data.resolution_u = 12
-        mouth_data.bevel_depth = length * 0.0036
+        mouth_data.bevel_depth = length * (0.0026 if expressive_cartoon else 0.0036)
         mouth_data.bevel_resolution = 3
         spline = mouth_data.splines.new("BEZIER")
         spline.bezier_points.add(3)
@@ -625,17 +663,22 @@ def configure_scene(
         obj.location = center + Vector(offset) * scale
         point_at(obj, center)
 
-    light("Key", (1.6 * direction, -0.85, 1.45), (1.0, 0.83, 0.68), 22.0, 1.15)
-    light("Fill", (1.0 * direction, 1.1, 0.45), (0.55, 0.72, 1.0), 8.0, 1.45)
-    light("Rim", (-1.2 * direction, 0.25, 1.15), (0.55, 0.78, 1.0), 12.0, 0.85)
+    if style == "cartoon":
+        light("Key", (1.6 * direction, -0.85, 1.45), (1.0, 0.93, 0.82), 28.0, 1.4)
+        light("Fill", (1.0 * direction, 1.1, 0.45), (0.72, 0.90, 1.0), 15.0, 1.75)
+        light("Rim", (-1.2 * direction, 0.25, 1.15), (0.85, 0.94, 1.0), 18.0, 1.2)
+    else:
+        light("Key", (1.6 * direction, -0.85, 1.45), (1.0, 0.83, 0.68), 22.0, 1.15)
+        light("Fill", (1.0 * direction, 1.1, 0.45), (0.55, 0.72, 1.0), 8.0, 1.45)
+        light("Rim", (-1.2 * direction, 0.25, 1.15), (0.55, 0.78, 1.0), 12.0, 0.85)
 
     world = scene.world or bpy.data.worlds.new("SpriteWorld")
     scene.world = world
     world.use_nodes = True
     background = world.node_tree.nodes.get("Background")
     if background:
-        background.inputs["Color"].default_value = (0.025, 0.035, 0.06, 1.0)
-        background.inputs["Strength"].default_value = 0.18
+        background.inputs["Color"].default_value = (0.32, 0.46, 0.65, 1.0) if style == "cartoon" else (0.025, 0.035, 0.06, 1.0)
+        background.inputs["Strength"].default_value = 0.25 if style == "cartoon" else 0.18
 
     if engine == "cycles":
         try:
@@ -644,9 +687,9 @@ def configure_scene(
             pass
         scene.render.engine = "CYCLES"
         scene.cycles.device = "CPU"
-        scene.cycles.samples = 12
+        scene.cycles.samples = 16 if style == "cartoon" else 12
         scene.cycles.use_adaptive_sampling = True
-        scene.cycles.adaptive_threshold = 0.08
+        scene.cycles.adaptive_threshold = 0.06 if style == "cartoon" else 0.08
         scene.cycles.use_denoising = True
         scene.cycles.max_bounces = 4
         scene.cycles.diffuse_bounces = 2
@@ -686,10 +729,10 @@ def configure_scene(
         lineset.select_silhouette = True
         lineset.select_border = True
         lineset.select_material_boundary = True
-        lineset.linestyle.color = (0.012, 0.020, 0.032)
-        lineset.linestyle.alpha = 1.0
-        lineset.linestyle.thickness = max(1.5, size / 128.0)
-        log("Enabled cartoon cel bands and silhouette/material ink outlines")
+        lineset.linestyle.color = (0.028, 0.065, 0.105)
+        lineset.linestyle.alpha = 0.9
+        lineset.linestyle.thickness = max(0.85, size / 420.0)
+        log("Enabled soft toy shading, smooth normals, and thin navy outlines")
 
     bottom_fraction = 0.5 + (center.z - bounds_min.z) / camera_data.ortho_scale
     pivot = {

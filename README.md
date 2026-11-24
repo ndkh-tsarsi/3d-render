@@ -6,7 +6,19 @@ It is dependency-free apart from Python 3. Blender is detected automatically. If
 
 ## One-command render
 
-Render the seven aquatic characters locally in the approved cartoon style, with eyes and mouths, at Retina-friendly resolution:
+Render all **42 aquarium characters** locally with rounded geometry and the **Cat-inspired Toon** skin:
+
+```bash
+python3 tools/render_kid_fish.py --output dist --engine eevee --jobs 2
+```
+
+This renders 1024×1024 transparent frames at 12 fps. The supplied `raw/craftpix-net-397030-free-cartoon-cat-defense-game-asset-kit` is the color reference: warm cream areas, chocolate outlines, solid dark pupils and restrained three-tone shading. Fish keep separate orange, blue, teal, pink, purple and gold families drawn from the cats and their accessories. Reference colors are centralized in `tools/cat_toon_palette.py`; cat artwork is not copied into fish assets.
+
+Cute Fish Pack models get rounded heads, bodies and fin edges through two levels of Catmull-Clark subdivision, with selective boundary creases retaining the span of long fins, rays and bills. The original seven keep their existing smooth level-one surfaces so generated eyes and smiles stay attached. Their painted face details are excluded from the extra outline pass so small eye highlights remain visible. Authored stripes, source animation and game size proportions are preserved; silhouette and fishing anchors are measured again after rounding. Painted details use a named UV layer projected from the undeformed source mesh, so they follow the fish as it swims. Original source files are never saved or overwritten. Other existing assets in `dist/` stay available.
+
+Use `--only cute-clownfish,cute-puffer,shark` for a subset, `--max-frames 3` for a quick sample, or `--keep-existing` to resume a completed render with matching skin and geometry versions. The IDs `shark` and `cute-shark` distinguish the two packs. Eevee uses the local GPU; `--engine cycles` is the CPU fallback. Neither command publishes anything or starts GitHub Actions. The default isolated output is `dist-cat-toon-rounded-1024`; use `--output dist` to refresh the local preview package directly.
+
+The original seven aquatic characters can also be rendered with the base cartoon renderer, including generated eyes and mouths:
 
 ```bash
 python3 pipeline.py render --input "raw/Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --max-atlas-size 2048 --output dist
@@ -33,16 +45,37 @@ Source `.blend`, `.fbx`, `.obj`, and license files are never modified. Generated
 
 View the rendered models and animations online at [the GitHub Pages preview](https://ndkh-tsarsi.github.io/3d-render/).
 
-The preview opens in **Aquarium** mode with all seven aquatic characters swimming freely, climbing, diving, and choosing new directions. **New paths** randomizes the group; **Pause** freezes fish, the boy's Idle animation, and the fishing line. Choose **Fishing rod → Level 1–5** to give Red Hat Boy a rod from the Cute Fish Pack, or choose **Off**. The rod follows his hand in every animation frame. **Single character** also lets you inspect each fish, dinosaur, rod, and the boy. Both views support Retina displays and use existing local assets; opening the aquarium does not run Blender.
+The local preview opens in **Aquarium** mode with an orange cat fishing above all **42 species** from the original models and Cute Fish Pack. Fish climb, dive, and choose new directions. **New paths** randomizes the group; **Pause** freezes fish, the cat's animation, and the fishing line. Choose **Fishing rod → Level 1–5** to give the cat a rod from the Cute Fish Pack, or choose **Off**. The rod stays attached to its front paw in every pose. **Single character** also lets you inspect each fish, dinosaur, rod, lure, cat, and the original boy asset. Both views support Retina displays and use existing local assets; opening the aquarium does not run Blender.
 
-The original source packs live under `raw/`. To regenerate just the added fishing props and package the supplied boy's sprites:
+Small fish investigate the bait automatically. **Thả mồi** starts a new approach; **Giật cần** becomes available during the bite. The cat opens its eyes wide with a surprised mouth and an alert mark when a fish bites. Press **Giật cần** to animate it leaning back and pulling the fish up beside the pier. A successful landing increases **Cá đã câu** once and triggers a 1.6-second happy dance with a smile, tail wag, and warm-colored stars, then the fish returns to the water. Each bite and celebration starts from its own first frame. The count lasts for the current page session and survives rod/lure changes and **Đổi đường bơi**. Cancelling an unfinished pull awards no point. Pause freezes the entire interaction, including expressions and celebration effects.
+
+If the three-second bite window expires or the fish leaves before it can be caught, the cat shows a disappointed face, lowers its head and paw, and lets its tail droop for 1.6 seconds before returning to idle. The score stays unchanged. **Thả mồi** can start another attempt immediately; changing rods, turning the rod off, or resetting paths simply cancels the interaction. Pause freezes this reaction too.
+
+**Âm thanh: Tắt/Bật** controls four short, gentle effects: a bubble cue when a fish bites, a pluck when reeling starts, an ascending chime for a catch, and a descending tone when a fish escapes. Sound starts off and remembers your choice on this browser. Enable it with the button; on later visits, your first tap or keyboard interaction unlocks playback. Each cue plays once per event. Muting, pausing, hiding the tab, switching views, or changing the rig stops any current effect. The effects are synthesized locally with Web Audio; no sound download or audio service is needed.
+
+The cat and fish share the responsive proportions in `web/scene-sizing.js`. The cat is approximately 108–148 CSS pixels tall; reef fish are roughly one quarter of that height in length, sharks slightly longer than the cat is tall, and the whale remains the longest. Tall species such as sunfish retain their aspect ratio but stay below 72% of the cat's height. Authored visible bounds keep transparent padding out of the measurements. Fish textures are decoded for the largest supported layout so resizing stays sharp without rerendering the assets.
+
+**Mồi** selects one of six actual Cute Fish Pack lures, including their metal hooks. The rope attaches to the lure's nose and the fish's mouth meets its hook. Once the fish bites, the entire lure and hook disappear through the bite, pull, and landing; the rope follows the mouth directly. The lure becomes visible again when the fish releases or the next round starts. Fish sizes are scaled by species: clownfish and small reef fish are much smaller than shark, dolphin, manta and whale. Cat-inspired Toon uses warm outlined color blocks and matte shadows against a light turquoise aquarium. Cute Fish Pack fish retain their authored face geometry, pattern regions and swimming animations, with dark warm pupils and white highlights.
+
+Render all 35 Cute Fish Pack species locally, keeping their IDs separate from the original models:
+
+```bash
+python3 tools/render_cute_fish.py --output dist --size 1024 --engine eevee --jobs 1
+```
+
+This optional helper renders one looping `swim` clip per species from `Swimming_Normal` at 12 fps. It excludes docks, rods, lures, the boat, and worm. IDs use a `cute-` prefix, so the new shark cannot overwrite the original shark. Per-species `manifest.aquarium` metadata supplies the intended body width, speed, facing, mouth anchor, and catch eligibility. The aquarium adapts its atlas decoding to the displayed fish size, keeping full-resolution source images for individual inspection. Rendering does not publish anything or start GitHub Actions.
+
+Eevee uses the local GPU when available. Omit `--engine eevee` to use the CPU Cycles fallback. `--only Clownfish,BlueTang` renders a subset; `--jobs` accepts 1 or 2 concurrent Blender processes. The original `.blend` files are never saved or overwritten.
+
+The original source packs live under `raw/`. To regenerate just the added fishing props and package the cat:
 
 ```bash
 python3 tools/render_fishing_rods.py --output dist --size 1024
-python3 tools/package_boy.py --output dist
+python3 tools/render_fishing_lures.py --output dist --size 1024
+python3 tools/package_fishing_cat.py --output dist
 ```
 
-Rod renders use thin outlines to keep their shafts visible. The boy's ten supplied Idle PNGs are packed without changing the original pixels, with hand and feet anchors measured for compositing.
+Rod renders use thin outlines to keep their shafts visible. The cat packager composes the supplied Craftpix Cat1 head, body, tail, and forepaw without its weapon. It creates 84 frames at 512 px: twelve Idle, twelve Pull, twelve Bite, twenty-four Celebrate, and twenty-four Miss frames, with feet, paw, and head anchors. The extra expressions use vector shapes that match the original warm outlines and fur colors. On macOS, CoreGraphics rasterizes the supplied vector parts at 4× for sharp Retina display; other platforms use the supplied PNG parts. Blender handles the CPU image composition. The source artwork and license stay unchanged, and the license is copied into the output. The original boy remains available through `tools/package_boy.py`.
 
 For a local preview:
 
@@ -70,7 +103,7 @@ python3 pipeline.py render --recolor
 # Render a single cartoon fish sample with cel shading, outlines, eyes, and a mouth
 python3 pipeline.py render --only Fish1 --actions swim --style cartoon --add-face --size 256 --fps 12 --output dist-cartoon
 
-# Apply the approved cartoon style and facial features to all seven aquatic models locally
+# Apply the base cartoon style and facial features to all seven original aquatic models
 python3 pipeline.py render --input "raw/Animated Fish Pack by @Quaternius/Blends" --style cartoon --add-face --size 1024 --output dist
 
 # Use Eevee on a machine with an available GPU (faster)

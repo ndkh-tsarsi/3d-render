@@ -334,7 +334,7 @@ def write_catalog(output: Path) -> dict:
     catalog = {"format": "html5-sprite-catalog-v1", "assets": assets}
     (output / "catalog.json").write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     web = ROOT / "web"
-    for name in ("index.html", "player.js", "aquarium.js", "fishing.js", "style.css"):
+    for name in ("index.html", "player.js", "aquarium.js", "fishing.js", "fishing-audio.js", "scene-sizing.js", "style.css"):
         shutil.copy2(web / name, output / name)
     return catalog
 

@@ -43,7 +43,7 @@ def main() -> int:
             raise PipelineError("Choose a generated asset directory such as dist, not a Git checkout")
         validate_output(output)
         catalog = json.loads((output / "catalog.json").read_text(encoding="utf-8"))
-        paths = ["catalog.json", "index.html", "player.js", "aquarium.js", "fishing.js", "style.css"]
+        paths = ["catalog.json", "index.html", "player.js", "aquarium.js", "fishing.js", "fishing-audio.js", "scene-sizing.js", "style.css"]
         for name in paths:
             if not (output / name).is_file():
                 raise PipelineError(f"Missing preview file: {name}")
