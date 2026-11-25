@@ -1,50 +1,94 @@
 {
   "frames": {
-    "walk/0033": {
+    "attack/0008": {
       "frame": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "sourceSize": {
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       }
     },
-    "walk/0034": {
+    "attack/0009": {
       "frame": {
-        "x": 256,
+        "x": 1024,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "sourceSize": {
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
+      }
+    },
+    "death/0000": {
+      "frame": {
+        "x": 0,
+        "y": 1024,
+        "w": 1024,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1024,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 1024,
+        "h": 1024
+      }
+    },
+    "death/0001": {
+      "frame": {
+        "x": 1024,
+        "y": 1024,
+        "w": 1024,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1024,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 1024,
+        "h": 1024
       }
     }
   },
   "animations": {
-    "walk": [
-      "walk/0033",
-      "walk/0034"
+    "attack": [
+      "attack/0008",
+      "attack/0009"
+    ],
+    "death": [
+      "death/0000",
+      "death/0001"
     ]
   },
   "meta": {
@@ -53,8 +97,8 @@
     "image": "atlas-2.png",
     "format": "RGBA8888",
     "size": {
-      "w": 512,
-      "h": 256
+      "w": 2048,
+      "h": 2048
     },
     "scale": "1"
   }

@@ -4,7 +4,7 @@
     {
       "id": "apatosaurus",
       "name": "Apatosaurus",
-      "version": "cece6e5845a42e32",
+      "version": "8d2b01d1f3d25479",
       "manifest": "apatosaurus/manifest.json",
       "animations": [
         "attack",
@@ -408,8 +408,8 @@
     },
     {
       "id": "fishing-cat",
-      "name": "M\u00e8o c\u00e2u c\u00e1",
-      "version": "0f6cd0232488346b",
+      "name": "M\u00e8o cam \u00b7 Nguy\u00ean b\u1ea3n",
+      "version": "1b0847751371f129",
       "manifest": "fishing-cat/manifest.json",
       "animations": [
         "idle",
@@ -418,7 +418,452 @@
         "celebrate",
         "miss"
       ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "Cat1",
+        "weaponFree": true,
+        "outfit": {
+          "id": "basic",
+          "name": "Nguy\u00ean b\u1ea3n",
+          "order": 1
+        }
+      },
       "thumbnail": "fishing-cat/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-02",
+      "name": "M\u00e8o cam \u00b7 M\u0169 x\u00e1m",
+      "version": "6fb451112817ca3e",
+      "manifest": "fishing-cat-02/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "Cat2",
+        "weaponFree": true,
+        "outfit": {
+          "id": "gray-cap",
+          "name": "M\u0169 x\u00e1m",
+          "order": 2
+        }
+      },
+      "thumbnail": "fishing-cat-02/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-03",
+      "name": "M\u00e8o cam \u00b7 M\u0169 xanh ng\u1ecdc",
+      "version": "3123ef2447349a8a",
+      "manifest": "fishing-cat-03/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "Cat3",
+        "weaponFree": true,
+        "outfit": {
+          "id": "teal-cap",
+          "name": "M\u0169 xanh ng\u1ecdc",
+          "order": 3
+        }
+      },
+      "thumbnail": "fishing-cat-03/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-04",
+      "name": "M\u00e8o cam \u00b7 M\u0169 h\u1ed3ng",
+      "version": "3a259854ce05afe9",
+      "manifest": "fishing-cat-04/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "Cat4",
+        "weaponFree": true,
+        "outfit": {
+          "id": "pink-cap",
+          "name": "M\u0169 h\u1ed3ng",
+          "order": 4
+        }
+      },
+      "thumbnail": "fishing-cat-04/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-05",
+      "name": "M\u00e8o cam \u00b7 \u00c1o tr\u00f9m cam",
+      "version": "04f32ff195bf6130",
+      "manifest": "fishing-cat-05/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "Cat5",
+        "weaponFree": true,
+        "outfit": {
+          "id": "orange-hood",
+          "name": "\u00c1o tr\u00f9m cam",
+          "order": 5
+        }
+      },
+      "thumbnail": "fishing-cat-05/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-06",
+      "name": "M\u00e8o x\u00e1m \u00b7 Qu\u1ea7n tr\u1eafng",
+      "version": "2289b7a5b2d052f8",
+      "manifest": "fishing-cat-06/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "gray-tabby",
+        "familyName": "M\u00e8o x\u00e1m",
+        "species": "gray-tabby",
+        "sourceCharacter": "Cat6",
+        "weaponFree": true,
+        "outfit": {
+          "id": "white-pants",
+          "name": "Qu\u1ea7n tr\u1eafng",
+          "order": 1
+        }
+      },
+      "thumbnail": "fishing-cat-06/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-07",
+      "name": "M\u00e8o x\u00e1m \u00b7 Kh\u0103n h\u1ea3i t\u1eb7c",
+      "version": "8970af558a7225c0",
+      "manifest": "fishing-cat-07/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "gray-tabby",
+        "familyName": "M\u00e8o x\u00e1m",
+        "species": "gray-tabby",
+        "sourceCharacter": "Cat7",
+        "weaponFree": true,
+        "outfit": {
+          "id": "pirate-headwrap",
+          "name": "Kh\u0103n h\u1ea3i t\u1eb7c",
+          "order": 2
+        }
+      },
+      "thumbnail": "fishing-cat-07/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-08",
+      "name": "M\u00e8o x\u00e1m \u00b7 K\u00ednh xanh, kh\u0103n \u0111\u1ecf",
+      "version": "b30d9a3f164f9508",
+      "manifest": "fishing-cat-08/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "gray-tabby",
+        "familyName": "M\u00e8o x\u00e1m",
+        "species": "gray-tabby",
+        "sourceCharacter": "Cat8",
+        "weaponFree": true,
+        "outfit": {
+          "id": "blue-goggles",
+          "name": "K\u00ednh xanh, kh\u0103n \u0111\u1ecf",
+          "order": 3
+        }
+      },
+      "thumbnail": "fishing-cat-08/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-09",
+      "name": "M\u00e8o x\u00e1m \u00b7 M\u0169 v\u00e0ng, k\u00ednh tr\u00f2n",
+      "version": "beb9ac8168c13673",
+      "manifest": "fishing-cat-09/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "gray-tabby",
+        "familyName": "M\u00e8o x\u00e1m",
+        "species": "gray-tabby",
+        "sourceCharacter": "Cat9",
+        "weaponFree": true,
+        "outfit": {
+          "id": "gold-top-hat",
+          "name": "M\u0169 v\u00e0ng, k\u00ednh tr\u00f2n",
+          "order": 4
+        }
+      },
+      "thumbnail": "fishing-cat-09/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-10",
+      "name": "M\u00e8o x\u00e1m \u00b7 M\u0169 \u0111\u1ecf, kh\u0103n xanh",
+      "version": "bd6620648c3fb158",
+      "manifest": "fishing-cat-10/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "gray-tabby",
+        "familyName": "M\u00e8o x\u00e1m",
+        "species": "gray-tabby",
+        "sourceCharacter": "Cat10",
+        "weaponFree": true,
+        "outfit": {
+          "id": "red-beret",
+          "name": "M\u0169 \u0111\u1ecf, kh\u0103n xanh",
+          "order": 5
+        }
+      },
+      "thumbnail": "fishing-cat-10/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-11",
+      "name": "M\u00e8o tr\u1eafng \u00b7 Kh\u0103n cam",
+      "version": "e9cc83a9e360a816",
+      "manifest": "fishing-cat-11/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "white-cat",
+        "familyName": "M\u00e8o tr\u1eafng",
+        "species": "white-cat",
+        "sourceCharacter": "Cat11",
+        "weaponFree": true,
+        "outfit": {
+          "id": "orange-collar",
+          "name": "Kh\u0103n cam",
+          "order": 1
+        }
+      },
+      "thumbnail": "fishing-cat-11/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-12",
+      "name": "M\u00e8o tr\u1eafng \u00b7 M\u0169 t\u00edm",
+      "version": "09ffe25bd82f5ef7",
+      "manifest": "fishing-cat-12/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "white-cat",
+        "familyName": "M\u00e8o tr\u1eafng",
+        "species": "white-cat",
+        "sourceCharacter": "Cat12",
+        "weaponFree": true,
+        "outfit": {
+          "id": "purple-helmet",
+          "name": "M\u0169 t\u00edm",
+          "order": 2
+        }
+      },
+      "thumbnail": "fishing-cat-12/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-13",
+      "name": "M\u00e8o tr\u1eafng \u00b7 M\u0169 xanh lam",
+      "version": "86ed915141006ff7",
+      "manifest": "fishing-cat-13/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "white-cat",
+        "familyName": "M\u00e8o tr\u1eafng",
+        "species": "white-cat",
+        "sourceCharacter": "Cat13",
+        "weaponFree": true,
+        "outfit": {
+          "id": "blue-helmet",
+          "name": "M\u0169 xanh lam",
+          "order": 3
+        }
+      },
+      "thumbnail": "fishing-cat-13/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-14",
+      "name": "M\u00e8o tr\u1eafng \u00b7 M\u0169 s\u1eebng v\u00e0ng",
+      "version": "3b2a1975f14626d1",
+      "manifest": "fishing-cat-14/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "white-cat",
+        "familyName": "M\u00e8o tr\u1eafng",
+        "species": "white-cat",
+        "sourceCharacter": "Cat14",
+        "weaponFree": true,
+        "outfit": {
+          "id": "horned-helmet",
+          "name": "M\u0169 s\u1eebng v\u00e0ng",
+          "order": 4
+        }
+      },
+      "thumbnail": "fishing-cat-14/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-15",
+      "name": "M\u00e8o tr\u1eafng \u00b7 M\u0169 k\u00ednh, m\u1eb7t n\u1ea1",
+      "version": "b52dc282e13b51c3",
+      "manifest": "fishing-cat-15/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "white-cat",
+        "familyName": "M\u00e8o tr\u1eafng",
+        "species": "white-cat",
+        "sourceCharacter": "Cat15",
+        "weaponFree": true,
+        "outfit": {
+          "id": "masked-helmet",
+          "name": "M\u0169 k\u00ednh, m\u1eb7t n\u1ea1",
+          "order": 5
+        }
+      },
+      "thumbnail": "fishing-cat-15/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-boxer",
+      "name": "M\u00e8o cam \u00b7 V\u00f5 s\u0129",
+      "version": "a54c54827c379237",
+      "manifest": "fishing-cat-boxer/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "CatBoxing",
+        "weaponFree": true,
+        "outfit": {
+          "id": "boxer",
+          "name": "V\u00f5 s\u0129",
+          "order": 6
+        }
+      },
+      "thumbnail": "fishing-cat-boxer/thumbnail.png"
+    },
+    {
+      "id": "fishing-cat-guardian",
+      "name": "M\u00e8o cam \u00b7 Hi\u1ec7p s\u0129",
+      "version": "c816540e3b14cd88",
+      "manifest": "fishing-cat-guardian/manifest.json",
+      "animations": [
+        "idle",
+        "pull",
+        "bite",
+        "celebrate",
+        "miss"
+      ],
+      "actor": {
+        "kind": "cat",
+        "family": "orange-tabby",
+        "familyName": "M\u00e8o cam",
+        "species": "orange-tabby",
+        "sourceCharacter": "CatGuardian",
+        "weaponFree": true,
+        "outfit": {
+          "id": "guardian",
+          "name": "Hi\u1ec7p s\u0129",
+          "order": 7
+        }
+      },
+      "thumbnail": "fishing-cat-guardian/thumbnail.png"
     },
     {
       "id": "fishingrod-lvl1",
@@ -543,7 +988,7 @@
     {
       "id": "parasaurolophus",
       "name": "Parasaurolophus",
-      "version": "f6c5e4314c1a1a67",
+      "version": "3a31c59b16f3ba94",
       "manifest": "parasaurolophus/manifest.json",
       "animations": [
         "attack",
@@ -578,7 +1023,7 @@
     {
       "id": "stegosaurus",
       "name": "Stegosaurus",
-      "version": "2f213ad979ba8115",
+      "version": "ff44b54d3ed56ee6",
       "manifest": "stegosaurus/manifest.json",
       "animations": [
         "attack",
@@ -593,7 +1038,7 @@
     {
       "id": "trex",
       "name": "Trex",
-      "version": "be91cc164dca9978",
+      "version": "519d18e70adf1ff4",
       "manifest": "trex/manifest.json",
       "animations": [
         "attack",
@@ -608,7 +1053,7 @@
     {
       "id": "triceratops",
       "name": "Triceratops",
-      "version": "e929936cd56abbbd",
+      "version": "ccc72b61a91dbbab",
       "manifest": "triceratops/manifest.json",
       "animations": [
         "attack",
@@ -623,7 +1068,7 @@
     {
       "id": "velociraptor",
       "name": "Velociraptor",
-      "version": "e9e6229bade288cb",
+      "version": "b76e66eebca1e3b6",
       "manifest": "velociraptor/manifest.json",
       "animations": [
         "attack",

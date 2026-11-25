@@ -1,5 +1,5 @@
 import { Aquarium } from "./aquarium.js?v=scene-ratio-1";
-import { FishingRig } from "./fishing.js?v=scene-ratio-1";
+import { FishingRig } from "./fishing.js?v=native-arm-1";
 import { FishingAudio } from "./fishing-audio.js?v=fishing-sound-1";
 
 const assetSelect = document.querySelector("#asset");
@@ -21,6 +21,8 @@ const aquariumReset = document.querySelector("#aquarium-reset");
 const swimSpeed = document.querySelector("#swim-speed");
 const speedValue = document.querySelector("#speed-value");
 const rodSelect = document.querySelector("#fishing-rod");
+const catSelect = document.querySelector("#fishing-cat");
+const outfitSelect = document.querySelector("#cat-outfit");
 const fishingStatus = document.querySelector("#fishing-status");
 const castBaitButton = document.querySelector("#cast-bait");
 const biteStatus = document.querySelector("#bite-status");
@@ -34,7 +36,10 @@ const soundToggle = document.querySelector("#sound-toggle");
 
 let catalog;
 let manifest;
-let atlasImages = [];
+let spriteAtlases;
+let pendingSpriteAtlases;
+let assetController;
+let spritePageError;
 let frameIndex = 0;
 let elapsed = 0;
 let lastTime = performance.now();
@@ -48,6 +53,9 @@ let aquariumLoadPromise;
 let aquariumReady = false;
 let aquariumPlaying = true;
 let latestFishingState = { phase: "disabled" };
+let actorLoading = false;
+let actorLoadId = 0;
+let catVariants = [];
 let rodLoading = false;
 let lureLoading = false;
 let rodLoadId = 0;
@@ -88,7 +96,7 @@ const aquarium = new Aquarium(document.querySelector("#aquarium-stage"), {
   },
   onFishingEvent(state) {
     fishingAudio.handleEvent(state, { active: aquariumReady && aquariumPlaying
-      && currentView === "aquarium" && !document.hidden && !rodLoading && !lureLoading
+      && currentView === "aquarium" && !document.hidden && !actorLoading && !rodLoading && !lureLoading
       && Boolean(fishingRig.rod) });
     updateBiteStatus(state);
   },
@@ -135,7 +143,9 @@ function updateBiteStatus(state) {
 
 async function ensureAquarium() {
   if (!aquariumLoadPromise) {
-    aquariumLoadPromise = Promise.all([aquarium.load(catalog), chooseFishingRod(), chooseFishingLure()]).catch((error) => {
+    aquariumLoadPromise = Promise.all([
+      aquarium.load(catalog), chooseFishingActor(), chooseFishingRod(), chooseFishingLure(),
+    ]).catch((error) => {
       aquariumLoadPromise = null;
       throw error;
     });
@@ -145,13 +155,71 @@ async function ensureAquarium() {
 }
 
 function syncFishingAvailability() {
-  aquarium.setFishingEnabled(Boolean(fishingRig.rod) && !rodLoading && !lureLoading);
+  aquarium.setFishingEnabled(Boolean(fishingRig.actor && fishingRig.rod)
+    && !actorLoading && !rodLoading && !lureLoading);
 }
 
 function updateRigStatus() {
+  const actor = fishingRig.actor?.manifest.actor;
+  const cat = actor?.familyName ?? fishingRig.actor?.manifest.name ?? "Mèo câu cá";
+  const outfit = actor?.outfit?.name;
+  const character = outfit ? `${cat} · ${outfit}` : cat;
   fishingStatus.textContent = fishingRig.rod
-    ? `Mèo câu cá · ${rodSelect.selectedOptions[0]?.textContent ?? ""} · ${lureSelect.selectedOptions[0]?.textContent ?? ""}`
-    : "Mèo đang ngắm đàn cá";
+    ? `${character} · ${rodSelect.selectedOptions[0]?.textContent ?? ""} · ${lureSelect.selectedOptions[0]?.textContent ?? ""}`
+    : `${character} đang ngắm đàn cá`;
+}
+
+function catFamily(asset) {
+  return asset.actor?.family ?? "orange-tabby";
+}
+
+function populateCatOutfits(preferredId) {
+  const variants = catVariants.filter((asset) => catFamily(asset) === catSelect.value)
+    .sort((first, second) => (first.actor?.outfit?.order ?? 0) - (second.actor?.outfit?.order ?? 0));
+  outfitSelect.replaceChildren(...variants.map((asset) =>
+    new Option(asset.actor?.outfit?.name ?? "Nguyên bản", asset.id)));
+  outfitSelect.value = variants.some((asset) => asset.id === preferredId) ? preferredId : variants[0]?.id ?? "";
+  outfitSelect.disabled = !variants.length;
+}
+
+function configureCatControls() {
+  catVariants = catalog.assets.filter((asset) => asset.actor?.kind === "cat" || asset.id === "fishing-cat");
+  const families = new Map(catVariants.map((asset) => [catFamily(asset), asset.actor?.familyName ?? "Mèo cam"]));
+  catSelect.replaceChildren(...[...families].map(([family, name]) => new Option(name, family)));
+  const initial = catVariants.find((asset) => asset.id === "fishing-cat") ?? catVariants[0];
+  catSelect.value = initial ? catFamily(initial) : "";
+  catSelect.disabled = !initial;
+  populateCatOutfits(initial?.id);
+}
+
+async function chooseFishingActor() {
+  fishingAudio.stop();
+  const requestId = ++actorLoadId;
+  actorLoading = true;
+  syncFishingAvailability();
+  fishingStatus.textContent = "Đang chuẩn bị mèo và trang phục…";
+  let committed = false;
+  try {
+    if (!await fishingRig.loadActor(catalog, outfitSelect.value || "fishing-cat")) return;
+    committed = true;
+  } catch (error) {
+    console.error(error);
+    if (requestId === actorLoadId) {
+      const previous = catVariants.find((asset) => asset.id === fishingRig.actorAssetId);
+      if (previous) {
+        catSelect.value = catFamily(previous);
+        populateCatOutfits(previous.id);
+      }
+      fishingStatus.textContent = `Không tải được trang phục: ${error.message}`;
+    }
+  } finally {
+    if (requestId === actorLoadId) {
+      actorLoading = false;
+      syncFishingAvailability();
+      if (committed && !rodLoading && !lureLoading) updateRigStatus();
+      aquarium.draw();
+    }
+  }
 }
 
 async function chooseFishingRod() {
@@ -161,8 +229,8 @@ async function chooseFishingRod() {
   syncFishingAvailability();
   fishingStatus.textContent = "Đang chuẩn bị cần câu…";
   try {
-    if (!await fishingRig.load(catalog, rodSelect.value)) return;
-    if (!lureLoading) updateRigStatus();
+    if (!await fishingRig.loadRod(catalog, rodSelect.value)) return;
+    if (!actorLoading && !lureLoading) updateRigStatus();
   } catch (error) {
     console.error(error);
     if (requestId === rodLoadId) fishingStatus.textContent = `Không tải được cần câu: ${error.message}`;
@@ -183,7 +251,7 @@ async function chooseFishingLure() {
   fishingStatus.textContent = "Đang chuẩn bị mồi câu…";
   try {
     if (!await fishingRig.loadLure(catalog, lureSelect.value)) return;
-    if (!rodLoading) updateRigStatus();
+    if (!actorLoading && !rodLoading) updateRigStatus();
   } catch (error) {
     console.error(error);
     if (requestId === lureLoadId) fishingStatus.textContent = `Không tải được mồi câu: ${error.message}`;
@@ -276,49 +344,215 @@ window.addEventListener("resize", syncCanvasResolution);
 watchPixelRatio();
 syncCanvasResolution();
 
-async function fetchJson(path) {
-  const response = await fetch(path, { cache: "no-cache" });
+async function fetchJson(path, signal) {
+  const response = await fetch(path, { cache: "no-cache", signal });
   if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
   return response.json();
 }
 
-function loadImage(path) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error(`Could not load ${path}`));
-    image.src = path;
-  });
+const SPRITE_ATLAS_LIMIT = 3;
+const SPRITE_ATLAS_EDGE = 2048;
+
+function abortedAtlasLoad() {
+  return new DOMException("Sprite page load was cancelled", "AbortError");
+}
+
+function releaseSpriteImage(image) {
+  if (typeof image?.close === "function") image.close();
+  else if (image && "src" in image) image.src = "";
+  else if (image) image.width = image.height = 0;
+}
+
+async function decodeSpritePage(path, page, signal) {
+  const scale = Math.min(1, SPRITE_ATLAS_EDGE / Math.max(page.size.w, page.size.h));
+  const width = Math.max(1, Math.round(page.size.w * scale));
+  const height = Math.max(1, Math.round(page.size.h * scale));
+  let image;
+  if (typeof createImageBitmap === "function") {
+    const response = await fetch(path, { cache: "force-cache", signal });
+    if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
+    const blob = await response.blob();
+    if (signal.aborted) throw abortedAtlasLoad();
+    try {
+      image = await createImageBitmap(blob, {
+        resizeWidth: width, resizeHeight: height, resizeQuality: "high",
+      });
+    } catch (error) {
+      if (signal.aborted) throw abortedAtlasLoad();
+      // Some browsers expose ImageBitmap but cannot decode or resize this PNG.
+    }
+  }
+  if (!image) {
+    image = await new Promise((resolve, reject) => {
+      const source = new Image();
+      const clean = () => {
+        signal.removeEventListener("abort", cancel);
+        source.onload = source.onerror = null;
+      };
+      const cancel = () => {
+        clean();
+        source.src = "";
+        reject(abortedAtlasLoad());
+      };
+      source.onload = () => { clean(); resolve(source); };
+      source.onerror = () => { clean(); reject(new Error(`Could not load ${path}`)); };
+      signal.addEventListener("abort", cancel, { once: true });
+      if (signal.aborted) cancel();
+      else source.src = path;
+    });
+  }
+  if (signal.aborted) {
+    releaseSpriteImage(image);
+    throw abortedAtlasLoad();
+  }
+  // Respect the memory cap even if a browser ignores ImageBitmap resize options.
+  if (image.width > width || image.height > height) {
+    const reduced = typeof OffscreenCanvas === "function"
+      ? new OffscreenCanvas(width, height) : document.createElement("canvas");
+    reduced.width = width;
+    reduced.height = height;
+    try {
+      const reducedContext = reduced.getContext("2d");
+      reducedContext.imageSmoothingEnabled = true;
+      reducedContext.imageSmoothingQuality = "high";
+      reducedContext.drawImage(image, 0, 0, width, height);
+    } finally {
+      releaseSpriteImage(image);
+    }
+    image = reduced;
+  }
+  return { image, scaleX: image.width / page.size.w, scaleY: image.height / page.size.h };
+}
+
+class SpriteAtlasCache {
+  constructor(model, imagePath) {
+    this.pages = new Map(model.atlases.map((page) => [page.page, page]));
+    this.imagePath = imagePath;
+    this.entries = new Map();
+    this.errors = new Map();
+    this.focus = new Set();
+    this.destroyed = false;
+  }
+
+  get(pageId) {
+    const entry = this.entries.get(pageId);
+    if (!entry?.value) return null;
+    this.entries.delete(pageId);
+    this.entries.set(pageId, entry);
+    return entry.value;
+  }
+
+  isLoading(pageId) {
+    const entry = this.entries.get(pageId);
+    return Boolean(entry && !entry.value);
+  }
+
+  setFocus(pageIds) {
+    this.focus = new Set(pageIds);
+    for (const [pageId, entry] of this.entries) {
+      if (!entry.value && !this.focus.has(pageId)) this.remove(pageId);
+    }
+  }
+
+  remove(pageId) {
+    const entry = this.entries.get(pageId);
+    if (!entry) return;
+    this.entries.delete(pageId);
+    entry.controller.abort();
+    if (entry.value) releaseSpriteImage(entry.value.image);
+  }
+
+  load(pageId) {
+    if (this.destroyed) return Promise.reject(abortedAtlasLoad());
+    const existing = this.entries.get(pageId);
+    if (existing) return existing.promise;
+    if (this.errors.has(pageId)) return Promise.reject(this.errors.get(pageId));
+    const page = this.pages.get(pageId);
+    if (!page) return Promise.reject(new Error(`Missing sprite atlas page ${pageId}`));
+    while (this.entries.size >= SPRITE_ATLAS_LIMIT) {
+      const oldest = [...this.entries.keys()].find((id) => !this.focus.has(id));
+      if (oldest === undefined) return Promise.reject(new Error("Sprite atlas cache is full"));
+      this.remove(oldest);
+    }
+    const entry = { controller: new AbortController(), value: null, promise: null };
+    this.entries.set(pageId, entry);
+    entry.promise = decodeSpritePage(this.imagePath(page.image), page, entry.controller.signal)
+      .then((value) => {
+        if (this.destroyed || this.entries.get(pageId) !== entry) {
+          releaseSpriteImage(value.image);
+          throw abortedAtlasLoad();
+        }
+        entry.value = value;
+        return value;
+      }).catch((error) => {
+        if (this.entries.get(pageId) === entry) this.entries.delete(pageId);
+        if (!this.destroyed && error.name !== "AbortError") this.errors.set(pageId, error);
+        throw error;
+      });
+    return entry.promise;
+  }
+
+  destroy() {
+    this.destroyed = true;
+    for (const pageId of this.entries.keys()) this.remove(pageId);
+    this.errors.clear();
+  }
 }
 
 async function chooseAsset(index) {
   const requestId = ++assetRequestId;
+  assetController?.abort();
+  assetController = new AbortController();
+  const controller = assetController;
+  spriteAtlases?.destroy();
+  pendingSpriteAtlases?.destroy();
+  spriteAtlases = pendingSpriteAtlases = null;
+  manifest = null;
+  spritePageError = null;
+  pauseButton.disabled = true;
+  animationSelect.disabled = true;
   const asset = catalog.assets[index];
   const base = asset.manifest.slice(0, asset.manifest.lastIndexOf("/") + 1);
   const versioned = (path) => asset.version
     ? `${path}?v=${encodeURIComponent(asset.version)}`
     : path;
   let nextManifest;
-  let nextImages;
+  let nextAtlases;
+  let initialAnimation;
   try {
-    nextManifest = await fetchJson(versioned(asset.manifest));
-    nextImages = await Promise.all(nextManifest.atlases.map((page) => loadImage(versioned(base + page.image))));
+    nextManifest = await fetchJson(versioned(asset.manifest), controller.signal);
+    if (requestId !== assetRequestId) return;
+    const names = Object.keys(nextManifest.animations);
+    initialAnimation = names.find((name) => name === "idle")
+      ?? names.find((name) => name === "swim") ?? names[0];
+    const firstFrame = nextManifest.animations[initialAnimation]?.frames[0];
+    if (!firstFrame) throw new Error(`${asset.name} has no animation frames`);
+    nextAtlases = new SpriteAtlasCache(nextManifest, (image) => versioned(base + image));
+    pendingSpriteAtlases = nextAtlases;
+    nextAtlases.setFocus([firstFrame.page]);
+    status.textContent = `Loading ${asset.name}…`;
+    await nextAtlases.load(firstFrame.page);
   } catch (error) {
+    nextAtlases?.destroy();
+    if (pendingSpriteAtlases === nextAtlases) pendingSpriteAtlases = null;
     if (requestId !== assetRequestId) return;
     throw error;
   }
-  if (requestId !== assetRequestId) return;
+  if (requestId !== assetRequestId) {
+    nextAtlases.destroy();
+    return;
+  }
 
-  // Keep the current character playable until the replacement is fully loaded.
+  // The previous canvas remains visible while only the first needed page loads.
   manifest = nextManifest;
-  atlasImages = nextImages;
+  spriteAtlases = nextAtlases;
+  pendingSpriteAtlases = null;
   const animationNames = Object.keys(manifest.animations);
   animationSelect.replaceChildren(
     ...animationNames.map((name) => new Option(name, name))
   );
-  animationSelect.value = animationNames.find((name) => name === "idle")
-    ?? animationNames.find((name) => name === "swim")
-    ?? animationNames[0];
+  animationSelect.value = initialAnimation;
+  animationSelect.disabled = false;
   canvas.style.aspectRatio = `${manifest.frameSize.w} / ${manifest.frameSize.h}`;
   syncCanvasResolution();
   status.textContent = `${manifest.name} · ${manifest.view.cameraAxis} profile`;
@@ -333,12 +567,49 @@ function chooseAnimation() {
   lastTime = performance.now();
   playing = true;
   pauseButton.textContent = "Pause";
+  spritePageError = null;
+  spriteAtlases.errors.clear();
   const animation = manifest.animations[animationSelect.value];
   details.textContent = `${animation.frames.length} frames · ${animation.fps} fps · ${animation.loop ? "loop" : "one-shot"}`;
+  primeSpritePages(animation);
+}
+
+function primeSpritePages(animation) {
+  const cache = spriteAtlases;
+  const frames = animation.frames;
+  const current = frames[frameIndex]?.page;
+  if (!cache || current === undefined) return;
+  let next;
+  if (playing) {
+    for (let offset = 1; offset < frames.length; offset += 1) {
+      const index = frameIndex + offset;
+      if (!animation.loop && index >= frames.length) break;
+      const pageId = frames[index % frames.length].page;
+      if (pageId !== current) { next = pageId; break; }
+    }
+  }
+  cache.setFocus(next === undefined ? [current] : [current, next]);
+  for (const pageId of cache.focus) {
+    if (!cache.get(pageId) && !cache.isLoading(pageId) && !cache.errors.has(pageId)) {
+      void cache.load(pageId).catch(() => {});
+    }
+  }
+  const error = cache.errors.get(current);
+  if (error && spritePageError !== current) {
+    spritePageError = current;
+    playing = false;
+    pauseButton.textContent = "Play";
+    showError(new Error(`${error.message}. Press Play to retry.`));
+  } else if (!error && spritePageError === null) {
+    status.textContent = cache.get(current)
+      ? `${manifest.name} · ${manifest.view.cameraAxis} profile`
+      : `Loading ${manifest.name} page ${current + 1}…`;
+  }
 }
 
 function drawFrame(frame) {
-  const image = atlasImages[frame.page];
+  const atlas = spriteAtlases?.get(frame.page);
+  if (!atlas) return;
   const rect = frame.frame;
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.save();
@@ -347,8 +618,9 @@ function drawFrame(frame) {
     context.scale(-1, 1);
   }
   context.drawImage(
-    image,
-    rect.x, rect.y, rect.w, rect.h,
+    atlas.image,
+    rect.x * atlas.scaleX, rect.y * atlas.scaleY,
+    rect.w * atlas.scaleX, rect.h * atlas.scaleY,
     0, 0, canvas.width, canvas.height
   );
   context.restore();
@@ -360,19 +632,36 @@ function animate(now) {
   if (manifest) {
     const animation = manifest.animations[animationSelect.value];
     const frames = animation.frames;
-    if (playing && frames.length) {
+    const ready = frames.length && spriteAtlases?.get(frames[frameIndex].page);
+    if (playing && ready) {
       elapsed += now - lastTime;
       while (playing && elapsed >= frames[frameIndex].durationMs) {
-        elapsed -= frames[frameIndex].durationMs;
-        if (frameIndex + 1 < frames.length) frameIndex += 1;
-        else if (animation.loop) frameIndex = 0;
-        else {
+        const next = frameIndex + 1 < frames.length ? frameIndex + 1 : animation.loop ? 0 : null;
+        if (next === null) {
           playing = false;
           elapsed = 0;
           pauseButton.textContent = "Play";
+        } else if (!spriteAtlases.get(frames[next].page)) {
+          // Keep the last drawn frame, dropping blocked wall time rather than
+          // skipping frames or clearing the canvas while a page is fetched.
+          elapsed = frames[frameIndex].durationMs;
+          const error = spriteAtlases.errors.get(frames[next].page);
+          if (error) {
+            playing = false;
+            pauseButton.textContent = "Play";
+            if (spritePageError !== frames[next].page) {
+              spritePageError = frames[next].page;
+              showError(new Error(`${error.message}. Press Play to retry.`));
+            }
+          }
+          break;
+        } else {
+          elapsed -= frames[frameIndex].durationMs;
+          frameIndex = next;
         }
       }
-    }
+    } else if (!ready) elapsed = 0;
+    primeSpritePages(animation);
     if (frames.length) drawFrame(frames[frameIndex]);
   }
   lastTime = now;
@@ -384,9 +673,14 @@ pauseButton.addEventListener("click", () => {
   playing = !playing;
   pauseButton.textContent = playing ? "Pause" : "Play";
   if (playing) {
+    spritePageError = null;
+    spriteAtlases.errors.clear();
     const frames = manifest.animations[animationSelect.value].frames;
     if (frameIndex === frames.length - 1) frameIndex = 0;
   }
+  elapsed = 0;
+  lastTime = performance.now();
+  primeSpritePages(manifest.animations[animationSelect.value]);
 });
 assetSelect.addEventListener("change", () => chooseAsset(Number(assetSelect.value)).catch(showError));
 animationSelect.addEventListener("change", () => {
@@ -417,6 +711,11 @@ aquariumReset.addEventListener("click", () => {
   aquarium.reset();
 });
 rodSelect.addEventListener("change", chooseFishingRod);
+catSelect.addEventListener("change", () => {
+  populateCatOutfits();
+  void chooseFishingActor();
+});
+outfitSelect.addEventListener("change", () => { void chooseFishingActor(); });
 lureSelect.addEventListener("change", chooseFishingLure);
 castBaitButton.addEventListener("click", () => aquarium.castBait());
 reelButton.addEventListener("click", () => aquarium.reelIn());
@@ -430,6 +729,7 @@ try {
   pauseButton.disabled = true;
   await setView(currentView);
   catalog = await fetchJson("catalog.json");
+  configureCatControls();
   const cuteFish = catalog.assets.filter((asset) => asset.id.startsWith("cute-"));
   cuteRoster.hidden = !cuteFish.length;
   cuteRosterSummary.textContent = `${cuteFish.length} loài mới từ Cute Fish Pack`;
@@ -446,7 +746,7 @@ try {
   const rods = catalog.assets.filter((asset) => /^fishingrod-lvl[1-5]$/.test(asset.id));
   rodSelect.replaceChildren(new Option("Tắt", ""),
     ...rods.map((asset) => new Option(`Cấp ${asset.id.slice(-1)}`, asset.id)));
-  rodSelect.value = rods[0]?.id ?? "";
+  rodSelect.value = rods.find((asset) => asset.id === "fishingrod-lvl5")?.id ?? rods[0]?.id ?? "";
   rodSelect.disabled = false;
   const lures = catalog.assets.filter((asset) => /^lure-[1-6]$/.test(asset.id));
   lureSelect.replaceChildren(...lures.map((asset) => new Option(`Mồi ${asset.id.slice(-1)}`, asset.id)));

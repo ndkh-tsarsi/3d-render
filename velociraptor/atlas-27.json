@@ -1,0 +1,40 @@
+{
+  "frames": {
+    "walk/0028": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 1024,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1024,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 1024,
+        "h": 1024
+      }
+    }
+  },
+  "animations": {
+    "walk": [
+      "walk/0028"
+    ]
+  },
+  "meta": {
+    "app": "blender-html5-sprite-pipeline",
+    "version": "1.0",
+    "image": "atlas-27.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 1024
+    },
+    "scale": "1"
+  }
+}

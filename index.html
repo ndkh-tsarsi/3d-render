@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mèo câu cá</title>
-    <link rel="stylesheet" href="style.css?v=fishing-sound-1" />
+    <link rel="stylesheet" href="style.css?v=cat-wardrobe-1" />
   </head>
   <body>
     <main>
       <header>
         <p class="eyebrow">Đại dương nhỏ</p>
           <h1>Mèo câu cá</h1>
-        <p>Cùng mèo cam thả mồi và khám phá đàn cá đầy màu sắc. Chờ cá cắn rồi giật cần nhé!</p>
+        <p>Chọn mèo và trang phục yêu thích, rồi khám phá đàn cá đầy màu sắc. Chờ cá cắn rồi giật cần nhé!</p>
       </header>
       <nav class="view-switch" aria-label="Preview mode">
         <button id="aquarium-view" type="button" aria-pressed="true" aria-controls="aquarium-panel">Bể cá</button>
@@ -24,6 +24,8 @@
             <span id="bite-status" class="bite-status" role="status" aria-live="polite" data-phase="disabled">Preparing the bait…</span>
           </div>
           <div class="tank-actions">
+            <label class="cat-control" for="fishing-cat">Mèo <select id="fishing-cat" disabled><option value="">Đang tải…</option></select></label>
+            <label class="cat-control outfit-control" for="cat-outfit">Trang phục <select id="cat-outfit" disabled><option value="">Đang tải…</option></select></label>
             <label class="speed-control" for="swim-speed">Tốc độ <input id="swim-speed" type="range" min="0.5" max="2" step="0.25" value="1" /><output id="speed-value" for="swim-speed">1×</output></label>
             <label class="rod-control" for="fishing-rod">Cần <select id="fishing-rod" disabled><option value="">Tắt</option></select></label>
             <label class="rod-control" for="fishing-lure">Mồi <select id="fishing-lure" disabled><option value="">Đang tải…</option></select></label>
@@ -78,7 +80,7 @@
       </section>
       <footer class="site-footer"><span>Local renders · 1024 × 1024 fish sprites · Retina ready</span><a href="https://github.com/ndkh-tsarsi/3d-render">Project on GitHub</a></footer>
     </main>
-    <script type="module" src="player.js?v=scene-ratio-1"></script>
+    <script type="module" src="player.js?v=native-arm-1"></script>
   </body>
 </html>
 

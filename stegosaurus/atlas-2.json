@@ -1,239 +1,92 @@
 {
   "frames": {
-    "walk/0024": {
+    "attack/0008": {
       "frame": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "sourceSize": {
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       }
     },
-    "walk/0025": {
-      "frame": {
-        "x": 256,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0026": {
-      "frame": {
-        "x": 512,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0027": {
-      "frame": {
-        "x": 768,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0028": {
+    "attack/0009": {
       "frame": {
         "x": 1024,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "sourceSize": {
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       }
     },
-    "walk/0029": {
+    "attack/0010": {
       "frame": {
-        "x": 1280,
-        "y": 0,
-        "w": 256,
-        "h": 256
+        "x": 0,
+        "y": 1024,
+        "w": 1024,
+        "h": 1024
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "sourceSize": {
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       }
     },
-    "walk/0030": {
+    "attack/0011": {
       "frame": {
-        "x": 1536,
-        "y": 0,
-        "w": 256,
-        "h": 256
+        "x": 1024,
+        "y": 1024,
+        "w": 1024,
+        "h": 1024
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       },
       "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0031": {
-      "frame": {
-        "x": 1792,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0032": {
-      "frame": {
-        "x": 0,
-        "y": 256,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0033": {
-      "frame": {
-        "x": 256,
-        "y": 256,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
-      }
-    },
-    "walk/0034": {
-      "frame": {
-        "x": 512,
-        "y": 256,
-        "w": 256,
-        "h": 256
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 256,
-        "h": 256
-      },
-      "sourceSize": {
-        "w": 256,
-        "h": 256
+        "w": 1024,
+        "h": 1024
       }
     }
   },
   "animations": {
-    "walk": [
-      "walk/0024",
-      "walk/0025",
-      "walk/0026",
-      "walk/0027",
-      "walk/0028",
-      "walk/0029",
-      "walk/0030",
-      "walk/0031",
-      "walk/0032",
-      "walk/0033",
-      "walk/0034"
+    "attack": [
+      "attack/0008",
+      "attack/0009",
+      "attack/0010",
+      "attack/0011"
     ]
   },
   "meta": {
@@ -243,7 +96,7 @@
     "format": "RGBA8888",
     "size": {
       "w": 2048,
-      "h": 512
+      "h": 2048
     },
     "scale": "1"
   }

@@ -42,6 +42,9 @@ button:disabled { cursor: default; opacity: .43; }
 .speed-control output { min-width: 3ch; color: #23768d; font-variant-numeric: tabular-nums; }
 .rod-control { display: flex; align-items: center; gap: 7px; font-weight: 600; }
 .rod-control select { width: 83px; padding-inline: 9px; font-size: .875rem; }
+.cat-control { display: flex; align-items: center; gap: 7px; font-weight: 600; }
+.cat-control select { width: 120px; padding-inline: 9px; font-size: .875rem; }
+.outfit-control select { width: 182px; }
 #cast-bait { border-color: #74cbc2; color: #148d84; background: #e0f8ee; }
 #reel-in { color: #9a5739; background: #ffe8c8; border-color: #ecc199; }
 #reel-in:not(:disabled) { color: #fff; background: #f57854; border-color: #e05e40; box-shadow: 0 4px 0 #d75839, 0 4px 18px #f58b633b; }
@@ -103,6 +106,10 @@ a { color: #138ca1; }
   .tank-actions button { min-height: 40px; padding-inline: 10px; }
   .rod-control { font-size: .8rem; }
   .rod-control select { width: 78px; }
+  .cat-control { font-size: .8rem; }
+  .cat-control select { width: 112px; }
+  .outfit-control { flex: 1; }
+  .outfit-control select { width: auto; min-width: 0; flex: 1; }
   .aquarium-shell { height: 560px; border-radius: 22px; }
   .fish-legend { gap: 10px 18px; }
   .site-footer { flex-direction: column; gap: 10px; }
