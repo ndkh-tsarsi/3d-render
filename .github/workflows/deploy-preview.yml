@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - name: Check out latest preview player
+      - name: Check out validation pipeline
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
@@ -36,10 +36,10 @@ jobs:
           path: dist/
           persist-credentials: false
 
-      - name: Apply latest preview and validate assets
-        run: |
-          cp web/index.html web/player.js web/aquarium.js web/fishing.js web/fishing-audio.js web/scene-sizing.js web/style.css dist/
-          python3 pipeline.py validate --output dist
+      # The published branch contains the exact player tested with these assets.
+      # Never replace it with files from main, or build/render anything here.
+      - name: Validate the complete pre-rendered bundle
+        run: python3 pipeline.py validate --output dist
 
       - name: Upload downloadable local assets
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
