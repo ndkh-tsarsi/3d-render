@@ -1,0 +1,5 @@
+/* The same game becomes a host-controlled surface when embedded with the SDK. */
+.is-embedded .game-shell{grid-template-rows:76px minmax(0,1fr)}
+.is-embedded .loadout-bar,.is-embedded #restart-button,.is-embedded #start-button,.is-embedded .control-hint{display:none}
+.is-embedded .welcome-card{padding-bottom:32px}
+@media(max-width:560px){.is-embedded .game-shell{grid-template-rows:109px minmax(0,1fr)}}

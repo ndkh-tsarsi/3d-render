@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compose a weapon-free orange fishing cat from the supplied vector parts."""
+"""Compose all fifteen weapon-free fishing cats with their source costumes."""
 from __future__ import annotations
 
 import argparse
@@ -25,6 +25,7 @@ let folder = URL(fileURLWithPath: CommandLine.arguments[2])
 let scale: CGFloat = 4
 guard let document = CGPDFDocument(input as CFURL) else { fatalError("Cannot read cat vector source") }
 for number in 1...document.numberOfPages {
+    if CommandLine.arguments.count > 3, let onlyPage = Int(CommandLine.arguments[3]), onlyPage != number { continue }
     let page = document.page(at: number)!
     let box = page.getBoxRect(.mediaBox)
     let w = Int(ceil(box.width * scale)), h = Int(ceil(box.height * scale))
@@ -47,9 +48,16 @@ def worker() -> None:
     import numpy as np
     import bpy
     from tools.package_boy import write_rgba, point
+    from tools import cat_arm_pose as arm_rig
+    from tools import native_cat_arm as native_rig
 
     args = sys.argv[sys.argv.index("--") + 1:]
-    output = Path(args[0]); source = Path(args[1]); parts = output.parent / "vector-parts"
+    output = Path(args[0]); source = Path(args[1]); parts = Path(args[2]) if len(args)>2 else output.parent / "vector-parts"
+    number = int(args[3]) if len(args)>3 else 1
+    if number != 1:
+        from tools.fishing_cat_roster import compose
+        compose(output,source,parts,number,"--probe" in args)
+        return
     output.mkdir(parents=True, exist_ok=True)
 
     def load(path):
@@ -63,14 +71,20 @@ def worker() -> None:
         return pixels.reshape(h,w,4)[::-1].copy()
 
     artwork = {name: load(parts / f"part-{index}.png") for name,index in {"head":1,"body":2,"tail":4,"gun":5}.items()}
-    # Only the original cream forearm is retained from the separate Gun part.
-    # The barrel, trigger and white gloves lie outside this mask and are omitted.
-    gun = artwork.pop("gun")
-    gh,gw=gun.shape[:2]
-    paw = gun[round(44/161*gh):round(133/161*gh), round(4/235*gw):round(61/235*gw)].copy()
-    warm = (paw[:,:,0] > paw[:,:,1] + .025) & (paw[:,:,0] > paw[:,:,2] + .025)
-    paw[:,:,3] *= warm
-    artwork["paw"] = paw
+    # Source Gun includes a complete arm, cuff and white closed paw. The cream
+    # rounded tip is its shoulder, not its hand. Keep the complete native limb.
+    artwork.pop("gun")
+    paw=load(parts/'native-arm.png')
+    if paw.shape[:2] != (161,235):
+        raise RuntimeError('Cat1 requires the complete native arm/cuff/paw artboard, not an arm-only crop')
+    artwork["paw"]=paw
+    landmarks={'shoulder':(35.,66.),'elbow':(26.,110.),
+        'wrist':(70.,124.),'grip':(96.,119.)}
+    # Preserve the existing cream arm's displayed size, using the same factor
+    # for the restored cuff and paw rather than scaling parts independently.
+    native_scale=(70/57+109/89)/2
+    native_hand={'pixels':paw,'wrist':landmarks['wrist'],'grip':landmarks['grip']}
+    rest_shoulder=(210.,326.)
 
     def expression_head(expression, gaze=0):
         """Add antialiased vector-style expressions in the original head's space.
@@ -188,10 +202,11 @@ def worker() -> None:
         return bytearray(np.clip(np.rint(rgba*255),0,255).astype(np.uint8).tobytes())
 
     records=[]; images=[]
-    clips={"idle":12,"pull":12,"bite":12,"celebrate":24,"miss":24}
+    clips=native_rig.CLIP_COUNTS
     for clip,count in clips.items():
         (output/"frames"/clip).mkdir(parents=True,exist_ok=True)
-        for index in range(count):
+        indices=(([0,19,39] if clip=='pull' else [{'idle':0,'bite':0,'celebrate':10,'miss':12}[clip]]) if '--probe' in args else range(count))
+        for index in indices:
             phase=index/count if clip in ("idle","bite") else index/(count-1)
             breath=.5-.5*math.cos(phase*math.tau)
             progress=phase*phase*(3-2*phase) if clip=="pull" else 0
@@ -245,28 +260,38 @@ def worker() -> None:
                 expression="disappointed" if index<count-1 else "calm"
             frame=np.zeros((SIZE,SIZE,4),dtype=np.float32)
             composite(frame,"tail",158,tail_y,164,140,tail_angle)
-            composite(frame,"paw",paw_x,paw_y,70,109,paw_angle)
+            shoulder=(rest_shoulder[0],center_y+(rest_shoulder[1]-359)*squash)
+            arm_pose=native_rig.pose(landmarks,shoulder,native_scale,clip,phase,motion_sign=-1.)
             body_pixels=composite(frame,"body",272,center_y,194,body_h)
             foot_rows,foot_columns=np.where(body_pixels[:,:,3]>=24/255)
             body_feet_y=float(foot_rows.max()+1)
             sole_columns=foot_columns[foot_rows>=body_feet_y-4]
             body_feet_x=float((sole_columns.min()+sole_columns.max())/2)
+            paw_pixels=arm_rig.draw_hand(frame,arm_pose,native_hand)
             composite(frame,head_name,head_x,head_y,354,330,head_angle)
-            # Paw grip is measured in that supplied forearm's local coordinates.
-            gx,gy=-6.,-4.
-            grip_x=paw_x+gx*math.cos(paw_angle)-gy*math.sin(paw_angle)
-            grip_y=paw_y+gx*math.sin(paw_angle)+gy*math.cos(paw_angle)
+            grip_x,grip_y=arm_pose['grip']['x'],arm_pose['grip']['y']
+            sample=paw_pixels[round(grip_y),round(grip_x)]
+            if (sample[3]<.99 or min(sample[:3])<.82
+                    or np.max(np.abs(frame[round(grip_y),round(grip_x),:3]-sample[:3]))>.02):
+                raise RuntimeError(f'Cat1 {clip}/{index}: fishing grip must be inside the visible original white palm')
+            hand_transform=arm_pose['handTransform']
             alpha=frame[:,:,3]
             ys,xs=np.where(alpha>=24/255)
             bounds={"x":int(xs.min()),"y":int(ys.min()),"w":int(xs.max()-xs.min()+1),"h":int(ys.max()-ys.min()+1)}
+            if min(bounds['x'],bounds['y'],SIZE-bounds['x']-bounds['w'],SIZE-bounds['y']-bounds['h'])<8:
+                raise RuntimeError(f'Cat1 {clip}/{index}: arm pose touches frame edge')
             key=f"{clip}/{index:04d}"
             data=pixels_rgba(frame)
             write_rgba(output/"frames"/f"{key}.png",SIZE,SIZE,data)
             records.append({"key":key,"image":f"frames/{key}.png","sourceFrame":index,
                 "durationMs":1000/18,"expression":expression,
+                "handTransform":hand_transform,
+                "arm":arm_rig.arm_metadata(arm_pose),
                 "anchors":{"feet":point(body_feet_x,body_feet_y,SIZE,SIZE),"grip":point(grip_x,grip_y,SIZE,SIZE),"head":point(head_x,head_y,SIZE,SIZE)},
                 "bounds":bounds,"palmCrop":{"x":grip_x-15,"y":grip_y-20,"w":30,"h":40}})
             images.append(data)
+    hand_layer=arm_rig.export_hand(output/'hand.png',native_hand)
+    hand_layer['overlayBounds']={'x':78,'y':107,'w':35,'h':31}
     atlases=[]
     for page,offset in enumerate(range(0,len(records),16)):
         entries=records[offset:offset+16];w=2048;h=math.ceil(len(entries)/4)*SIZE
@@ -283,14 +308,17 @@ def worker() -> None:
         (output/f"atlas-{page}.json").write_text(json.dumps({"frames":metadata,"animations":animations,"meta":{"app":"local-sprite-pipeline","image":f"atlas-{page}.png","format":"RGBA8888","size":{"w":w,"h":h},"scale":"1"}},indent=2)+'\n')
         atlases.append({"page":page,"image":f"atlas-{page}.png","data":f"atlas-{page}.json","size":{"w":w,"h":h}})
     vector_source=json.loads((parts/'mode.json').read_text())["vector"]
+    native_metadata=native_rig.metadata(landmarks,native_scale)
+    native_metadata['sourcePart']='Gun: complete near arm, cuff and white paw'
     manifest={"format":"html5-sprite-asset-v1","id":"fishing-cat","name":"Mèo câu cá",
         "style":"authored-cat-cartoon","generatedFace":False,"frameSize":{"w":SIZE,"h":SIZE},"maxAtlasSize":2048,
-        "anchorFacing":"left","view":{"type":"profile","cameraAxis":"left"},"pivot":records[0]["anchors"]["feet"],
+        "anchorFacing":"right","view":{"type":"profile","cameraAxis":"left"},"pivot":records[0]["anchors"]["feet"],
         "actor":{"kind":"cat","species":"orange-tabby","weaponFree":True,"sourceCharacter":"Cat1"},
+        "handLayer":hand_layer,"armRig":native_metadata,
         "thumbnail":"thumbnail.png","atlases":atlases,
         "animations":{clip:{"sourceAction":"Recomposed "+clip,"sourceRange":[0,count-1],"loop":clip in ("idle","bite"),"fps":18,"frames":[r for r in records if r['key'].startswith(clip+'/')]} for clip,count in clips.items()},
         "source":{"type":"provided-vector-parts" if vector_source else "provided-png-parts","folder":str(source.relative_to(ROOT)),"file":"Ai/Cat Characters/Char1 Parts.ai" if vector_source else "Spine/Characters/C1/Images",
-            "parts":["Head","Body","Tails","cream forearm crop from Gun; weapon omitted"],"modification":"Weapon-free composition; breathing/tail idle, pulling, alert, celebration and disappointment poses; antialiased code-native facial expressions; source files unchanged",
+            "parts":["Head","Body","Tails","complete original near arm, yellow cuff and white paw from Gun; weapon and far paw omitted"],"modification":"Complete native near arm at the original cream arm size; anatomical shoulder pivot and white palm grip, with source limb orientation, colors and outlines preserved; source files unchanged",
             "licenseFile":"../licenses/craftpix-cat-defense.txt","author":"Craftpix"}}
     (output/"manifest.json").write_text(json.dumps(manifest,indent=2)+'\n')
     shutil.copy2(output/'frames/idle/0000.png',output/'thumbnail.png')
@@ -299,22 +327,63 @@ def worker() -> None:
 
 def main() -> None:
     from pipeline import find_blender,write_catalog,validate_output
+    from tools.fishing_cat_roster import identity,annotate_identity
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source',default=SOURCE);parser.add_argument('--output',default='dist-cat-fisher')
+    parser.add_argument('--source',default=SOURCE)
+    parser.add_argument('--output',default='build/work/cat-native-arm-primary')
+    parser.add_argument('--only',help='Comma-separated character numbers (1..15) or fishing-cat IDs')
+    parser.add_argument('--probe',action='store_true',help='Three pulling poses and one pose per other clip for review')
     args=parser.parse_args();source=(ROOT/args.source).resolve();output=(ROOT/args.output).resolve()
-    parts=output/'vector-parts';parts.mkdir(parents=True,exist_ok=True)
+    if output==ROOT or output==ROOT/'dist' or (output.parent==ROOT and output.name.startswith('dist')):
+        parser.error('Use an isolated output under build/work')
+    numbers=list(range(1,16))
+    if args.only:
+        numbers=[]
+        for value in args.only.split(','):
+            value=value.strip().lower()
+            try:number=1 if value=='fishing-cat' else int(value.removeprefix('fishing-cat-').removeprefix('cat'))
+            except ValueError:parser.error(f'Unknown cat: {value}')
+            if not 1<=number<=15:parser.error('Character numbers must be1..15')
+            if number not in numbers:numbers.append(number)
+    cache=output.parent/'cat-fishing-vector-parts';cache.mkdir(parents=True,exist_ok=True)
     swift_bin=shutil.which('swift') if sys.platform=='darwin' else None
-    if swift_bin:
-        swift=parts/'render-cat-parts.swift';swift.write_text(SWIFT)
-        subprocess.run([swift_bin,'-module-cache-path','/private/tmp/fishing-cat-swift-cache',str(swift),str(source/'Ai/Cat Characters/Char1 Parts.ai'),str(parts)],check=True)
-    else:
-        print('CoreGraphics vector export is unavailable; using the supplied PNG parts.',flush=True)
-        for name,number in {'Head':1,'Body':2,'Shade':3,'Tails':4,'Gun':5}.items():
-            shutil.copy2(source/'Spine/Characters/C1/Images'/f'{name}.png',parts/f'part-{number}.png')
-    (parts/'mode.json').write_text(json.dumps({'vector':bool(swift_bin),'scale':4 if swift_bin else 1})+'\n')
     blender=find_blender()
     if not blender:parser.error('Blender is not installed; run pipeline.py setup')
-    subprocess.run([str(blender),'--background','--factory-startup','--python-exit-code','1','--python',str(Path(__file__).resolve()),'--',str(output/'fishing-cat'),str(source)],check=True,cwd=ROOT)
+    for number in numbers:
+        parts=cache/f'C{number:02d}';parts.mkdir(parents=True,exist_ok=True)
+        if swift_bin:
+            swift=cache/'render-cat-parts.swift';swift.write_text(SWIFT)
+            subprocess.run([swift_bin,'-module-cache-path','/private/tmp/fishing-cat-swift-cache',str(swift),str(source/f'Ai/Cat Characters/Char{number} Parts.ai'),str(parts)],check=True)
+        else:
+            parser.error('The complete costume roster needs CoreGraphics vector export on macOS')
+        (parts/'mode.json').write_text(json.dumps({'vector':True,'scale':4})+'\n')
+        if 1 <= number <= 5:
+            from tools.orange_native_arm import separate_orange_pdf
+            vector_parts=parts/'native-orange-vector'
+            native_pdf=separate_orange_pdf(source/f'Ai/Cat Characters/Char{number} Parts.ai',vector_parts)
+            raster=vector_parts/'native-arm';raster.mkdir(exist_ok=True)
+            subprocess.run([swift_bin,'-module-cache-path','/private/tmp/fishing-cat-swift-cache',str(swift),str(native_pdf),str(raster),'5'],check=True)
+            shutil.copy2(raster/'part-5.png',parts/'native-arm.png')
+        if 6 <= number <= 10:
+            from tools.native_cat_arm import separate_gray_pdf
+            vector_parts=parts/'native-vector'
+            separate_gray_pdf(source/f'Ai/Cat Characters/Char{number} Parts.ai',vector_parts)
+            for stem,target in (('body-without-arm','native-body'),('native-arm','native-arm'),('body-front','native-front')):
+                raster=vector_parts/stem;raster.mkdir(exist_ok=True)
+                subprocess.run([swift_bin,'-module-cache-path','/private/tmp/fishing-cat-swift-cache',str(swift),str(vector_parts/f'{stem}.pdf'),str(raster),'2'],check=True)
+                shutil.copy2(raster/'part-2.png',parts/f'{target}.png')
+        if 11 <= number <= 15:
+            from tools.white_native_arm import separate_white_pdf
+            vector_parts=parts/'native-white-vector'
+            native_pdf=separate_white_pdf(source/f'Ai/Cat Characters/Char{number} Parts.ai',vector_parts)
+            raster=vector_parts/'native-arm';raster.mkdir(exist_ok=True)
+            subprocess.run([swift_bin,'-module-cache-path','/private/tmp/fishing-cat-swift-cache',str(swift),str(native_pdf),str(raster),'5'],check=True)
+            shutil.copy2(raster/'part-5.png',parts/'native-arm.png')
+        folder=output/identity(number)['id']
+        command=[str(blender),'--background','--factory-startup','--python-exit-code','1','--python',str(Path(__file__).resolve()),'--',str(folder),str(source),str(parts),str(number)]
+        if args.probe:command.append('--probe')
+        subprocess.run(command,check=True,cwd=ROOT)
+        annotate_identity(folder/'manifest.json',number,args.probe)
     licenses=output/'licenses';licenses.mkdir(exist_ok=True)
     shutil.copy2(source/'license.txt',licenses/'craftpix-cat-defense.txt')
     write_catalog(output);validate_output(output)

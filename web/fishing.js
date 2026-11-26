@@ -1,68 +1,119 @@
-import { sceneSizing } from "./scene-sizing.js?v=scene-ratio-1";
+import { sceneSizing } from "./scene-sizing.js?v=fishing-shore-1";
+
+const BAKED_ARM_RIGS = new Set(["fishing-two-bone-v1", "fishing-native-art-v1"]);
 
 function versioned(path, version) {
   return version ? `${path}?v=${encodeURIComponent(version)}` : path;
 }
 
-async function texture(path, page, edge = 1024) {
+function cancelledModelLoad() {
+  return new DOMException("Character loading was cancelled", "AbortError");
+}
+
+function releaseTexture(image) {
+  if (typeof image?.close === "function") image.close();
+  else if (image && "src" in image) image.src = "";
+  else if (image) image.width = image.height = 0;
+}
+
+async function texture(path, page, edge = 1024, signal) {
+  if (signal?.aborted) throw cancelledModelLoad();
   const scale = Math.min(1, edge / Math.max(page.size.w, page.size.h));
   const width = Math.round(page.size.w * scale);
   const height = Math.round(page.size.h * scale);
   let image;
   if (typeof createImageBitmap === "function") {
-    const response = await fetch(path, { cache: "force-cache" });
+    const response = await fetch(path, { cache: "force-cache", signal });
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
+    const blob = await response.blob();
+    if (signal?.aborted) throw cancelledModelLoad();
     try {
-      image = await createImageBitmap(await response.blob(), {
+      image = await createImageBitmap(blob, {
         resizeWidth: width, resizeHeight: height, resizeQuality: "high",
       });
-    } catch {
+    } catch (error) {
+      if (signal?.aborted) throw cancelledModelLoad();
       // Fall back to the ordinary decoder on browsers without bitmap resizing.
     }
   }
   image ??= await new Promise((resolve, reject) => {
     const source = new Image();
-    source.onload = () => resolve(source);
-    source.onerror = () => reject(new Error(`Could not load ${path}`));
-    source.src = path;
+    const clean = () => {
+      source.onload = source.onerror = null;
+      signal?.removeEventListener("abort", cancel);
+    };
+    const cancel = () => {
+      clean(); source.src = ""; reject(cancelledModelLoad());
+    };
+    source.onload = () => { clean(); resolve(source); };
+    source.onerror = () => { clean(); source.src = ""; reject(new Error(`Could not load ${path}`)); };
+    signal?.addEventListener("abort", cancel, { once: true });
+    if (signal?.aborted) cancel();
+    else source.src = path;
   });
+  if (signal?.aborted) {
+    releaseTexture(image);
+    throw cancelledModelLoad();
+  }
   if (image.width > width || image.height > height) {
     const reduced = document.createElement("canvas");
     reduced.width = width;
     reduced.height = height;
-    const context = reduced.getContext("2d");
-    context.imageSmoothingQuality = "high";
-    context.drawImage(image, 0, 0, width, height);
-    image.close?.();
-    if (typeof HTMLImageElement !== "undefined" && image instanceof HTMLImageElement) image.src = "";
+    try {
+      const context = reduced.getContext("2d");
+      context.imageSmoothingQuality = "high";
+      context.drawImage(image, 0, 0, width, height);
+    } finally {
+      releaseTexture(image);
+    }
     image = reduced;
   }
   return { image, scaleX: image.width / page.size.w, scaleY: image.height / page.size.h };
 }
 
 function release(model) {
-  if (model) for (const atlas of model.images.values()) atlas.image.close?.();
+  if (model) for (const atlas of model.images.values()) releaseTexture(atlas.image);
+  if (model?.handTexture) releaseTexture(model.handTexture.image);
 }
 
-async function loadModel(asset, edge = 1024) {
+async function loadModel(asset, edge = 1024, signal) {
   if (!asset) return null;
-  const response = await fetch(versioned(asset.manifest, asset.version), { cache: "no-cache" });
+  const response = await fetch(versioned(asset.manifest, asset.version), { cache: "no-cache", signal });
   if (!response.ok) throw new Error(`${asset.manifest}: HTTP ${response.status}`);
   const manifest = await response.json();
+  if (signal?.aborted) throw cancelledModelLoad();
   const animation = manifest.animations.idle ?? Object.values(manifest.animations)[0];
   if (!animation?.frames?.length) throw new Error(`${asset.name} has no frames`);
   const base = asset.manifest.slice(0, asset.manifest.lastIndexOf("/") + 1);
   const frames = Object.values(manifest.animations).flatMap((clip) => clip.frames);
   const pages = manifest.atlases.filter((page) => frames.some((frame) => frame.page === page.page));
-  const results = await Promise.allSettled(pages.map(async (page) => [page.page,
-    await texture(versioned(base + page.image, asset.version), page, edge)]));
-  const images = new Map(results.filter((result) => result.status === "fulfilled").map((result) => result.value));
+  const hand = manifest.handLayer;
+  if (hand && (!hand.image || !(hand.size?.w > 0 && hand.size?.h > 0))) {
+    throw new Error(`${asset.name} has invalid native hand metadata`);
+  }
+  if (hand?.overlayBounds) {
+    const { x, y, w, h } = hand.overlayBounds;
+    if (![x, y, w, h].every(Number.isFinite) || x < 0 || y < 0 || w <= 0 || h <= 0
+        || x + w > hand.size.w || y + h > hand.size.h) {
+      throw new Error(`${asset.name} has invalid native hand overlay bounds`);
+    }
+  }
+  const loads = pages.map(async (page) => [page.page,
+    await texture(versioned(base + page.image, asset.version), page, edge, signal)]);
+  if (manifest.handLayer) {
+    loads.push(texture(versioned(base + hand.image, asset.version), hand,
+      Math.max(hand.size.w, hand.size.h), signal).then((image) => ["hand", image]));
+  }
+  const results = await Promise.allSettled(loads);
+  const loaded = results.filter((result) => result.status === "fulfilled").map((result) => result.value);
+  const images = new Map(loaded.filter(([pageId]) => pageId !== "hand"));
+  const handTexture = loaded.find(([pageId]) => pageId === "hand")?.[1];
   const failed = results.find((result) => result.status === "rejected");
   if (failed) {
-    release({ images });
+    release({ images, handTexture });
     throw failed.reason;
   }
-  return { manifest, frames: animation.frames, images,
+  return { manifest, frames: animation.frames, images, handTexture,
     referenceHeight: Math.max(...frames.map((frame) => frame.bounds?.h || manifest.frameSize.h)) };
 }
 
@@ -72,6 +123,56 @@ function drawSprite(context, model, frame, x, y, width, height, crop = frame.fra
     crop.x * atlas.scaleX, crop.y * atlas.scaleY,
     crop.w * atlas.scaleX, crop.h * atlas.scaleY,
     x, y, width, height);
+}
+
+function drawRod(context, geometry, part = "full") {
+  const { rod, rodWidth, rodHeight, rodGrip, rotation, scale, bendSource, handX, handY } = geometry;
+  const sourceFrame = rod.frames[0].frame;
+  const gripRow = Math.max(0, Math.min(rodHeight, rodGrip.y * rodHeight));
+  const start = part === "butt" ? gripRow : 0;
+  const end = part === "shaft" ? gripRow : rodHeight;
+  if (end <= start) return;
+  context.save();
+  context.translate(handX, handY);
+  context.rotate(rotation);
+  if (bendSource > 0.5) {
+    const span = Math.max(1, (rodGrip.y - rod.manifest.prop.tip.y) * rodHeight);
+    const step = rodHeight / 64;
+    for (let y = start; y < end; y += step) {
+      const stripHeight = Math.min(step + 1, end - y);
+      const distance = y + stripHeight >= rodGrip.y * rodHeight ? 0
+        : Math.max(0, Math.min(1, (rodGrip.y * rodHeight - y) / span));
+      const offset = -bendSource * distance * distance;
+      const crop = { x: sourceFrame.x, y: sourceFrame.y + y, w: rodWidth, h: stripHeight };
+      drawSprite(context, rod, rod.frames[0], (-rodGrip.x * rodWidth + offset) * scale,
+        (y - rodGrip.y * rodHeight) * scale, rodWidth * scale, stripHeight * scale, crop);
+    }
+  } else {
+    const crop = { x: sourceFrame.x, y: sourceFrame.y + start, w: rodWidth, h: end - start };
+    drawSprite(context, rod, rod.frames[0], -rodGrip.x * rodWidth * scale,
+      (start - rodGrip.y * rodHeight) * scale, rodWidth * scale, (end - start) * scale, crop);
+  }
+  context.restore();
+}
+
+function drawNativeHand(context, geometry) {
+  const { actor, frame, feet, feetX, feetY, direction, actorScale, actorRotation, actorStretch } = geometry;
+  const layer = actor.manifest.handLayer;
+  const image = actor.handTexture.image;
+  context.save();
+  context.translate(feetX, feetY);
+  context.rotate(actorRotation);
+  context.scale(direction * actorScale, actorStretch * actorScale);
+  context.translate(-feet.x, -feet.y);
+  context.transform(...frame.handTransform);
+  if (layer.overlayBounds) {
+    const { x, y, w, h } = layer.overlayBounds;
+    context.beginPath();
+    context.rect(x, y, w, h);
+    context.clip();
+  }
+  context.drawImage(image, 0, 0, image.width, image.height, 0, 0, layer.size.w, layer.size.h);
+  context.restore();
 }
 
 function idleFrame(model, clock) {
@@ -214,35 +315,97 @@ export class FishingRig {
     this.rod = null;
     this.lure = null;
     this.lureRequestId = 0;
-    this.actorPromise = null;
+    this.actorRequestId = 0;
+    this.actorController = null;
+    this.actorAssetId = null;
+    this.actorVersion = null;
     this.requestId = 0;
   }
 
-  async load(catalog, rodId) {
-    const requestId = ++this.requestId;
-    const actorAsset = catalog.assets.find((asset) => asset.id === "fishing-cat");
-    const rodAsset = catalog.assets.find((asset) => asset.id === rodId);
-    if (!actorAsset) throw new Error("The asset catalog is missing the fishing cat");
-    if (rodId && !rodAsset) throw new Error(`The asset catalog is missing ${rodId}`);
-    this.actorPromise ??= loadModel(actorAsset, 1536)
-      .catch((error) => { this.actorPromise = null; throw error; });
-    let rod;
+  async loadActor(catalog, actorId = "fishing-cat") {
+    const requestId = ++this.actorRequestId;
+    this.actorController?.abort();
+    const controller = new AbortController();
+    this.actorController = controller;
+    const asset = catalog.assets.find((entry) => entry.id === actorId);
+    if (!asset) throw new Error(`The asset catalog is missing ${actorId}`);
+    if (this.actor && this.actorAssetId === actorId && this.actorVersion === asset.version) {
+      this.actorController = null;
+      return true;
+    }
+    let model;
     try {
-      const results = await Promise.allSettled([this.actorPromise, loadModel(rodAsset)]);
-      rod = results[1].status === "fulfilled" ? results[1].value : null;
-      const failure = results.find((result) => result.status === "rejected");
-      if (failure) throw failure.reason;
-      const actor = results[0].value;
+      model = await loadModel(asset, 2048, controller.signal);
+      const articulatedArm = BAKED_ARM_RIGS.has(model.manifest.armRig?.id);
+      if (articulatedArm && (!Number.isFinite(model.manifest.armRig.restHandAngle)
+          || !["upper", "forearm"].every((name) => Number.isFinite(model.manifest.armRig.lengths?.[name])
+            && model.manifest.armRig.lengths[name] > 0))) {
+        throw new Error(`${asset.name} has invalid articulated arm metadata`);
+      }
+      for (const clip of Object.values(model.manifest.animations)) {
+        for (const frame of clip.frames) {
+          if (!["feet", "grip", "head"].every((name) =>
+            Number.isFinite(frame.anchors?.[name]?.x) && Number.isFinite(frame.anchors?.[name]?.y))) {
+            throw new Error(`${asset.name} is missing measured fishing anchors`);
+          }
+          if (model.manifest.handLayer && (!Array.isArray(frame.handTransform)
+              || frame.handTransform.length !== 6 || !frame.handTransform.every(Number.isFinite))) {
+            throw new Error(`${asset.name} is missing native hand transforms`);
+          }
+          if (articulatedArm && (!["shoulder", "elbow", "wrist", "grip"].every((name) =>
+            Number.isFinite(frame.arm?.[name]?.x) && Number.isFinite(frame.arm?.[name]?.y))
+              || !["upperAngle", "forearmAngle", "handAngle"].every((name) => Number.isFinite(frame.arm?.[name]))
+              || Math.hypot(frame.arm.grip.x - frame.anchors.grip.x,
+                frame.arm.grip.y - frame.anchors.grip.y) > 0.25)) {
+            throw new Error(`${asset.name} has invalid articulated arm anchors`);
+          }
+        }
+      }
+      if (requestId !== this.actorRequestId || controller.signal.aborted) {
+        release(model);
+        return false;
+      }
+      const previous = this.actor;
+      this.actor = model;
+      this.actorAssetId = asset.id;
+      this.actorVersion = asset.version;
+      release(previous);
+      return true;
+    } catch (error) {
+      release(model);
+      if (requestId !== this.actorRequestId || controller.signal.aborted) return false;
+      throw error;
+    } finally {
+      if (requestId === this.actorRequestId) this.actorController = null;
+    }
+  }
+
+  // Retain the original entry point for integrations using the default cat.
+  async load(catalog, rodId) {
+    const results = await Promise.allSettled([
+      this.actor ? Promise.resolve(true) : this.loadActor(catalog), this.loadRod(catalog, rodId),
+    ]);
+    const failure = results.find((result) => result.status === "rejected");
+    if (failure) throw failure.reason;
+    return results.every((result) => result.value !== false);
+  }
+
+  async loadRod(catalog, rodId) {
+    const requestId = ++this.requestId;
+    const asset = catalog.assets.find((entry) => entry.id === rodId);
+    if (rodId && !asset) throw new Error(`The asset catalog is missing ${rodId}`);
+    let model;
+    try {
+      model = await loadModel(asset);
       if (requestId !== this.requestId) {
-        release(rod);
+        release(model);
         return false;
       }
       release(this.rod);
-      this.actor = actor;
-      this.rod = rod;
+      this.rod = model;
       return true;
     } catch (error) {
-      release(rod);
+      release(model);
       if (requestId !== this.requestId) return false;
       throw error;
     }
@@ -292,16 +455,18 @@ export class FishingRig {
     const frame = actorFrame(actor, clock, fishing);
     const feet = frame.anchors.feet;
     const grip = frame.anchors.grip;
-    const bodyHeight = sceneSizing(width, height).catHeight;
+    const sizing = sceneSizing(width, height);
+    const bodyHeight = sizing.catHeight;
     const actorScale = bodyHeight / actor.referenceHeight;
     const dockWidth = Math.min(180, Math.max(108, width * 0.16));
     const direction = actor.manifest.anchorFacing === "right" ? -1 : 1;
     const maximumLean = Math.min(0.14, Math.max(0.09, width / 6000));
+    const bodyMotion = BAKED_ARM_RIGS.has(actor.manifest.armRig?.id) ? 0.3 : 1;
     // Reserve room for every pose so the cat stays planted while leaning back.
-    const actorBounds = actorEnvelope(actor, actorScale, direction, maximumLean);
+    const actorBounds = actorEnvelope(actor, actorScale, direction, maximumLean * bodyMotion);
     const feetX = Math.max(6 - actorBounds.left,
       Math.min(width - dockWidth * 0.42, width - 6 - actorBounds.right));
-    const feetY = Math.max(6 - actorBounds.top, Math.min(150, Math.max(124, height * 0.29)));
+    const feetY = Math.max(6 - actorBounds.top, sizing.dockY);
     const nibbling = fishing?.phase === "nibbling";
     const biting = fishing?.phase === "biting";
     const reeling = fishing?.phase === "reeling";
@@ -318,14 +483,14 @@ export class FishingRig {
       + Math.sin(reelProgress * Math.PI * 9) * 0.08 : caught ? 0.14
       : biting ? envelope * (0.75 + Math.sin(clock * 15) * 0.25)
       : nibbling ? 0.14 + Math.sin(clock * 21) * 0.08 : 0;
-    // A short anticipation crouch becomes a deliberate backward pull. Keep the
-    // feet planted and limit the lean so the cat's ears stay visible.
-    const actorRotation = reeling ? -windup * 0.035 + pullProgress * maximumLean
+    // Baked arm sprites supply the pulling motion. Keep only a small
+    // supporting torso sway, with the feet planted throughout the pull.
+    const actorRotation = (reeling ? -windup * 0.035 + pullProgress * maximumLean
       + Math.sin(reelProgress * Math.PI * 8) * Math.sin(reelProgress * Math.PI) * 0.012
       : caught ? maximumLean * 0.8 * (1 - easeBetween(0, 0.45, caughtProgress))
         + Math.sin(caughtProgress * Math.PI * 4) * Math.sin(caughtProgress * Math.PI) * 0.025
-      : tension * Math.sin(clock * 11) * 0.035;
-    const actorStretch = reeling ? 1 - windup * 0.045 : 1;
+      : tension * Math.sin(clock * 11) * 0.035) * bodyMotion;
+    const actorStretch = reeling ? 1 - windup * 0.045 * bodyMotion : 1;
     const localHandX = direction * (grip.x - feet.x) * actorScale;
     const localHandY = (grip.y - feet.y) * actorScale * actorStretch;
     const handX = feetX + localHandX * Math.cos(actorRotation) - localHandY * Math.sin(actorRotation);
@@ -340,15 +505,25 @@ export class FishingRig {
     const rodWidth = rod.manifest.frameSize.w;
     const rodHeight = rod.manifest.frameSize.h;
     const rodGrip = {
-      x: prop.handle.x + (prop.tip.x - prop.handle.x) * 0.095,
-      y: prop.handle.y + (prop.tip.y - prop.handle.y) * 0.095,
+      x: prop.handle.x + (prop.tip.x - prop.handle.x) * 0.035,
+      y: prop.handle.y + (prop.tip.y - prop.handle.y) * 0.035,
     };
     const dx = (prop.tip.x - rodGrip.x) * rodWidth;
     const dy = (prop.tip.y - rodGrip.y) * rodHeight;
     const length = Math.min(285, Math.max(150, width * 0.24));
+    const armRig = actor.manifest.armRig;
+    const armDelta = BAKED_ARM_RIGS.has(armRig?.id)
+      ? Math.atan2(Math.sin(frame.arm.handAngle - armRig.restHandAngle),
+        Math.cos(frame.arm.handAngle - armRig.restHandAngle)) : 0;
+    // Native arms keep their authored bend. Roll the pole gently upward at
+    // their measured grip for either source arm orientation, independently of
+    // the shoulder rotation; the original hand pixels remain unchanged.
+    const wristTilt = BAKED_ARM_RIGS.has(armRig?.id)
+      ? actorRotation + (armRig.id === "fishing-native-art-v1"
+        ? Math.abs(armDelta) * 0.45 : direction * armDelta) : 0;
     const desiredTilt = 0.27 + Math.sin(clock * 0.8) * 0.012
       - tension * (0.055 + Math.sin(clock * 13) * 0.012)
-      + (reeling ? -windup * 0.07 + pullProgress * 0.04 : caught ? 0.02 : 0);
+      + (reeling ? -windup * 0.07 + pullProgress * 0.04 : caught ? 0.02 : 0) + wristTilt;
     const maximumTilt = Math.asin(Math.max(0, Math.min(0.85, (handY - 12) / length)));
     const angle = Math.PI + ((reeling || caught) ? Math.min(desiredTilt, maximumTilt) : desiredTilt);
     const rotation = angle - Math.atan2(dy, dx);
@@ -360,7 +535,8 @@ export class FishingRig {
     const tipX = handX + Math.cos(rotation) * tipDX - Math.sin(rotation) * tipDY;
     const tipY = handY + Math.sin(rotation) * tipDX + Math.cos(rotation) * tipDY;
     const hookX = tipX - 5 + Math.sin(clock * 0.8) * 7;
-    const hookY = Math.max(tipY + 80, height * 0.6) + Math.sin(clock * 1.3) * 4;
+    const hookY = Math.max(tipY + 80, sizing.surfaceY + sizing.waterHeight * 0.48)
+      + Math.sin(clock * 1.3) * 4;
     const attached = (nibbling || biting || reeling || caught) && Number.isFinite(fishing?.mouth?.x)
       && Number.isFinite(fishing?.mouth?.y);
     return { ...geometry, rod, rodWidth, rodHeight, rodGrip, rotation, scale,
@@ -392,8 +568,9 @@ export class FishingRig {
     const geometry = this.getGeometry(scene);
     if (!geometry) return;
     const { width, clock } = scene;
-    const { actor, frame, feet, grip, actorScale, dockWidth, feetX, feetY,
+    const { actor, frame, feet, actorScale, dockWidth, feetX, feetY,
       direction, handX, handY, actorRotation, actorStretch, tension } = geometry;
+    const nativeHand = Boolean(actor.handTexture && frame.handTransform);
 
     context.save();
     // A small pier places the fisherman above the water rather than in it.
@@ -410,17 +587,8 @@ export class FishingRig {
       context.beginPath(); context.moveTo(x, feetY + 3); context.lineTo(x, feetY + 12); context.stroke();
     }
 
-    context.save();
-    context.translate(feetX, feetY);
-    context.rotate(actorRotation);
-    context.scale(direction, actorStretch);
-    drawSprite(context, actor, frame, -feet.x * actorScale, -feet.y * actorScale,
-      actor.manifest.frameSize.w * actorScale, actor.manifest.frameSize.h * actorScale);
-    context.restore();
-
     if (geometry.rod) {
-      const { rod, rodWidth, rodHeight, rodGrip, rotation, scale,
-        bendSource, tipX, tipY, hookX, hookY } = geometry;
+      const { tipX, tipY, hookX, hookY } = geometry;
       const baitHidden = ["biting", "reeling", "caught"].includes(scene.fishing?.phase);
       const lure = this.getLureLayout(geometry, clock);
       // Once swallowed, the bait no longer covers the fish's face. The visible
@@ -496,40 +664,24 @@ export class FishingRig {
           context.moveTo(x, y - 3); context.lineTo(x, y + 3); context.stroke();
         }
       }
-      context.save();
-      context.translate(handX, handY);
-      context.rotate(rotation);
-      if (bendSource > 0.5) {
-        // Small overlapping strips curve the original artwork without changing
-        // its colors or moving the point held by the cat's paw.
-        const sourceFrame = rod.frames[0].frame;
-        const span = Math.max(1, (rodGrip.y - rod.manifest.prop.tip.y) * rodHeight);
-        const step = rodHeight / 64;
-        for (let y = 0; y < rodHeight; y += step) {
-          const stripHeight = Math.min(step + 1, rodHeight - y);
-          const distance = y + stripHeight >= rodGrip.y * rodHeight ? 0
-            : Math.max(0, Math.min(1, (rodGrip.y * rodHeight - y) / span));
-          const offset = -bendSource * distance * distance;
-          const crop = { x: sourceFrame.x, y: sourceFrame.y + y, w: rodWidth, h: stripHeight };
-          drawSprite(context, rod, rod.frames[0], (-rodGrip.x * rodWidth + offset) * scale,
-            (y - rodGrip.y * rodHeight) * scale, rodWidth * scale, stripHeight * scale, crop);
-        }
-      } else {
-        drawSprite(context, rod, rod.frames[0], -rodGrip.x * rodWidth * scale,
-          -rodGrip.y * rodHeight * scale, rodWidth * scale, rodHeight * scale);
-      }
-      context.restore();
-
-      // Place the original paw back over the shaft at the measured grip point.
-      const crop = frame.palmCrop ?? { x: grip.x - 12, y: grip.y - 10, w: 24, h: 22 };
-      const palm = { ...crop, x: frame.frame.x + crop.x, y: frame.frame.y + crop.y };
-      context.save();
-      context.translate(feetX, feetY);
-      context.rotate(actorRotation);
-      context.scale(direction, actorStretch);
-      drawSprite(context, actor, frame, (crop.x - feet.x) * actorScale,
-        (crop.y - feet.y) * actorScale, crop.w * actorScale, crop.h * actorScale, palm);
-      context.restore();
+      // Native-hand models split the rod at its grip: the butt is behind the
+      // body and the shaft is in front, with no duplicated translucent pixels.
+      drawRod(context, geometry, nativeHand ? "butt" : "full");
+    }
+    // Let the complete authored paw/body silhouette cover the handle naturally,
+    // rather than pinning a rectangular patch over a shaft drawn on the wrist.
+    context.save();
+    context.translate(feetX, feetY);
+    context.rotate(actorRotation);
+    context.scale(direction, actorStretch);
+    drawSprite(context, actor, frame, -feet.x * actorScale, -feet.y * actorScale,
+      actor.manifest.frameSize.w * actorScale, actor.manifest.frameSize.h * actorScale);
+    context.restore();
+    if (geometry.rod && nativeHand) {
+      // The shaft stays visible in front of the torso, while only the actual
+      // native glove/forearm covers the grip. No cropped actor patch is stamped.
+      drawRod(context, geometry, "shaft");
+      drawNativeHand(context, geometry);
     }
     drawCatReaction(context, geometry, scene);
     context.restore();

@@ -1,4 +1,4 @@
-import { sceneSizing } from "./scene-sizing.js?v=scene-ratio-1";
+import { sceneSizing } from "./scene-sizing.js?v=fishing-shore-1";
 
 const SPECIES = [
   { id: "dolphin", width: 205, speed: 36 },
@@ -220,7 +220,7 @@ export class Aquarium {
     const extras = catalog.assets.filter((asset) => asset.id.startsWith("cute-")
       && !SPECIES.some((species) => species.id === asset.id));
     const roster = [...SPECIES, ...extras.map((asset) => cuteDefaults(asset.id))];
-    this.onStatus(`Loading aquarium · 0 / ${roster.length} fish`);
+    this.onStatus(`Đang chuẩn bị bể cá · 0 / ${roster.length}`);
     const models = await Promise.all(roster.map(async (species, index) => {
       const asset = catalog.assets.find((entry) => entry.id === species.id);
       if (!asset) throw new Error(`Aquarium is missing ${species.id}`);
@@ -269,7 +269,7 @@ export class Aquarium {
           model.pending.delete(page.page);
           if (!model.pending.size && requestId === this.loadId && !this.destroyed) {
             completed += 1;
-            this.onStatus(`Loading aquarium · ${completed} / ${models.length} fish`);
+            this.onStatus(`Đang chuẩn bị bể cá · ${completed} / ${models.length}`);
           }
         } catch (error) {
           failure = error;
@@ -362,6 +362,8 @@ export class Aquarium {
     if (!bounds.width || !bounds.height) return;
     this.width = bounds.width;
     this.height = bounds.height;
+    const surfaceY = sceneSizing(this.width, this.height).surfaceY;
+    this.canvas.parentElement?.style.setProperty("--waterline-y", `${surfaceY}px`);
     const ratio = Math.max(0.1, window.devicePixelRatio || 1);
     const width = Math.max(1, Math.round(this.width * ratio));
     const height = Math.max(1, Math.round(this.height * ratio));
@@ -736,12 +738,13 @@ export class Aquarium {
   swimmingBounds(model) {
     const width = this.bodyWidth(model);
     const height = width * model.bounds.height / model.bounds.width;
+    const { surfaceY, waterHeight } = sceneSizing(this.width, this.height);
     // Leave room for a small pitch and the animated fins at every tank edge.
     const horizontal = Math.min(this.width / 2, width * 0.58 + 14);
-    const vertical = Math.min(this.height / 2, height / 2 + width * 0.18 + 14);
+    const vertical = Math.min(waterHeight / 2, height / 2 + width * 0.18 + 14);
     return {
       left: horizontal, right: Math.max(horizontal, this.width - horizontal),
-      top: vertical, bottom: Math.max(vertical, this.height - vertical),
+      top: surfaceY + vertical, bottom: Math.max(surfaceY + vertical, this.height - vertical),
     };
   }
 
@@ -859,6 +862,7 @@ export class Aquarium {
     if (!this.width || !this.height || this.destroyed) return;
     const context = this.context;
     context.clearRect(0, 0, this.width, this.height);
+    const { surfaceY } = sceneSizing(this.width, this.height);
     for (const model of this.models) {
       const frame = model.frames[model.frameIndex];
       const atlas = model.images.get(frame.page);
@@ -866,6 +870,13 @@ export class Aquarium {
       const bodyWidth = this.bodyWidth(model);
       const size = bodyWidth / model.bounds.width;
       context.save();
+      // Only the fish currently being lifted may cross into the air. Normal
+      // swimmers remain below the same surface used by the CSS scene.
+      if (model !== this.fishing.model || !["reeling", "caught"].includes(this.fishing.phase)) {
+        context.beginPath();
+        context.rect(0, surfaceY, this.width, Math.max(0, this.height - surfaceY));
+        context.clip();
+      }
       context.translate(model.x * this.width, model.y * this.height);
       context.rotate(model.pitch);
       // Respect authored facing while keeping the nose in the travel direction.

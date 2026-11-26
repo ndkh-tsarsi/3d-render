@@ -1,8 +1,56 @@
-.blender-path
-.tools/
-dist/
-dist-*/
-.DS_Store
+# Local Blender installation and render/package output
+/.blender-path
+/.tools/
+/dist/
+/dist-*/
+/build/
+/game/cat-defense/assets/
+
+# Supplied artwork/model packs stay local. Previously tracked inputs remain tracked.
+/raw/
+*.blend[0-9]
+*.blend[0-9][0-9]
+
+# JavaScript dependencies, framework output and test reports
+node_modules/
+.next/
+next-env.d.ts
+.turbo/
+.vercel/
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+*.tsbuildinfo
+*.log
+
+# Python environments and caches
+.venv/
+venv/
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.swift-module-cache/
+
+# Local secrets/configuration; keep the documented safe examples in Git
+.env*
+!.env.example
+!.env.*.example
+/apps/defense-portal/.data/
+
+# Downloadable packages and editor/OS scratch files
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+.DS_Store
+._*
+Thumbs.db
+*.swp
+*.swo
+*~
 

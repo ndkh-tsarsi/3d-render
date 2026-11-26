@@ -3,82 +3,98 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mèo câu cá</title>
-    <link rel="stylesheet" href="style.css?v=fishing-sound-1" />
+    <meta name="theme-color" content="#147e86" />
+    <meta name="description" content="Chọn người bạn mèo, thả mồi và khám phá một đại dương đầy màu sắc." />
+    <title>Mèo câu cá · Đại dương nhỏ</title>
+    <link rel="stylesheet" href="style.css?v=fishing-shore-1" />
   </head>
   <body>
-    <main>
-      <header>
-        <p class="eyebrow">Đại dương nhỏ</p>
-          <h1>Mèo câu cá</h1>
-        <p>Cùng mèo cam thả mồi và khám phá đàn cá đầy màu sắc. Chờ cá cắn rồi giật cần nhé!</p>
+    <main class="fishing-app">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="m10 23 1-15 10 8h6l10-8 1 15v8c0 9-28 9-28 0Z" fill="#fff1d5" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="m16 27 4 1m8 0 4-1m-11 6 3 2 3-2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="m24 29-2 2h4Z" fill="currentColor"/></svg></span>
+          <div><p class="eyebrow">Đại dương nhỏ</p><h1>Mèo câu cá</h1></div>
+        </div>
+        <p class="header-note">Một chiếc cần nhỏ.<br>Một bể cá thật vui.</p>
+        <nav class="view-switch" aria-label="Chế độ xem">
+          <button id="aquarium-view" type="button" aria-pressed="true" aria-controls="aquarium-panel">Câu cá</button>
+          <button id="sprite-view" type="button" aria-pressed="false" aria-controls="sprite-panel">Bộ sưu tập</button>
+        </nav>
       </header>
-      <nav class="view-switch" aria-label="Preview mode">
-        <button id="aquarium-view" type="button" aria-pressed="true" aria-controls="aquarium-panel">Bể cá</button>
-        <button id="sprite-view" type="button" aria-pressed="false" aria-controls="sprite-panel">Xem từng mẫu</button>
-      </nav>
-      <section id="aquarium-panel" aria-label="Aquarium demo">
-        <div class="aquarium-toolbar">
-          <div class="tank-summary">
-            <span class="tank-count" id="aquarium-count">Preparing the aquarium…</span>
-            <span id="bite-status" class="bite-status" role="status" aria-live="polite" data-phase="disabled">Preparing the bait…</span>
-          </div>
-          <div class="tank-actions">
-            <label class="speed-control" for="swim-speed">Tốc độ <input id="swim-speed" type="range" min="0.5" max="2" step="0.25" value="1" /><output id="speed-value" for="swim-speed">1×</output></label>
-            <label class="rod-control" for="fishing-rod">Cần <select id="fishing-rod" disabled><option value="">Tắt</option></select></label>
-            <label class="rod-control" for="fishing-lure">Mồi <select id="fishing-lure" disabled><option value="">Đang tải…</option></select></label>
-            <button id="cast-bait" type="button" disabled>Thả mồi</button>
-            <button id="reel-in" type="button" disabled>Giật cần</button>
-            <button id="aquarium-reset" type="button" disabled>Đổi đường bơi</button>
-            <button id="aquarium-pause" type="button" disabled>Tạm dừng</button>
-            <button id="sound-toggle" type="button" aria-pressed="false" aria-label="Bật âm thanh" title="Bật âm thanh">Âm thanh: Tắt</button>
-          </div>
+
+      <section id="aquarium-panel" class="game-workspace" aria-label="Mèo câu cá">
+        <div class="play-column">
+          <section class="ocean-card" aria-label="Bể cá và điều khiển câu cá">
+            <div class="scene-heading">
+              <div class="scene-title"><span class="ocean-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 13c4-5 13-7 19 0l6-4v14l-6-4c-6 7-15 5-19 0Z" fill="currentColor"/><circle cx="10" cy="16" r="1.5" fill="#fff"/></svg></span><div><h2>Bến cá bình yên</h2><span class="tank-count" id="aquarium-count">Đang gọi đàn cá…</span></div></div>
+              <div class="catch-counter" role="status" aria-live="polite" aria-atomic="true"><span class="catch-label">Cá đã câu</span><strong id="catch-count">0</strong><span class="catch-unit">con</span></div>
+            </div>
+            <div class="aquarium-shell">
+              <div class="water-light" aria-hidden="true"></div>
+              <div class="water-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="seabed" aria-hidden="true"></div>
+              <div class="kelp kelp-left" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="kelp kelp-right" aria-hidden="true"><i></i><i></i><i></i></div>
+              <canvas id="aquarium-stage" width="1120" height="600" role="img" aria-label="Mèo câu cá cùng đàn cá bơi tự do trong bể"></canvas>
+              <div id="aquarium-status" class="aquarium-loading" role="status">Đang chuẩn bị bể cá…</div>
+            </div>
+            <div class="action-dock">
+              <div class="bite-cue"><span class="cue-orb" aria-hidden="true"></span><div><span class="dock-label">Tín hiệu từ chiếc phao</span><span id="bite-status" class="bite-status" role="status" aria-live="polite" data-phase="disabled">Đang chuẩn bị mồi…</span></div></div>
+              <div class="fishing-actions"><button id="cast-bait" type="button" disabled>Thả mồi</button><button id="reel-in" type="button" disabled>Giật cần</button></div>
+            </div>
+          </section>
+
+          <details class="sea-guide">
+            <summary><span class="guide-symbol" aria-hidden="true">✦</span><span>Những người bạn dưới nước<small>Khám phá đàn cá trong bể</small></span><span class="disclosure-chevron" aria-hidden="true"></span></summary>
+            <div class="guide-content">
+              <ul class="fish-legend" aria-label="Các loài cá quen thuộc">
+                <li><span style="--fish-color:#3acfe2"></span>Cá heo</li>
+                <li><span style="--fish-color:#ff8b35"></span>Cá cam</li>
+                <li><span style="--fish-color:#1478f2"></span>Cá xanh</li>
+                <li><span style="--fish-color:#ff852b"></span>Cá hề</li>
+                <li><span style="--fish-color:#3b8ceb"></span>Cá đuối</li>
+                <li><span style="--fish-color:#189fd1"></span>Cá mập</li>
+                <li><span style="--fish-color:#7261f1"></span>Cá voi</li>
+              </ul>
+              <details id="cute-roster" class="cute-roster" hidden><summary id="cute-roster-summary">Khám phá thêm các bạn cá</summary><ul id="cute-roster-list"></ul></details>
+            </div>
+          </details>
         </div>
-        <div class="aquarium-shell">
-          <div class="water-light" aria-hidden="true"></div>
-          <div class="water-bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="seabed" aria-hidden="true"></div>
-          <div class="kelp kelp-left" aria-hidden="true"><i></i><i></i><i></i></div>
-          <div class="kelp kelp-right" aria-hidden="true"><i></i><i></i><i></i></div>
-          <canvas id="aquarium-stage" width="1120" height="600" role="img" aria-label="Mèo câu cá cùng đàn cá bơi tự do trong bể"></canvas>
-          <div class="catch-counter" role="status" aria-live="polite" aria-atomic="true"><span>Cá đã câu</span><strong id="catch-count">0</strong></div>
-          <div id="aquarium-status" class="aquarium-loading" role="status">Loading the swimmers…</div>
-        </div>
-        <ul class="fish-legend" aria-label="Swimmers in the aquarium">
-          <li><span style="--fish-color:#3acfe2"></span>Cá heo</li>
-          <li><span style="--fish-color:#ff8b35"></span>Cá cam</li>
-          <li><span style="--fish-color:#1478f2"></span>Cá xanh</li>
-          <li><span style="--fish-color:#ff852b"></span>Cá hề</li>
-          <li><span style="--fish-color:#3b8ceb"></span>Cá đuối</li>
-          <li><span style="--fish-color:#189fd1"></span>Cá mập</li>
-          <li><span style="--fish-color:#7261f1"></span>Cá voi</li>
-        </ul>
-        <details id="cute-roster" class="cute-roster" hidden>
-          <summary id="cute-roster-summary">Các loài từ Cute Fish Pack</summary>
-          <ul id="cute-roster-list"></ul>
-        </details>
-        <p class="tank-note">Thả mồi, chờ cá cắn rồi bấm Giật cần. Mỗi lần kéo cá lên thành công được cộng một điểm!</p>
-        <p id="fishing-status" class="tank-note" role="status"></p>
+
+        <aside class="setup-column" aria-label="Mèo, trang phục và đồ câu">
+          <section class="setup-card wardrobe-card">
+            <div class="card-heading wardrobe-heading"><div><span class="section-kicker">Cùng mèo ra bến</span><h2>Bạn đồng hành</h2></div><img id="fishing-cat-portrait" class="cat-portrait" width="52" height="52" alt="Mèo đang chọn" hidden /></div>
+            <label class="cat-control" for="fishing-cat">Chọn mèo<select aria-label="Chọn mèo" id="fishing-cat" disabled><option value="">Đang tải…</option></select></label>
+            <label class="cat-control outfit-control" for="cat-outfit">Trang phục<select aria-label="Trang phục" id="cat-outfit" disabled><option value="">Đang tải…</option></select></label>
+          </section>
+          <section class="setup-card gear-card">
+            <div class="card-heading"><span class="section-kicker">Sẵn sàng thả mồi</span><h2>Bộ đồ nghề</h2></div>
+            <div class="gear-fields"><label class="rod-control" for="fishing-rod">Cần câu<select aria-label="Cần câu" id="fishing-rod" disabled><option value="">Tắt</option></select></label><label class="rod-control" for="fishing-lure">Mồi câu<select aria-label="Mồi câu" id="fishing-lure" disabled><option value="">Đang tải…</option></select></label></div>
+            <p id="fishing-status" class="loadout-status" role="status"></p>
+          </section>
+          <section class="setup-card water-card">
+            <div class="card-heading"><h2>Nhịp điệu của bể</h2></div>
+            <label class="speed-control" for="swim-speed"><span>Tốc độ bơi <output id="speed-value" for="swim-speed">1×</output></span><input aria-label="Tốc độ bơi" id="swim-speed" type="range" min="0.5" max="2" step="0.25" value="1" /></label>
+            <div class="environment-actions"><button id="aquarium-pause" type="button" disabled>Tạm dừng</button><button id="sound-toggle" type="button" aria-pressed="false" aria-label="Bật âm thanh" title="Bật âm thanh">Âm thanh: Tắt</button></div>
+            <button id="aquarium-reset" class="paths-button" type="button" disabled>Đổi đường bơi</button>
+          </section>
+          <section class="play-guide" aria-label="Cách câu cá"><h2>Bí kíp của mèo</h2><p>Thả mồi và chờ chiếc phao báo cá cắn. Khi nút <strong>Giật cần</strong> sáng lên, bấm ngay để kéo cá lên nhé!</p></section>
+        </aside>
       </section>
-      <section id="sprite-panel" aria-label="Single character preview" hidden>
-      <section class="controls" aria-label="Preview controls">
-        <label>Character <select id="asset"></select></label>
-        <label>Animation <select id="animation"></select></label>
-        <label class="check"><input id="mirror" type="checkbox" /> Mirror</label>
-        <button id="pause" type="button">Pause</button>
+
+      <section id="sprite-panel" class="collection-panel" aria-label="Xem từng nhân vật" hidden>
+        <div class="collection-heading"><p class="section-kicker">Gặp gỡ từng người bạn</p><h2>Bộ sưu tập của mèo</h2><p>Chọn một nhân vật để xem kỹ màu sắc và chuyển động.</p></div>
+        <section class="controls" aria-label="Điều khiển xem nhân vật">
+          <label for="asset">Nhân vật<select aria-label="Nhân vật" id="asset"></select></label>
+          <label for="animation">Chuyển động<select aria-label="Chuyển động" id="animation"></select></label>
+          <label class="check" for="mirror"><input id="mirror" type="checkbox" /> Lật ảnh</label>
+          <button id="pause" type="button">Tạm dừng</button>
+        </section>
+        <section class="stage-shell"><canvas id="stage" width="256" height="256" aria-label="Nhân vật đang chuyển động"></canvas><div id="status" role="status">Đang mở bộ sưu tập…</div></section>
+        <footer class="collection-footer"><span id="details"></span><a href="catalog.json">Thông tin bộ sưu tập</a></footer>
       </section>
-      <section class="stage-shell">
-        <canvas id="stage" width="256" height="256" aria-label="Animated sprite"></canvas>
-        <div id="status">Loading catalog…</div>
-      </section>
-      <footer>
-        <span id="details"></span>
-        <a href="catalog.json">catalog.json</a>
-      </footer>
-      </section>
-      <footer class="site-footer"><span>Local renders · 1024 × 1024 fish sprites · Retina ready</span><a href="https://github.com/ndkh-tsarsi/3d-render">Project on GitHub</a></footer>
+      <footer class="site-footer"><span>Một góc đại dương, một người bạn nhỏ.</span><a href="https://github.com/ndkh-tsarsi/3d-render">Về dự án</a></footer>
     </main>
-    <script type="module" src="player.js?v=scene-ratio-1"></script>
+    <script type="module" src="player.js?v=fishing-shore-1"></script>
   </body>
 </html>
-

@@ -315,6 +315,11 @@ def write_catalog(output: Path) -> dict:
         signature = hashlib.sha256(path.read_bytes())
         for atlas in data["atlases"]:
             signature.update((path.parent / atlas["image"]).read_bytes())
+        if data.get("handLayer"):
+            hand_path = (path.parent / data["handLayer"]["image"]).resolve()
+            if path.parent.resolve() not in hand_path.parents:
+                raise PipelineError(f"Hand image must be inside its asset folder: {data['id']}")
+            signature.update(hand_path.read_bytes())
         versions[path] = signature.hexdigest()[:16]
     assets = [
         {
@@ -323,6 +328,7 @@ def write_catalog(output: Path) -> dict:
             "version": versions[path],
             "manifest": str(path.relative_to(output)).replace(os.sep, "/"),
             "animations": list(data["animations"]),
+            **({"actor": data["actor"]} if data.get("actor", {}).get("kind") == "cat" else {}),
             "thumbnail": (
                 str((path.parent / data["thumbnail"]).relative_to(output)).replace(os.sep, "/")
                 if data.get("thumbnail")
@@ -353,6 +359,40 @@ def validate_output(output: Path) -> None:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         frame_size = manifest["frameSize"]
         width, height = frame_size["w"], frame_size["h"]
+        hand = manifest.get("handLayer")
+        if hand:
+            hand_path = (manifest_path.parent / hand.get("image", "")).resolve()
+            if manifest_path.parent.resolve() not in hand_path.parents or not hand_path.is_file():
+                errors.append(f"{asset['id']}: missing or invalid hand image")
+            else:
+                hand_size = hand.get("size", {})
+                if png_size(hand_path) != (hand_size.get("w"), hand_size.get("h")):
+                    errors.append(f"{asset['id']}: hand image dimensions differ from its metadata")
+                overlay = hand.get("overlayBounds")
+                if overlay is not None:
+                    valid_overlay = (isinstance(overlay, dict)
+                        and all(isinstance(overlay.get(k), (int, float))
+                                and math.isfinite(overlay[k]) for k in ("x", "y", "w", "h")))
+                    if (not valid_overlay or overlay["x"] < 0 or overlay["y"] < 0
+                            or overlay["w"] <= 0 or overlay["h"] <= 0
+                            or overlay["x"] + overlay["w"] > hand_size.get("w", 0)
+                            or overlay["y"] + overlay["h"] > hand_size.get("h", 0)):
+                        errors.append(f"{asset['id']}: invalid native hand overlay bounds")
+        arm_rig = manifest.get("armRig")
+        if arm_rig:
+            lengths = arm_rig.get("lengths", {})
+            rig_types = {"fishing-two-bone-v1": "baked-two-bone",
+                         "fishing-native-art-v1": "baked-native-art"}
+            if (arm_rig.get("id") not in rig_types
+                    or arm_rig.get("type") != rig_types.get(arm_rig.get("id"))
+                    or not all(isinstance(lengths.get(k), (int, float))
+                               and math.isfinite(lengths[k]) and lengths[k] > 0
+                               for k in ("upper", "forearm"))
+                    or not isinstance(arm_rig.get("restHandAngle"), (int, float))
+                    or not math.isfinite(arm_rig["restHandAngle"])):
+                errors.append(f"{asset['id']}: invalid articulated arm rig")
+            if not hand:
+                errors.append(f"{asset['id']}: articulated arm requires a native hand layer")
         pages: dict[int, tuple[int, int]] = {}
         for page in manifest.get("atlases", []):
             image_path = manifest_path.parent / page["image"]
@@ -368,6 +408,34 @@ def validate_output(output: Path) -> None:
             if not action.get("frames"):
                 errors.append(f"{asset['id']}/{action_name}: animation has no frames")
             for frame in action.get("frames", []):
+                if arm_rig:
+                    arm = frame.get("arm", {})
+                    valid_joints = all(
+                        isinstance(arm.get(k), dict)
+                        and all(isinstance(arm[k].get(axis), (int, float))
+                                and math.isfinite(arm[k][axis]) and 0 <= arm[k][axis] <= edge
+                                for axis, edge in (("x", width), ("y", height)))
+                        for k in ("shoulder", "elbow", "wrist", "grip"))
+                    valid_angles = all(isinstance(arm.get(k), (int, float)) and math.isfinite(arm[k])
+                                       for k in ("upperAngle", "forearmAngle", "handAngle"))
+                    if not valid_joints or not valid_angles:
+                        errors.append(f"{asset['id']}/{frame['key']}: invalid arm joints or angles")
+                    else:
+                        grip = frame.get("anchors", {}).get("grip", {})
+                        if any(abs(arm["grip"][axis] - grip.get(axis, math.inf)) > .02 for axis in ("x", "y")):
+                            errors.append(f"{asset['id']}/{frame['key']}: arm and fishing grip differ")
+                        for start, end, name in (("shoulder", "elbow", "upper"), ("elbow", "wrist", "forearm")):
+                            length = math.hypot(arm[end]["x"] - arm[start]["x"], arm[end]["y"] - arm[start]["y"])
+                            expected = arm_rig.get("lengths", {}).get(name)
+                            if isinstance(expected, (int, float)) and abs(length - expected) > .15:
+                                errors.append(f"{asset['id']}/{frame['key']}: {name} arm bone length changed")
+                if hand:
+                    transform = frame.get("handTransform")
+                    if (not isinstance(transform, list) or len(transform) != 6
+                            or not all(isinstance(v, (int, float)) and math.isfinite(v) for v in transform)):
+                        errors.append(f"{asset['id']}/{frame['key']}: invalid hand transform")
+                    elif abs(transform[0] * transform[3] - transform[1] * transform[2]) < 1e-9:
+                        errors.append(f"{asset['id']}/{frame['key']}: hand transform collapses the paw")
                 frame_path = manifest_path.parent / frame["image"]
                 if not frame_path.is_file():
                     errors.append(f"{asset['id']}/{action_name}: missing {frame['image']}")

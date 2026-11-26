@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#152a34">
+  <meta name="color-scheme" content="dark">
+  <title>Cat Guard · Fence Defense</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="game-shell" aria-label="Cat Guard defense game">
+    <header class="hud">
+      <div class="brand" aria-label="Cat Guard">
+        <span class="brand-mark" aria-hidden="true">C<span>G</span></span>
+        <div><h1>CAT <span>GUARD</span></h1><p>FENCE DEFENSE</p></div>
+      </div>
+      <div class="hud-stats" aria-label="Game statistics">
+        <div class="stat"><span class="stat-label">WAVE</span><strong id="wave-value">01</strong></div>
+        <div class="stat"><span class="stat-label">SCORE</span><strong id="score-value">0</strong></div>
+        <div class="stat stat-fence"><span class="stat-label">FENCE HEALTH</span><strong id="fence-hp">1000 / 1000</strong><div class="health-track"><span id="fence-meter"></span></div></div>
+      </div>
+      <div class="utility-controls">
+        <button id="sound-button" class="icon-button" type="button" aria-label="Enable sound" aria-pressed="false" title="Sound">♪<span class="sound-slash" aria-hidden="true"></span></button>
+        <button id="pause-button" class="icon-button" type="button" aria-label="Pause game" title="Pause (P)">Ⅱ</button>
+        <button id="restart-button" class="icon-button" type="button" aria-label="Restart game" title="Restart">↻</button>
+      </div>
+    </header>
+
+    <section class="battlefield" aria-label="Defense arena">
+      <canvas id="game-canvas" width="1280" height="720" tabindex="0" aria-label="Cat defense arena. Click or tap an enemy to shoot. Press Space to fire and P to pause."></canvas>
+      <div class="arena-vignette" aria-hidden="true"></div>
+      <div class="arena-topline"><span class="status-dot"></span><span id="game-status" role="status" aria-live="polite">Loading your squad…</span><span class="arena-tag">THE BACK ALLEY</span></div>
+      <div id="wave-toast" class="wave-toast" aria-live="polite"></div>
+
+      <div id="ready-overlay" class="ready-overlay">
+        <div class="welcome-card">
+          <span class="eyebrow">THE NEIGHBORHOOD NEEDS YOU</span>
+          <h2 id="overlay-title">Small paws.<br><span>Big courage.</span></h2>
+          <p id="overlay-message">Hold the fence. Stop the monsters.<br>Keep your little corner of the city safe.</p>
+          <button id="start-button" class="primary-button" type="button" disabled>Preparing your squad…</button>
+          <p class="control-hint">Click to aim · <kbd>Space</kbd> to fire · <kbd>P</kbd> to pause</p>
+        </div>
+      </div>
+
+      <div class="arena-bottomline">
+        <div class="ranger-card"><span class="ranger-badge" aria-hidden="true">★</span><div><span class="small-label">ON FENCE DUTY</span><strong id="player-name">Guest ranger</strong></div></div>
+        <button id="fire-button" class="fire-button" type="button" aria-label="Fire shotgun"><span class="crosshair" aria-hidden="true"></span><span>FIRE SHOTGUN<small>CLICK THE ARENA TO AIM</small></span><span class="fire-key">SPACE</span><span id="cooldown-meter" class="cooldown-meter"></span></button>
+      </div>
+    </section>
+
+    <footer class="loadout-bar">
+      <div class="loadout-copy"><span class="small-label">YOUR DEFENDER</span><strong>Pick your paws</strong></div>
+      <label class="cat-picker"><span class="sr-only">Choose your cat and outfit</span><select id="cat-select" aria-label="Choose your cat and outfit"><option value="cat-01">Orange · Scout</option></select></label>
+      <div class="loadout-tip"><span aria-hidden="true">✦</span><p>Every third wave brings a boss.<br><strong>Aim well. Protect the fence.</strong></p></div>
+      <label class="auto-fire-label"><input id="auto-fire" type="checkbox" checked><span class="toggle" aria-hidden="true"></span>Auto fire</label>
+    </footer>
+  </main>
+  <noscript>This game needs JavaScript enabled.</noscript>
+  <script type="module" src="./bootstrap.js"></script>
+</body>
+</html>
